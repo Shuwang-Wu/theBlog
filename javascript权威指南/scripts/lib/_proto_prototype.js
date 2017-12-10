@@ -25,10 +25,21 @@ define(function () {
   }
   // 创建对象（实例）
   var Animal = new animal();
-  var
+  function dog() {
+    console.log('constructor person');
+  }
+  dog.prototype = new animal();
+  dog.prototype.bark = function () {
+    console.log('汪汪');
+  };
+  var Samoyed = new dog();
   return {
     boolean_equals: function () {
-
+      console.log(`Animal.__proto__ === animal.prototype`, Animal.__proto__ === animal.prototype);
+    },
+    print: function () {
+      Samoyed.bark();
+      Samoyed.info('dog', 'Samoyed');
     }
   }
 });

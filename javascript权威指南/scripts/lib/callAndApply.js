@@ -16,7 +16,7 @@ define(function () {
       demo.sayWhoAmI.call(demo, 'call');
     },
     applyDemo: function () {
-      demo.sayWhoAmI.apply(demo, 'apply');
+      demo.sayWhoAmI.apply(demo, ['apply']);
     }
   }
 });

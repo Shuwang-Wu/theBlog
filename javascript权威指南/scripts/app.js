@@ -11,21 +11,17 @@ requirejs.config({
   }
 });
 require([
-  'exampleCallee',
   'check',
   'callee',
   'caller',
   'callAndApply',
   '_proto_prototype'
 ], function (
-  exampleCallee,
   check,
   callee,
   caller,
   callAndApply,
   _proto_prototype) {
-    let calleeExample_result = exampleCallee(10);
-    console.log(calleeExample_result);
     let check_result = check(1, 2, 3);
     console.log(check_result);
     /**
@@ -37,4 +33,6 @@ require([
     console.log(countBycallee);
     callAndApply.callDemo();
     callAndApply.applyDemo();
+    _proto_prototype.boolean_equals();
+    _proto_prototype.print();
   });
