@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>factory</title>
+</head>
+
+<body>
+  <script>
+    function BicycleShop(name) {
+      this.name = name;
+      this.method = function () {
+        return this.name;
+      }
+    }
+    BicycleShop.prototype = {
+      constructor: BicycleShop,
+      sellBicycleShop: function (model) {
+        var bicycle = this.createBicycle(model);
+        bicycle.A();
+        bicycle.B();
+        return bicycle;
+      },
+      createBicycle: function (model) {
+        throw new Error('父类是抽象类不能直接调用，需要子类重写该方法')
+      }
+    }
+    // 实现原型继承
+    function extend(sub, sup) {
+      var F = function () { }
+      F.prototype = Sup.prototype;
+      Sub.prototype = new F();
+      Sub.prototype.constructor = Sub;
+      Sub.sup = Sup.prototype;
+      if (Sup.prototype.constructor === Object.prototype.constructor) {
+        Sup.prototype.constructor = Sup;
+      }
+    }
+    var BicycleChild = function (name) {
+      this.name = name;
+      BicycleShop.call(this, name);
+    }
+    extend(BicycleChild, BicycleShop);
+    BicycleChild.prototype.createBicycle = function () {
+      var A = function () {
+        console.log('执行A业务操作');
+      }
+      var B = function () {
+        console.log('执行B业务操作');
+      }
+      return {
+        A: A,
+        B: B
+      }
+    }
+    var childClass = new BicycleChild('bicycleShop');
+    console.log(childClass);
+  </script>
+</body>
+
+</html>
