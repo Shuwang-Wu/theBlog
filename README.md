@@ -2,11 +2,22 @@
 
 ### dev 
 > 开发日常
-+ shop-cart-vue
+  + shop-cart-vue
+  > The demo achive shop cart by vue
+
 ### javascript
-> js权威指南等 
+> javascript dev notes
+
 ### react
-> 略
+> record react experience
+
 ### selfVue
->  实现简版vue
+> achive simple vue
+
 ### typescript
+
+### design pattern
+> intro in common use pattern
+  + factory[./DesignPattern/factory.html]
+  + module[./DesignPattern/module.html]
+  + singleton[./DesignPattern/singleton.html]

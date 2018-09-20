@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>module</title>
+</head>
+
+<body>
+  <script>
+    /**
+     * 思路: 
+     *   为单体模式添加私有变量和私有方法，减少全局变量的使用
+     * 具体实现：
+     *   定义一个返回对象的匿名函数，在该匿名函数里面定义对应的私有变量和方法，并以对象字面量的形式返回公共的方法供外部使用
+     * 使用场景:
+     *   需要对一些数据进行初始化，同时又要外部能够访问的时候
+    */
+
+    // 通用类 初始化一些公共数据
+    function commonFunc(name) {
+      this.name = name;
+      this.sayHi = function () {
+        console.log('Hi!');
+      }
+    }
+
+    commonFunc.prototype.intro = function () {
+      console.log(` I'm ${this.name}`)
+    }
+
+    var obj = (function () {
+      let _commonFunc = new commonFunc('jack');
+      _commonFunc.a = 'a';
+      _commonFunc.b = 'b';
+      _commonFunc.c = 'c';
+      return _commonFunc
+    })();
+
+    console.log(obj);
+
+
+  </script>
+</body>
+
+</html>

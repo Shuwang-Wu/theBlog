@@ -10,13 +10,25 @@
 
 <body>
   <script>
+    /**
+     * 1.弱化代码间的耦合，防止代码的重复
+     * 2.父类定义公共属性，子类编写业务逻辑
+     * 
+     * *复杂的工厂模式定义
+     * 将其成员对象的实例化推迟到子类中，子类可以重写父类的接口以便创建的时候指定对象类型
+     * 父类只对创建过程中的一般性问题进行处理，这些处理会被子类继承，子类之间是相互独立，具体的业务逻辑会放到子类中进行编写
+     * 父类编程抽象类，但是父类可以执行子类中类似的方法，具体的业务逻辑需要放到子类中进行编写
+    */
+    //  定义构造韩式
     function BicycleShop(name) {
       this.name = name;
       this.method = function () {
         return this.name;
       }
     }
+    // 在构造函数的原型上定义公共方法
     BicycleShop.prototype = {
+      // 重置原型的构造函数为
       constructor: BicycleShop,
       sellBicycleShop: function (model) {
         var bicycle = this.createBicycle(model);
@@ -28,15 +40,18 @@
         throw new Error('父类是抽象类不能直接调用，需要子类重写该方法')
       }
     }
-    // 实现原型继承
+    // 实现原型继承 sub表示子类 sup表示超类
+    /**
+     * tip: 构造的新类派生与已存在的类，已存在的称为超类，新类称为子类
+    */
     function extend(sub, sup) {
       var F = function () { }
-      F.prototype = Sup.prototype;
-      Sub.prototype = new F();
-      Sub.prototype.constructor = Sub;
-      Sub.sup = Sup.prototype;
-      if (Sup.prototype.constructor === Object.prototype.constructor) {
-        Sup.prototype.constructor = Sup;
+      F.prototype = sup.prototype;
+      sub.prototype = new F();
+      sub.prototype.constructor = sub;
+      sub.sup = sup.prototype;
+      if (sup.prototype.constructor === Object.prototype.constructor) {
+        sup.prototype.constructor = sup;
       }
     }
     var BicycleChild = function (name) {

@@ -26,7 +26,11 @@
       document.body.appendChild(iframe)
       return iframe;
     }
-    // avoid to generate element repeat
+    /**
+     * proxy pattern
+     * avoid to generate element repeat
+     * maintain class single ability 
+     * */
     function getInstance(fn) {
       // define a valid on closure
       var result;
