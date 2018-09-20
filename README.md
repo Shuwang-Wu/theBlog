@@ -18,6 +18,6 @@
 
 ### design pattern
 > intro in common use pattern
-  + factory[./DesignPattern/factory.html]
-  + module[./DesignPattern/module.html]
-  + singleton[./DesignPattern/singleton.html]
+  + [factory](./DesignPattern/factory.html)
+  + [module](./DesignPattern/module.html)
+  + [singleton](./DesignPattern/singleton.html)
