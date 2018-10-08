@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>call & apply</title>
+</head>
+
+<body>
+  <script>
+
+    /**
+     * call & apply 的用法
+     *    1.改变this的指向
+     *    2.借用其他对象的方法
+     *    3.调用函数 
+     * */
+
+    // 改变this的指向
+    let obj1 = {
+      name: 'name'
+    }
+    function func1() {
+      console.log(this.name);
+    }
+    func1.call(obj1);
+
+    // 借用其他对象的方法
+    function Func21() {
+      this.name = 'Func21';
+    }
+    function Func22() {
+      this.getName = function () {
+        console.log(this.name);
+      }
+      Func21.call(this);
+    }
+    var func22 = new Func22();
+    func22.getName();
+
+    // 调用函数
+    function func3() {
+      console.log('func3');
+    }
+    func3.call();
+
+    /**
+    * apply example
+    * thinking: temp from closure when o() function excute, because global valid refer to temp,
+    *   so we can get result '=>>>>>>>>>' 
+    */
+    function r(x) {
+      return x;
+    }
+
+    function f(x) {
+      x[0] = x[0] + '>';
+      return x;
+    }
+
+    function o() {
+      // r will be '=>', '=>>' and so on
+      var temp = r;
+      r = function () {
+        return temp.apply(this, f(arguments));
+      }
+    }
+
+    function a() {
+      o();
+      console.log(r('='));
+    }
+
+    for (var i = 0; i < 10; i++) {
+      a();
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>mediator-pattern</title>
+</head>
+
+<body>
+  <script>
+    var players = [];
+    function Hero(name, teamColor) {
+      this.name = name;
+      this.teamColor = teamColor;
+      this.friends = [];
+      this.enemies = [];
+      this.isLive = true;
+    }
+    Hero.prototype.win = function () {
+      console.log(this.name, 'win');
+    }
+    Hero.prototype.lose = function () {
+      console.log(this.name, 'lose');
+    }
+    Hero.prototype.die = function () {
+      let isFail = true;
+      this.isLive = false;
+      isFail = this.friends.every(function (friend) {
+        return !friend.isLive;
+      });
+      if (isFail) {
+        this.lose();
+        this.friends.map(friend => friend.lose());
+        this.enemies.map(enemy => enemy.win());
+      }
+    }
+
+    var heroFactory = function (name, teamColor) {
+      let _hero = new Hero(name, teamColor);
+      players.map(player => {
+        if (player.teamColor === _hero.teamColor) {
+          player.friends.push(_hero);
+          _hero.friends.push(player);
+        } else {
+          player.enemies.push(_hero);
+          _hero.enemies.push(player);
+        }
+      });
+      players.push(_hero);
+      return _hero;
+    }
+
+    var p1 = heroFactory('a', 1);
+    var p2 = heroFactory('b', 1);
+    var p3 = heroFactory('c', 2);
+    var p4 = heroFactory('d', 2);
+    p1.die();
+    p2.die();
+
+
+    var arr1 = [{ num: 1, bool: false }, { num: 2, bool: false }, { num: 3, bool: false }]
+    var arr2 = [{ num: 1, bool: false }, { num: 2, bool: false }, { num: 3, bool: true }]
+    arr1.some((item) => item.bool); // false
+    arr2.some((item) => item.bool); // true
+  </script>
+</body>
+
+</html>

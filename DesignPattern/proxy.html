@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Proxy</title>
+</head>
+
+<body>
+  <script>
+    /**
+     * 1.代理对象可以代替本体被实例化，并使其可以被远程访问
+     * 2.它还可以把本体实例化推迟到郑振需要的时候，对于实例化比较费时的本体对象，
+     *   或者尺寸比较大不适合保存在内存中的本体，可以推迟实例化
+    */
+
+    function girlFriend(name) {
+      this.name = name;
+      this.reply = function () {
+        console.log('come with me');
+      }
+    }
+
+    function you(girlFriend) {
+      this.girlFriend = girlFriend;
+      this.ask = function (question) {
+        console.log(question);
+      }
+    }
+
+    function youProxy(girlFriend) {
+      this.girlFriend = girlFriend;
+      this.ask = function (question) {
+        (new you(this.girlFriend)).ask(question);
+      }
+    }
+
+    var proxy = new youProxy(new girlFriend());
+    proxy.ask("what's you name ?");
+
+    // 不使用代理的图片预加载函数
+    var myImg = (function () {
+      var imgNode = document.createElement('img');
+      document.body.appendChild(imgNode);
+      var img = new Image();
+      img.onload = function () {
+        imgNode.src = this.src;
+      }
+      return {
+        setSrc: function (src) {
+          imgNode.src = "http://img.lanrentuku.com/img/allimg/1212/5-121204193Q9-50.gif";
+          img.src = src;
+        }
+      }
+    })();
+    myImg.setSrc("https://img.alicdn.com/tps/i4/TB1b_neLXXXXXcoXFXXc8PZ9XXX-130-200.png");
+
+    // 代理模式下的图片预加载
+    var myImg2 = (function () {
+      var imgNode = document.createElement('img');
+      document.body.appendChild(imgNode);
+      return {
+        setSrc: function (src) {
+          imgNode.src = src;
+        }
+      }
+    })();
+    var proxyImage = (function () {
+      var img = new Image();
+      img.onload = function () {
+        myImg2.setSrc(this.src);
+      }
+      return {
+        setSrc: function (src) {
+          myImg2.setSrc("http://img.lanrentuku.com/img/allimg/1212/5-121204193Q9-50.gif");
+          img.src = src;
+        }
+      }
+    })();
+    proxyImage.setSrc("https://img.alicdn.com/tps/i4/TB1b_neLXXXXXcoXFXXc8PZ9XXX-130-200.png");
+
+    // 缓存代理
+    var mult = function () {
+      var product = 1;
+      for (let i = 0, len = arguments.length; i < len; i++) {
+        product *= arguments[i];
+      }
+      return product;
+    }
+
+    var plus = function () {
+      var sum = 0;
+      for (let i = 0, len = arguments.length; i < len; i++) {
+        sum += arguments[i];
+      }
+      return sum;
+    }
+
+    var cacheProxy = function (fn) {
+      let cache = {}
+      return function () {
+        let args = Array.prototype.join.call(arguments, ',');
+        if (args in cache) {
+          return cache[args];   // 使用缓存代理
+        }
+
+        return cache[args] = fn.apply(this, arguments);
+      }
+    };
+
+    var multProxy = cacheProxy(mult);
+    console.log(multProxy(1, 2, 3, 4));
+    console.log(multProxy(1, 2, 3, 4));
+    var plusProxy = cacheProxy(plus);
+    console.log(plusProxy(1, 2, 3, 4));
+    console.log(plusProxy(1, 2, 3, 4));
+  </script>
+</body>
+
+</html>

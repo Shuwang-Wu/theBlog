@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>publish-notify</title>
+</head>
+
+<body>
+  <script>
+
+    /**
+    * 发布订阅者模式-又称观察者模式
+    *   优点: 
+    *     1.支持简单广播通讯，当对象状态发生改变时，会自动通知已经订阅的对象
+    *     2.发布者和订阅者的耦合性降低，发布者不维护订阅者，只需要发布事件；订阅者只需要订阅发布者发布的事件名，其他不用管
+    *   实现:
+    *     1.创建发布者
+    *     2.为发布者添加缓存列表, 用于存放回调函数来通知订阅者
+    *     3.最后就是发布信息, 发布者遍历这个缓存列表, 依次触发订阅者的回调
+    * 
+    */
+
+    var Event = (function () {
+
+      // 声明订阅器列表，与添加订阅器，触发订阅事件，移除订阅事件等三个方法
+      var list = {}, listen, trigger, remove;
+
+      // 如果当前订阅对象不存在 新建数组存放其订阅事件
+      listen = function (key, fn) {
+        if (!list[key]) {
+          list[key] = [];
+        }
+        list[key].push(fn);
+      };
+
+      // 触发订阅 
+      trigger = function () {
+        // 取到参数列表中的第一个参数 
+        var key = Array.prototype.shift.call(arguments);
+        // 从当前订阅列表中取出其所订阅的所有事件
+        var fns = list[key];
+
+        // 如果当前列表存在且有订阅事件依次执行其订阅的事件 
+        if (!fns || fns.length === 0) {
+          return false;
+        }
+        for (var i = 0, fn; fn = fns[i++];) {
+          fn.apply(this, arguments);
+        }
+      };
+
+      // 移除订阅事件
+      remove = function (key, fn) {
+        var fns = list[key];
+        if (!fns || fns.length === 0) {
+          return false;
+        }
+        // 如果没有传入指定的订阅事件则清空所有订阅
+        if (!fn) {
+          fns && (fns.length = 0);
+        } else {
+          for (var i = fns.length - 1; i >= 0; i--) {
+            var _fn = fns[i];
+            if (_fn === fn) {
+              fn.splice(i, 1);
+            }
+          }
+        }
+      };
+
+      return {
+        listen: listen,
+        trigger: trigger,
+        remove: remove
+      }
+
+    })();
+  </script>
+</body>
+
+</html>
