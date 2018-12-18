@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>prototype & __proto__</title>
+  </head>
+  <body>
+    <script>
+      // 1
+      /**
+       * 所有构造器/函数的__proto__都指向Function.prototype，它是一个空函数（Empty function）
+       * */
+      // Number.__proto__ === Function.prototype  // true
+      // Boolean.__proto__ === Function.prototype // true
+      // String.__proto__ === Function.prototype  // true
+      // Object.__proto__ === Function.prototype  // true
+      // Function.__proto__ === Function.prototype // true
+      // Array.__proto__ === Function.prototype   // true
+      // RegExp.__proto__ === Function.prototype  // true
+      // Error.__proto__ === Function.prototype   // true
+      // Date.__proto__ === Function.prototype    // true
+      // Arguments仅在函数调用时由JS引擎创建，Math，JSON是以对象形式存在的，无需new。它们的__proto__是Object.prototype
+      // Math.__proto__ === Object.prototype  // true
+      // JSON.__proto__ === Object.prototype  // true
+      function sum(x, y) {
+        if (y < 0) {
+          return x
+        } else {
+          return sum(x + y, --y)
+        }
+      }
+      var aa = sum(0, 1000)
+      console.log(aa)
+      function factorial(n, total) {
+        if (n === 1) return total
+        return factorial(n - 1, n * total)
+      }
+
+      var factorialRes = factorial(5, 1) // 120
+      console.log(factorialRes)
+    </script>
+  </body>
+</html>

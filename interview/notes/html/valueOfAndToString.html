@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>add(1)(2)(3)</title>
+  </head>
+  <body>
+    <div class="container"></div>
+    <script>
+      /**
+       * 写一个add函数,实现add(1)(2)(3)...
+       * 基本上，javascript中所有数据类型都拥有valueOf和toString这两个方法，null除外。它们俩解决javascript值运算(valueOf)与显示(toString)的问题
+       * js中的基本数据类型都实现了自定义的值运算和显示的方法
+       */
+      function add(n) {
+        var sum = n
+        var tem = function(m) {
+          sum += m
+          return tem
+        }
+        tem.valueOf = function() {
+          return sum
+        }
+        tem.toString = function() {
+          return sum
+        }
+        return tem
+      }
+      var result = add(1)(2)(12)(100)
+      console.log(result + 1)
+
+      /**
+       * valueOf toString
+       */
+      var obj = {
+        valueOf: function() {
+          console.log('调用了函数的valueOf')
+          return 100
+        },
+        toString: function() {
+          console.log('调用了函数的valueOf')
+          return 200
+        }
+      }
+      // 对象在进行值运算的时候会调用本身的valueOf 打印自身的时候会调用toStirng
+      console.log(obj, obj + 1, obj + '', obj.toString()) // {valueOf: ƒ, toString: ƒ} 101 "100" 200
+
+      var a = {
+        i: 1,
+        valueOf: function() {
+          console.log('你调用了a的valueOf函数')
+          return this.i
+        },
+        toString: function() {
+          console.log('你调用了a的toString函数')
+          return this.i
+        }
+      }
+      var c = {
+        i: +a,
+        valueOf: function() {
+          console.log('你调用了c的valueOf函数')
+          return this.i
+        },
+        toString: function() {
+          console.log('你调用了c的toString函数')
+          return this.i
+        }
+      }
+      alert(c) // alert默认会调用对象的toString方法
+    </script>
+  </body>
+</html>

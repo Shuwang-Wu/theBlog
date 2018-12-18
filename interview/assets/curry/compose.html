@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>curry-compose</title>
+</head>
+
+<body>
+  <script>
+    /**
+    * 组合函数可以选择几个你喜欢并且想保留下来的优点来组成一个函数
+    */
+    var compose = function (f, g) {
+      return function (x) {
+        return f(g(x));
+      }
+    }
+
+    var toUpperCase = function (x) {
+      return x.toUpperCase();
+    }
+    var exclaim = function (x) {
+      return x + '!';
+    }
+    var shout = compose(toUpperCase, exclaim);
+    console.log(shout('send in clowns'));
+    // 判断数组的类型 一定要加call 因为
+    object.prototype.toString.call([]);
+  </script>
+</body>
+
+</html>

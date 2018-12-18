@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>柯里化</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.core.js"></script>
+</head>
+
+<body>
+  <script>
+    function add(x) {
+      return function (y) {
+        return x + y;
+      }
+    }
+    var base1 = add(1); // 以1为基数进行加法运算
+    var base10 = add(10); // 以10为基数进行加法运算
+    base1(10); // 11
+    base10(1); // 11
+
+    // 使用lodash来实现柯里化
+    var curry = require('lodash').curry;
+    var watch = curry(function (what, str) {
+      return str.match(what);
+    });
+    var replace = curry(function (what, replacement, str) {
+      return str.replace(what, replacement);
+    });
+    var filter = curry(function (f, ary) {
+      ary.filter(f);
+    });
+    var map = curry(function (f, ary) {
+      ary.map(f);
+    });
+
+  </script>
+</body>
+
+</html>

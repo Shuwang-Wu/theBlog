@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>debounce</title>
+  <style>
+    .container {
+      overflow-y: scroll;
+      height: 300px;
+      background-color: aliceblue;
+    }
+
+    .content {
+      height: 1000px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="content"></div>
+  </div>
+  <script>
+    /**
+    * 定义防抖函数
+    */
+    function debounce(fn, delay) {
+      let timer = null;
+      return function () {
+        let context = this;
+        let args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          fn.apply(args);
+        }, delay);
+      }
+    }
+
+    /**
+    * 改善代码
+    * 我们希望每次都先触发事件，然后在200ms之内不能再次触发，而不是每一次都延迟触发
+    */
+    function debounce2() {
+      var timer = null;
+      return function (fn, delay, immediate) {
+        var context = this;
+        var args = arguments;
+        if (timer) clearTimeout(timer);
+        if (immediate) {
+          var doNow = !timer;
+          timer = setTimeout(function () {
+            timer = null;
+          }, delay);
+          if (doNow) {
+            fn.apply(context, args);
+          }
+        } else {
+          timer = setTimeout(function () {
+            fn.apply(context, args);
+          }, delay);
+        }
+      }
+    }
+
+    /**
+    * 定义执行函数
+    */
+    function fun() {
+      console.log('onscroll debounce');
+    }
+    let container = document.getElementsByClassName('container')[0];
+    container.addEventListener('scroll', debounce(fun, 200));
+  </script>
+</body>
+
+</html>
