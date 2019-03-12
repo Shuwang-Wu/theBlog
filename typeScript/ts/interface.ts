@@ -1,31 +1,16 @@
-interface LabeledValue {
-  label: string;
+interface Person {
+  readonly id: number
+  name: string
+  age: number
+  weight?: number
+  height?: number
+  [propName: string]: any
 }
 
-function printLabel(labeledObj: LabeledValue) {
-  console.log(labeledObj.label)
+let swan: Person = {
+  id: 71108,
+  name: 'swan',
+  age: 28,
+  weight: 57,
+  gender: 'male'
 }
-
-let myObj = { size: 10, label: 'str' }
-
-printLabel(myObj)
-
-
-interface SquareConfig {
-  color?: string,
-  width?: number
-}
-
-function createSquare(config: SquareConfig): { color: string; area: number } {
-  let newSquare = { color: "white", area: 100 };
-  if (config.clor) {
-    // Error: Property 'clor' does not exist on type 'SquareConfig'
-    newSquare.color = config.clor;
-  }
-  if (config.width) {
-    newSquare.area = config.width * config.width;
-  }
-  return newSquare;
-}
-
-let mySquare = createSquare({ color: "black" });
