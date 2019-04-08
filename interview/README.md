@@ -207,12 +207,11 @@ function computeMaxCallStackSize() {
 
 ```js
 function computeMaxCallStackSize(size) {
-  size = size || 1shuju
+  size = size || 1
   return computeMaxCallStackSize(size)
 }
 ```
 
-- 进程和线程的区别
-  > 进程是系统分配资源的单位
-  > 线程是进程的一个实体，是 cpu 调度和分派的基本单位
-  > 线程跟进程的关系: 线程是属于进程，当进程退出时会把该进程中所有线程强制退出并清除
+[浏览器与 Node 的事件循环(Event Loop)有何区别?](./20190312.md)
+
+[debounce throttle](./assets/js/debounce-throttle.js)
