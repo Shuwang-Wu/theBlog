@@ -1,3 +1,7 @@
+/**
+ * jsonp实现原理
+ * 思路：插入script标签，借用其可以进行跨域请求的特性来达到这一目的
+ */
 ;(function(global) {
   var id = 0,
     container = document.getElementsByTagName('head')[0]

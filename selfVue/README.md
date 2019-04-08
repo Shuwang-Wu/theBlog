@@ -2,14 +2,14 @@
 
 1. 目录结构
 
-   - 1.1 observe 监听器
-   - 1.2 compile 编译器
-   - 1.3 watcher 订阅器
-   - 1.4 index 实现对数据的监听, 订阅, 编译 vue 指令
+   - observe 监听器
+   - compile 编译器
+   - watcher 订阅器
+   - index 实现对数据的监听, 订阅, 编译 vue 指令
 
 2. 思路
 
-- 2.1 observe
+- observe
   - 通过 Object.defineProperty()来实现对数据的劫持
     > 劫持并监听 data 属性, 通过 Object.defineProperty()来对 data 属性进行改写, 在其中还要添加订阅器来对数据的改变进行订阅操作
   - 创建 Dep 对象
@@ -18,7 +18,7 @@
       > 在监听数据的时候添加到 subs 里面
     - notify
       > 当数据发生改变的时候通过 notify 通知更新
-- 2.2 compile
+- compile
   - el 传入将要挂载到 Dom 树的 html 标签
   - vm 传入新建的 SelfVue 实例
   - @method init 初始化编译
@@ -27,7 +27,7 @@
     - 编译 vue 模版文件，包括其中的模版变量、指令等
     - 编译完成，挂载带指定 DOM 节点
   - @method nodeToElement 初始化编译
-    > 将获取到的真是 DOM 节点添加到新建的代码片段, 节约 dom 操作带来的成本
+    > 将获取到的真实 DOM 节点添加到新建的代码片段, 节约 dom 操作带来的成本
   - @method compile 编译模版文件, 针对不同的元素节点采用不同的编译方法
     > 根据不同类型的节点来选择不同的编译方式
   - @method compileElement 编译 Dom 元素
@@ -40,7 +40,7 @@
   - @method isEventDirective 是否为事件指令
   - @method isElementNode 是否是元素节点
   - @method isTextNode 是否是文本节点
-- 2.3 watcher
+- watcher
   - get
     > 自身出发更新
   - upodate

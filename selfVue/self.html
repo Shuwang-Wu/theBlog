@@ -1,48 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>my vue</title>
-  <style>
-    #app {
-      text-align: center;
-    }
-  </style>
-</head>
-
-<body>
-  <div id="app">
-    <h2>{{title}}</h2>
-    <input v-model="name">
-    <h1>{{name}}</h1>
-    <button v-on:click="clickMe">click me!</button>
-  </div>
-  <script src="./self/observe.js"></script>
-  <script src="./self/watcher.js"></script>
-  <script src="./self/compile.js"></script>
-  <script src="./self/index.js"></script>
-  <script>
-    new SelfVue({
-      el: '#app',
-      data: {
-        title: 'hello world',
-        name: 'canfoo'
-      },
-      methods: {
-        clickMe: function () {
-          this.title = 'hello world';
-        }
-      },
-      mounted: function () {
-        window.setTimeout(() => {
-          this.title = '你好';
-        }, 1000);
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>my vue</title>
+    <style>
+      #app {
+        text-align: center;
       }
-    });
-  </script>
-</body>
+    </style>
+  </head>
 
+  <body>
+    <div id="app">
+      <h2>{{ title }}</h2>
+      <input v-model="name" />
+      <h1>{{ name }}</h1>
+      <button v-on:click="clickMe">click me!</button>
+    </div>
+    <script src="./self/observe.js"></script>
+    <script src="./self/watcher.js"></script>
+    <script src="./self/compile.js"></script>
+    <script src="./self/index.js"></script>
+    <script>
+      new SelfVue({
+        el: '#app',
+        data: {
+          title: 'hello world',
+          name: 'canfoo'
+        },
+        methods: {
+          clickMe: function() {
+            this.title = 'simple vue'
+          }
+        },
+        mounted: function() {
+          window.setTimeout(() => {
+            this.title = '你好'
+          }, 1000)
+        }
+      })
+    </script>
+  </body>
 </html>
