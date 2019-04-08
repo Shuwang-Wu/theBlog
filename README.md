@@ -35,7 +35,7 @@
 
 ## selfVue
 
-> achive simple vue
+> achive simple vue, view [selfVue](./selfVue/README.md)
 
 ## typescript
 
