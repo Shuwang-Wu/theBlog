@@ -20,6 +20,8 @@
    > npm package
 8. [text-ellipsis](./dev/text-ellipsis.md)
    > text-ellipsis
+9. [performance](./dev/performance.md)
+   > 前端性能优化笔记
 
 ## interview
 
