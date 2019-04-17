@@ -64,6 +64,8 @@
 
 ## react
 
+[react](./react)
+
 > record react experience
 
 ## selfVue
@@ -72,7 +74,7 @@
 
 ## typescript
 
-> typescript note
+> [typescript note](./typeScipt)
 
 ## design pattern
 
