@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>FormData Http</title>
+  </head>
+  <body>
+    <script>
+      function postFormData(url, data, callback) {
+        if (typeof FormData === 'undefined') {
+          throw new Error('FormData is not implemented')
+        }
+
+        var request = new XMLHttpRequest()
+        request.open('POST', url)
+        request.onreadystatechange = function() {
+          if (request.readyState === 4 && callback) {
+            callback()
+          }
+          var formData = new FromData()
+          for (var name in data) {
+            // 跳过继承的属性
+            if (!data.hasOwnProperty(name)) continue
+            var value = data[name]
+            if (typeof value === 'function') continue
+            formData.append(name, value)
+          }
+          // 在mutipart/form-data请求主体中发送名/值对
+          // 每对都是请求的一个部分，注意，当传入FormData对象时
+          // send()会自动设置Content-Type头
+          request.send(formData)
+        }
+      }
+    </script>
+  </body>
+</html>

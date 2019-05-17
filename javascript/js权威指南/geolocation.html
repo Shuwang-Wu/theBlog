@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Geolocation</title>
+  </head>
+  <body>
+    <script>
+      // 获取用户的当前位置
+      // navigator.geolocation.getCurrentPosition(callback)
+      // navigator.geolocation.getCurrentPosition(function(pos) {
+      //   console.log(pos)
+      //   var latitude = pos.coords.latitude
+      //   var longitude = pos.coords.longitude
+      //   alert('Your current position: ' + latitude + ',' + longitude)
+      // })
+      // 监视用户的当前位置
+      // navigator.geolocation.watchPosition(callback)
+      // 停止监视用户的当前位置
+      // navigator.geolocation.clearWatch(callback)
+
+      // 返回一个新创建的<img>元素, 该元素用于在获取到地理位置信息后, 显示一张google地图
+      // 该地图上显示了当前的位置, 注意的是，此函数的调用者必须要将返回的元素插入到文档中，以使它可见
+      // 如果当前浏览器不支持地理位置API,则抛出一个错误
+      function getmap() {
+        // 检查是否支持地理位置API
+        if (!navigator.geolocation) {
+          throw 'Geolocation is not supported!'
+        }
+      }
+    </script>
+  </body>
+</html>

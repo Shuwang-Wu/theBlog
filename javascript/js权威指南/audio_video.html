@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 普通用法 -->
+    <audio src="xxx.mp3"></audio>
+    <video src="xxx.mov" width="100" height="100" preload control></video>
+    <!-- 灵活用法 -->
+    <audio id="music">
+      <source src="music.mp3" type="audio/mpeg" />
+      <source src="music.ogg" type="audio/ogg; codec='vorbis'" />
+    </audio>
+    <video id="news" width="640" height="320" controls preload>
+      <!-- Firefox chrome 支持的WebM格式 -->
+      <source src="news.webm" type="video/webm; codecs='vp8, vorbis'" />
+      <!-- IE Safari 支持的H.264格式 -->
+      <source
+        src="news.mp4"
+        type="video/mp4; codecs='avc1.42E01E, mp4a.40.2'"
+      />
+      <!-- Flash插件作为后备方案 -->
+      <object
+        width="640"
+        height="320"
+        data="flash_movie_player.swf"
+        type="application/x-shockwave-flash"
+      >
+        <!-- 这里的参数用于配置Flash视频播放器 -->
+        <!-- 文本是最终的后备内容 -->
+        <div>video element not support and flash plugin not install!</div>
+      </object>
+    </video>
+    <script>
+      var a = new Audio()
+      if (a.canPlayType('audio/wav')) {
+        a.src = 'soumdeffect.wav'
+        a.play()
+      }
+    </script>
+  </body>
+</html>

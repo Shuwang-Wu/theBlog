@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Canvas</title>
+  </head>
+  <body>
+    <canvas id="cvs" width="600" height="300"></canvas>
+    <script>
+      window.onload = function() {
+        var canvas = document.getElementById('cvs')
+        var c = canvas.getContext('2d')
+        c.beginPath()
+        // 绘制三角形
+        c.moveTo(10, 10)
+        c.lineTo(110, 10)
+        c.lineTo(10, 110)
+        c.lineTo(10, 10)
+        c.stroke()
+        c.closePath()
+        // 绘制长方形
+        c.moveTo(120, 10)
+        c.lineTo(220, 10)
+        c.lineTo(220, 110)
+        c.lineTo(120, 110)
+        c.lineTo(120, 10)
+        c.stroke()
+      }
+
+      /**
+       * 定义一个以(x, y)为中心, 半径为r的规则多边形
+       * 每个顶点都是均匀分布在圆周上
+       * 将第一个顶点放置在最上面，或者指定一定角度
+       * 除非最后一个参数是true, 否则顺时针旋转
+       * */
+
+      function polygon(c, n, x, y, r, angle, counterclockwise) {
+        angle = angle || 0
+        counterclockwise = counterclockwise || false
+        c.moveTo(x + r * Math.sin(angle), y - r * Math.cos(angle))
+        var delta = (2 * Math.PI) / n
+        for (var i = 1; i < n; i++) {
+          angle += counterclockwise ? -delta : delta
+          c.lineTo(x + r * Math.sin(angle), y - r * Math.cos(angle))
+        }
+        c.closePath()
+      }
+    </script>
+  </body>
+</html>

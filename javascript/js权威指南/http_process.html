@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>http进度事件</title>
+    <style>
+      .fileDropTarget {
+        width: 300px;
+        height: 300px;
+        border: 1px solid #eee;
+        margin: 16px auto;
+      }
+      p {
+        text-align: center;
+      }
+      .wantdrop {
+        border-color: rgb(230, 173, 182);
+        background-color: lightblue;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div
+        class="fileDropTarget"
+        data-uploadto="http://o.fx.test.ngrok.ttyun.com/api/back/upload/images"
+      ></div>
+      <p>拖放上传文件</p>
+    </div>
+    <script>
+      /**
+       * http进度事件
+       * 在支持它们的浏览器中，
+       * 1. 当调用send()会触发单个loadStart事件
+       * 2. 当正在加载服务器响应时，xhr对象会反生progress事件，通常每隔50ms左右，所以可以使用这些事件给用户反馈请求的进度
+       * * 如果请求过快，可能不会触发progress事件
+       * */
+
+      /**
+       * http请求无法完成有三种情况：
+       * 1. 如果请求超时，会触发timeout事件
+       * 2. 如果请求中止， 会触发abort事件
+       * 3. 大多数重定向这样的错误会阻止请求完成，但是这些情况会触发error事件
+       * 对于任何请求，浏览器只是触发其中的一个错误
+       * */
+      // if ('onprogress' in new XMLHttpRequest()) {
+      //   // 支持onprogress事件
+      // }
+      // request.onprogress = function(e) {
+      //   if (e.lengthComputable) {
+      //  loaded属性是目前传输的字节数值，total属性是自'Content-Length'头传输的数据的整体长度
+      //     progress.innerHTML =
+      //       Math.round((100 * e.loaded) / e.total) + '% Complete'
+      //   }
+      // }
+
+      /**
+       * 当文档准备就绪时调用函数
+       * 传递参数给whenReady(), 当文档解析完毕且为操作准备就绪时
+       * 函数将作为文档对象的方法调用
+       * DOMContentLoaded, readystatechange或load事件发生时会触发注册函数
+       * 一旦文档准备就绪, 所有函数都将被调用, 任何传递给whenReady()的函数都将立即调用
+       *  */
+
+      var whenReady = (function() {
+        // 这个函数返回whenReady函数
+        var funcs = [] // 当获得事件时, 要运行的函数
+        var ready = false // 当触发事件时, 切换到true
+
+        // 当文档准备就绪时, 调用事件处理程序
+        function handler(e) {
+          // 如果已经运行过一次, 只需要返回
+          if (ready) return
+          // 如果发生readystatechange事件但其状态不是complete, 那么文档并未准备好
+          if (
+            e.type === 'readystatechange' &&
+            document.readyState !== 'complete'
+          )
+            return
+          // 运行所有注册函数 注意每次都要计算funcs.length 以防这些函数的调用会导致注册更多的函数
+          for (var i = 0; i < funcs.length; i++) {
+            funcs[i].call(document)
+          }
+          // 现在设置ready表示为true, 并移除所有函数
+          ready = true
+          funcs = null
+        }
+
+        // 为接收到的任何事件注册处理程序
+        if (document.addEventListener) {
+          document.addEventListener('DOMContentLoaded', handler, false)
+          document.addEventListener('readystatechange', handler, false)
+          window.addEventListener('load', handler, false)
+        } else if (document.attachEvent) {
+          document.attachEvent('onreadystatechange', handler)
+          window.attachEvent('onload', handler)
+        }
+
+        // 返回whenReady函数
+        return function whenReady(f) {
+          // 若准备完毕就运行 否则加入队列
+          if (ready) {
+            f.call(document)
+          } else {
+            funcs.push(f)
+          }
+        }
+      })()
+
+      /**
+       * 监控HTTP上传进度
+       * 查找所有含有DnD事件处理程序使它们能响应文件的拖放
+       * 当文件放下时，上传它们到data-uploadto属性指定的URL
+       */
+      whenReady(function() {
+        var elts = document.getElementsByClassName('fileDropTarget')
+        for (var i = 0; i < elts.length; i++) {
+          var target = elts[i]
+          var url = target.getAttribute('data-uploadto')
+          if (!url) {
+            continue
+          }
+          createFileUploadDropTarget(target, url)
+        }
+
+        function createFileUploadDropTarget(target, url) {
+          // 跟踪当前是否正在上传，因此我们能拒绝放下
+          // 我们可以处理多个并发上传
+          // 但对这个例子使用进度通知太困难了
+          var uploading = false
+
+          console.log(target, url)
+
+          target.ondragenter = function(e) {
+            console.log('dragenter')
+            if (uploading) return
+            var types = e.dataTransfer.types
+            console.log(types)
+            if (
+              types &&
+              ((types.contains && types.contains('Files')) ||
+                (types.indexOf && types.indexOf('Files') !== -1))
+            ) {
+              target.classList.add('wantdrop')
+              return false
+            }
+          }
+
+          target.ondragover = function(e) {
+            if (!uploading) return false
+          }
+
+          target.ondragleave = function(e) {
+            if (!uploading) {
+              target.classList.remove('wantdrop')
+            }
+          }
+
+          target.ondrop = function(e) {
+            if (uploading) return false
+            var files = e.dataTransfer.files
+            console.log(files, 123123, typeof files)
+            if (files && files.length) {
+              uploading = true
+
+              var body = new FormData()
+              var message = 'Uploading files:<ul>'
+              for (var i = 0; i < files.length; i++) {
+                message += '<li>' + files[i].name + '</li>'
+                body.append(i, files[i])
+              }
+              message += '</ul>'
+
+              target.innerHTML = message
+              console.log(message, 1122)
+              target.classList.remove('wantdrop')
+              target.classList.add('uploading')
+
+              var xhr = new XMLHttpRequest()
+              xhr.open('POST', url)
+              xhr.upload.onprogress = function(e) {
+                if (e.lengthComputable) {
+                  target.innerHTML =
+                    message +
+                    Math.round((e.loaded / e.total) * 100) +
+                    '% Complete'
+                }
+              }
+              xhr.upload.onload = function(e) {
+                uploading = false
+                target.classList.remove('uploading')
+                target.innerHTML = 'Drop files to upload'
+              }
+              xhr.send(body)
+              return false
+            }
+            target.classList.remove('wantdrop')
+          }
+        }
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>http</title>
+  </head>
+  <body>
+    <script>
+      // 使用getResponseHeader 和 getAllResponseHeaders能查询响应头
+      /**
+       * readyState
+       * 0: UNSENT open()尚未调用
+       * 1: OPENED open()已调用
+       * 2: HEADERS_RECEIVED 接收到头信息
+       * 3: LOADING 接收到响应主体
+       * 4: DONE 响应完成
+       */
+
+      /**
+       * postMessage.js
+       *
+       *
+       */
+      function postMessage(msg, url) {
+        var xhr = new XMLHttpRequest()
+        xhr.open('POST', url)
+        xhr.setRequestHeader('Content-Type', 'text/plain;cahrset=utf-8')
+        xhr.send(msg)
+      }
+
+      /**
+       * getText.js
+       * 发出一个HTTP GET请求以获得指定URL的内容
+       * 当响应成功到达，验证它是否是纯文本
+       * 如果是，把它传递给指定回调函数
+       */
+      function getText(url, callback) {
+        var req = new XMLHttpRequest()
+        req.open('GET', url)
+        req.onreadystatechange = function() {
+          if (req.readyState === 4 && req.status === 200) {
+            var type = req.getResponseHeader('Content-Type')
+            if (type.match(/^text/)) {
+              callback(request.responseText)
+            }
+          }
+        }
+        req.send(null)
+      }
+
+      /**
+       * getTextSync.js
+       * 发起同步HTTP
+       */
+      function getTextSync(url) {
+        var request = new XMLHttpRequest()
+        request.open('GET', url, false) // 传递false实现同步，默认true
+        request.send(null)
+        if (request.status !== 200) throw new Error(request.statusText)
+        var type = request.getResponseHeader('Content-Type')
+        if (!type.match(/^text/)) {
+          throw new Error('Expected textual response; got: ' + type)
+        }
+        return request.responseText
+      }
+
+      /**
+       * get.js
+       * 发起HTTP GET响应以获取指定url的内容
+       * 当响应到达时，把它以解析后的XML Document对象、解析后的JSON对象
+       * 或字符串形式传递给回调函数
+       */
+      function get(url, callback) {
+        var request = new XMLHttpRequest()
+        request.open('GET', url)
+        request.onreadystatechange = function() {
+          if (request.readyState === 4 && request.status === 200) {
+            var type = request.getResponseHeader('Content-Type')
+            if (type.indexOf('xml') !== -1 && request.responseXML) {
+              callback(request.responseXML)
+            } else if (type === 'application/json') {
+              callback(JSON.parse(request.responseText))
+            } else {
+              callback(request.responseText)
+            }
+          }
+        }
+        request.send(null)
+      }
+
+      /**
+       * encodeFormData.js
+       * 编码对象的属性
+       * 如果它们来自HTML表单的名/值对, 使用application/x-www-form-urlencoded格式
+       */
+      function encodeFormData(data) {
+        // 一直返回字符串
+        if (!data) return ''
+        // 为了保存名=值对
+        var pairs = []
+        for (var name in data) {
+          if (!data.hasOwnProperty(name)) continue
+          if (typeof data[name] === 'function') continue
+          var value = data[name].toString()
+          name = encodeURIComponent(name.replace('%20', '+'))
+          value = encodeURIComponent(value.replace('%20', '+'))
+          pairs.push(name + '=' + value)
+        }
+        return pairs.join('&')
+      }
+      // 使用表单编码数据发起一个http post请求
+      function postData(url, data, callback) {
+        var request = new XMLHttpRequest()
+        request.open('post', url)
+        request.onreadystatechange = function() {
+          if (request.readyState === 4 && callback) {
+            callback(request)
+          }
+        }
+        request.setRequestHeader('Content-Type', 'application/x-www-urlencoded')
+        request.send(encodeFormData(data))
+      }
+      // 使用表单编码数据发起一个http get请求
+      function getData(url, data, callback) {
+        var request = new XMLHttpRequest()
+        request.open('GET', url + encodeFormData(data))
+        request.onreadystatechange = function() {
+          if (request.readyState === 4 && callback) {
+            callback(request)
+          }
+        }
+        request.send(null)
+      }
+    </script>
+  </body>
+</html>

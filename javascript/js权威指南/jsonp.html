@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>jsonp</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * jsonp.html
+       * 根据指定的url发送一个jsonp请求
+       * 然后把解析的得到的响应数据传递给回调函数
+       * 在URL中添加一个名为jsonp的查询参数，用于指定该请求的回调函数的名称
+       * */
+
+      function getJSONP(url, callback) {
+        // 为本次请求创建一个唯一的回调函数名称
+        // 每次自增计数器
+        var cbnum = 'cb' + getJSONP.counter++
+        // 作为JSONP函数的属性
+        var cbname = 'getJSONP.' + cbnum
+
+        // 将回调函数名称以表示编码的形式添加到URL的查询部分中
+        // 使用jsonp作为参数名，一些支持jsonp的服务
+        // 可能使用其他的参数名，比如callback
+        // URL没有查询部分
+        if (url.indexOf('?') === -1) {
+          // 作为查询部分添加参数
+          url += '?jsonp=' + cbname
+        } else {
+          // 作为新的参数添加它
+          url += '&jsonp=' + cbname
+        }
+
+        // 创建script元素用于发送请求
+        var script = document.createElement('script')
+        // 定义将被脚本执行的回调函数
+        getJSONP[cbnum] = function(response) {
+          try {
+            // 处理响应数据
+            callback(response)
+          } finally {
+            // 即使回调函数或响应抛出错误
+            // 删除该函数
+            delete getJSONP[cbnum]
+            // 移除script元素
+            script.parentNode.removeChild(script)
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

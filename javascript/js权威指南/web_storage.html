@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Web Storage</title>
+  </head>
+  <body>
+    <script>
+      localStorage.setItem('x', 1)
+      localStorage.setItem('y', 2)
+      localStorage.setItem('z', 3)
+      localStorage.getItem('x')
+      for (var i = 0; i < localStorage.length; i++) {
+        var name = localStorage.key(i)
+        var value = localStorage.getItem(name)
+        console.log(name, value)
+      }
+      localStorage.removeItem('x')
+      // localStorage.clear()
+
+      // 以名/值的形式存储cookie
+      // 同时采用encodeURIComponent()函数进行编码，来转义分号、逗号和空白符
+      // 如果daysToLive是一个数字，设置max-age属性为该数值表示cookie知道指定的天数
+      // 到了才会过期,如果daysToLive是0就表示删除cookie
+      function setCookie(name, value, daysToLive) {
+        var cookie = name + '=' + encodeURIComponent(value)
+        if (typeof daysToLive === 'number') {
+          cookie += ';max-age=' + daysToLive * 60 * 60 * 24
+        }
+        document.cookie = cookie
+      }
+      setCookie('a', 1, 1)
+      console.log(document.cookie)
+      // 如果要追加path、domain、secure属性，只需在存储cookie值前，以如下值追加到cookie值的后面：
+      // ;path=path
+      // ;domain=domain
+      // ;secure
+
+      // 解析document.cookie属性值
+      // 将document.cookie的值以名/值对组成的一个对象返回
+      // 假设存储cookie的值的时候是采用encodeURIComponent()函数编码的
+      function getCookie() {
+        var cookie = {}
+        var all = document.cookie
+        if (all === '') {
+          return cookie
+        }
+        var list = all.split('; ')
+        for (var i = 0; i < list.length; i++) {
+          var cookie = list[i]
+          var p = cookie.indexOf('=')
+          var name = cookie.substring(0, p)
+          var value = cookie.substring(p + 1)
+          value = decodeURIComponent(value)
+          cookie[name] = value
+        }
+        return cookie
+      }
+    </script>
+  </body>
+</html>

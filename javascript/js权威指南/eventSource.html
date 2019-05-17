@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>基于服务器端推送事件的Comet技术</title>
+    <style></style>
+  </head>
+  <body>
+    <div id="root">
+      <input type="text" id="input" />
+    </div>
+    <script>
+      // var ticker = new EventSource('stockprices.php')
+      // ticker.onmessage = function(e) {
+      //   var type = e.type
+      //   var data = e.data
+      // }
+
+      window.onload = function() {
+        // 注意到一些UI细节
+        var nick = prompt('Enter your nickname')
+        var input = document.getElementById('input')
+        input.focus()
+
+        // 通过EventSource注册新消息的通知
+        var chat = new EventSource('/chat')
+        // 当捕获一条信息时
+        chat.onmessage = function(event) {
+          var msg = event.data
+          var node = document.createTextNode(msg)
+          var div = document.createElement('div')
+          div.appendChild(node)
+          document.body.insertBefore(div, input)
+          // 保证input元素可见
+          input.scrollIntoView()
+        }
+
+        // 使用XMLHttpRequest把用户的消息发送给服务器
+        input.onchange = function() {
+          var msg = nick + ': ' + input.value
+          var xhr = new XMLHttpRequest()
+          xhr.open('POST', '/chat')
+          xhr.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8')
+          xhr.send(msg)
+          input.value = ''
+        }
+      }
+    </script>
+  </body>
+</html>

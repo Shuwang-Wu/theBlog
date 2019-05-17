@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>xhr abort</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 实现超时
+       * 发起HTTP GET请求获取指定的URL的内容
+       * 如果响应成功到达，传入的responseText给回调函数
+       * 如果响应在timeout毫秒内没有到达，中止这个请求
+       * 浏览器可能在abort()后触发'readystatechange'
+       * 如果是部分请求结果到达，甚至可能设置status属性
+       * 所以需要设置一个标记，当部分且超时的响应到达时不会调用回调函数
+       * 如果使用load事件就没有这个风险
+       */
+
+      function timedGetText(url, timeout, callback) {
+        // 创建新请求
+        var request = new XMLHttpRequest()
+        // 是否超时
+        var timeout = false
+        // 启用定时器，在timeout毫秒之后将终止请求
+        var timer = setTimeout(function() {
+          timeout = true
+          request.abort()
+        }, timeout)
+
+        request.open('GET', url)
+        request.onreadystatechange = function() {
+          if (request.readyState !== 4) return
+          if (timeout) return
+          clearTimeout(timer)
+          if (request.status === 200) {
+            callback(request.responseText)
+          }
+        }
+        request.send(null)
+      }
+    </script>
+  </body>
+</html>

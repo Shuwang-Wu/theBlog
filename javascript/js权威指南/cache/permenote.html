@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" manifest="permanote.appcache">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>permanote</title>
+  </head>
+  <body>
+    <div id="toobar">
+      <button id="savebutton" onclick="save()">Save</button>
+      <button onclick="sync()">Sync note</button>
+      <button onclick="applicationCache.update()">Update pplication</button>
+    </div>
+    <textarea name="" id="editor" cols="30" rows="10"></textarea>
+    <div id="statusline"></div>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+CACHE MANIFEST
+# App version 1.0 (更改这个数字以便浏览器重新下载这个文件)
+# 上一行标识此文件是一个清单文件。本行为注释
+# 下面的内容都是应用程序依赖的资源文件的URL
+CACHE:
+myapp.html
+myapp.js
+myapp.css
+images/background.png
+
+FALLBACK:
+# 区域中的清单项每行都包含两个URL, 第二个URL是指需要加载和存储在缓存中的资源, 第一个URL是一个前缀
+videos/ offline_help.html
+
+NETWORK: 
+# 区域标识了该URL中的资源从不缓存
+cgi/

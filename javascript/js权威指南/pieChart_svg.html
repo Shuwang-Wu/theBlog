@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Pie Chart</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 用js和svg来绘制饼状图
+       * 参数：
+       *    data: 用于绘制的数字类型的数组，数组的每一项都表示饼状图的一个楔
+       *    width,height: SVG图形的大小, 单位为像素
+       *    cx, cy, r: 饼状图的圆心以及半径
+       *    colors: 一个包含HTML颜色信息的数组，每种颜色代表饼状图每个楔的颜色
+       *    labels: 一个标签数组, 该颜色说明饼状图中每个楔的含义
+       *    lx,ly: 饼状图的左上角
+       * 返回:
+       *    一个保存饼状图的svg元素
+       *    调用者必须将返回的元素插入到文档中
+       * */
+      function pieChart(
+        data,
+        width,
+        height,
+        cx,
+        cy,
+        r,
+        colors,
+        labels,
+        lx,
+        ly
+      ) {
+        // 这个是表示svg元素的XML命名空间
+        var svgns = 'http://www.w3.org/2000/svg'
+
+        // 创建一个svg元素，同时指定像素大小和用户坐标
+        var chart = document.createElementNS(svgns, 'svg:svg')
+        chart.setAttribute('width', width)
+        chart.setAttribute('height', height)
+        chart.setAttribute('viewBox', '0 0 ' + width + ' ' + height)
+
+        // 累加data的值，以便于知道饼状图的大小
+        var total = 0
+        for (var i = 0; i < data.length; i++) {
+          total += data[i]
+        }
+        console.log(total, data)
+        // 现在计算出饼状图每个分片的大小, 其中绝对以弧度制计算
+        var angles = []
+        for (var j = 0; j < data.length; j++) {
+          angles[j] = (data[j] / total) * Math.PI * 2
+        }
+        console.log(angles)
+
+        // 遍历饼状图的每个分片
+        startangle = 0
+        for (var k = 0; k < data.length; k++) {
+          // 这里表示楔的结束位置
+          var endangle = startangle + angles[k]
+
+          // 计算出楔和圆相交的两个点
+          // 这些计算公式都是以12点方向为0°
+          // 顺时针方向角度递增
+          var x1 = cx + r * Math.sin(startangle)
+          var y1 = cy - r * Math.cos(startangle)
+          var x2 = cx + r * Math.sin(endangle)
+          var y2 = cy - r * Math.cos(endangle)
+          console.log(startangle, endangle, x1, y1, x2, y2)
+          // 这个标记表示角度大于半圆
+          // 此标记在绘制svg弧形组件的时候需要
+          var big = 0
+          if (endangle - startangle > Math.PI) big = 1
+
+          // 使用<svg:path>元素来描述楔
+          // 要注意的是, 使用createElementNS来创建该元素
+          var path = document.createElementNS(svgns, 'path')
+
+          // 下面的字符串包含路径的详细信息
+          // 从圆心开始画一条到(x1, y1)的线段，
+          // 再画一条半径为r的弧
+          // 弧的详细信息
+          // 弧到(x2, y2)结束
+          // 当前路径到(cx, cy)
+          var d =
+            'M ' +
+            cx +
+            ',' +
+            cy +
+            ' L ' +
+            x1 +
+            ',' +
+            y1 +
+            ' A ' +
+            r +
+            ',' +
+            r +
+            ' 0 ' +
+            big +
+            ' 1 ' +
+            x2 +
+            ',' +
+            y2 +
+            ' Z'
+          console.log(d, 123)
+          // 设置<svg:path>元素的属性
+          path.setAttribute('d', d)
+          path.setAttribute('fill', colors[k])
+          path.setAttribute('stroke', 'black')
+          path.setAttribute('stroke-width', '2')
+
+          chart.appendChild(path)
+
+          // 当前楔的结束就是下一个楔的开始
+          startangle = endangle
+
+          // 现在绘制一些相应的小方块来表示图例
+          var icon = document.createElementNS(svgns, 'rect')
+          icon.setAttribute('x', lx)
+          icon.setAttribute('y', ly + 30 * k)
+          icon.setAttribute('width', 20)
+          icon.setAttribute('height', 20)
+          icon.setAttribute('fill', colors[k])
+          icon.setAttribute('stroke', 'black')
+          icon.setAttribute('stroke-width', '2')
+
+          chart.appendChild(icon)
+
+          // 在小方块的右边添加标签
+          var label = document.createElementNS(svgns, 'text')
+          label.setAttribute('x', lx + 30)
+          label.setAttribute('y', ly + 30 * k + 18)
+          // 文本的样式属性还可以通过css来设置
+          label.setAttribute('font-family', 'sans-serif')
+          label.setAttribute('font-size', '16')
+
+          // 在<svg: text>元素中添加一个Dom文本节点
+          label.appendChild(document.createTextNode(labels[k]))
+          chart.appendChild(label)
+        }
+        return chart
+      }
+
+      document.body.appendChild(
+        pieChart(
+          [12, 23, 34, 45],
+          640,
+          400,
+          200,
+          200,
+          150,
+          ['red', 'blue', 'yellow', 'green'],
+          ['North', 'South', 'East', 'West'],
+          400,
+          100
+        )
+      )
+    </script>
+  </body>
+</html>

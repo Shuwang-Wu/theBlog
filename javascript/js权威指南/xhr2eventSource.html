@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>xhr模拟Event Source</title>
+  </head>
+  <body>
+    <script>
+      // 在不支持Event Source API的浏览器里进行模拟
+      // 需要有一个XMLHttpRequest对象在新数据写到长期存在的HTTP连接中时发送readystatechange事件
+      // 注意，这个API的实现是不完整的
+      // 他不支持readyState属性，close()方法，open和error事件
+      // 消息事件也是通过onmessage属性注册的--这个版本还没有定义add EventListener()方法
+      if (window.EventSource === undefined) {
+        window.EventSource = function(url) {
+          var xhr // http连接器
+          var evtsrc = this // 在事件处理程序中用到
+          var charsReceived = 0 // 这样我们可以知道什么是新的
+          var type = null // 检查属性响应类型
+          var data = '' // 存放消息数据
+          var eventName = 'message' // 事件对象的类型字段
+          var lastEventId = '' // 用于和服务器再次同步
+          var retrydelay = 1000 // 在多个连接请求之间设置延迟
+          var aborted = false // 设置为true表示放弃连接
+
+          // 创建XHR对象
+          xhr = new XMLHttpRequest()
+
+          // 定义一个事件处理程序
+          xhr.onreadystatechange = function() {
+            switch (xhr.readyState) {
+              case 3:
+                processData()
+                break
+              case 4:
+                reconnect()
+                break
+            }
+          }
+
+          // 通过connect()创建一个长期存在的连接
+          connect()
+
+          function reconnect() {
+            // 在中止连接后不进行重连操作
+            if (aborted) return
+            // 在报错之后不进行重连操作
+            if (xhr.status >= 300) {
+              return
+            }
+            // 等待1秒之后进行重连
+            setTimeout(connect, retrydelay)
+          }
+
+          // 这里的代码展示了如何建立一个连接
+          function connect() {
+            charsReceived = 0
+            type = null
+            xhr.open('GET', url)
+            xhr.setRequestHeader('Cache-Control', 'no-cache')
+            xhr.send()
+          }
+
+          // 每当数据到达的时候，会处理并触发onmessage处理程序
+          // 每当函数处理Server-Send Event协议的细节
+          function processData() {
+            if (!type) {
+              // 如果没有准备好，先检查响应类型
+              type = xhr.getResponseHeader('Content-Type')
+              if (type !== 'text/event-stream') {
+                aborted = true
+                xhr.abort()
+                return
+              }
+            }
+          }
+
+          // 记录接收的数据
+          // 获得响应中未处理的数据
+          var chunk = xhr.responseText.substring(charsReceived)
+          charsReceived = xhr.responseText.length
+
+          // 将大块的文本数据分成多行并遍历它们
+          var lines = chunk.replace(/(\r\n|\r|\n)$/, '').split(/\r\n|\r|\n/)
+          for (var i = 0; i < line.length; i++) {
+            var line = lines[i],
+              pos = line.indexOf(':'),
+              name,
+              value = ''
+            if (pos == 0) continue
+            if (pos > 0) {
+              name = line.substring(0, pos)
+              value = line.substring(pos + 1)
+              if (value.charAt(0) == '') {
+                value = value.substring(1)
+              }
+            } else {
+              name = line
+            }
+
+            switch (name) {
+              case 'event':
+                eventName = value
+                break
+              case 'data':
+                data += value + '\n'
+                break
+              case 'id':
+                lastEventId = value
+                break
+              case 'retry':
+                retrydelay = parseInt(value) || 1000
+                break
+              default:
+                break
+            }
+
+            // 一个空行意味着发送事件
+            if (line === '') {
+              if (evtsrc.onmessage && data !== '') {
+                // 如果尾行有新行，就裁剪新行
+                if (data.charAt(data.length - 1) == '\n') {
+                  data = data.substring(0, data.length - 1)
+                }
+                evtsrc.onmessage({
+                  // 这里是一个伪造的事件对象
+                  type: eventName, // 事件类型
+                  data: data, // 事件数据
+                  origin: url // 数据源
+                })
+              }
+              data = ''
+              continue
+            }
+          }
+        }
+      }
+      // 未完。。。
+    </script>
+  </body>
+</html>

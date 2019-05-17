@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Input Filter</title>
+  </head>
+  <body>
+    <form action="">
+      <input
+        id="zip"
+        type="text"
+        data-allowed-chars="0123456789"
+        data-messageid="zipwarn"
+      />
+      <span id="zipwarn" style="color: red; visibility: hidden;"
+        >只支持数字</span
+      >
+    </form>
+    <script>
+      /**
+       * 当文档准备就绪时调用函数
+       * 传递参数给whenReady(), 当文档解析完毕且为操作准备就绪时
+       * 函数将作为文档对象的方法调用
+       * DOMContentLoaded, readystatechange或load事件发生时会触发注册函数
+       * 一旦文档准备就绪, 所有函数都将被调用, 任何传递给whenReady()的函数都将立即调用
+       *  */
+
+      var whenReady = (function() {
+        // 这个函数返回whenReady函数
+        var funcs = [] // 当获得事件时, 要运行的函数
+        var ready = false // 当触发事件时, 切换到true
+
+        // 当文档准备就绪时, 调用事件处理程序
+        function handler(e) {
+          // 如果已经运行过一次, 只需要返回
+          if (ready) return
+          // 如果发生readystatechange事件但其状态不是complete, 那么文档并未准备好
+          if (
+            e.type === 'readystatechange' &&
+            document.readyState !== 'complete'
+          )
+            return
+          // 运行所有注册函数 注意每次都要计算funcs.length 以防这些函数的调用会导致注册更多的函数
+          for (var i = 0; i < funcs.length; i++) {
+            funcs[i].call(document)
+          }
+          // 现在设置ready表示为true, 并移除所有函数
+          ready = true
+          funcs = null
+        }
+
+        // 为接收到的任何事件注册处理程序
+        if (document.addEventListener) {
+          document.addEventListener('DOMContentLoaded', handler, false)
+          document.addEventListener('readystatechange', handler, false)
+          window.addEventListener('load', handler, false)
+        } else if (document.attachEvent) {
+          document.attachEvent('onreadystatechange', handler)
+          window.attachEvent('onload', handler)
+        }
+
+        // 返回whenReady函数
+        return function whenReady(f) {
+          // 若准备完毕就运行 否则加入队列
+          if (ready) {
+            f.call(document)
+          } else {
+            funcs.push(f)
+          }
+        }
+      })()
+
+      /**
+       * @module {inputFilter}
+       * 这个模块查找文档中拥有'data-allowed-chars'属性所有<input type = 'text' />元素
+       * 它为所有这类元素都注册keypress、textInput和textinput事件处理程序
+       * 来限制用户只能输入出现在许可属性值中的字符
+       * 如果<input>元素也有一个'data-messageid'属性
+       * 那么认为这个值是另一个文档元素的id
+       * 如果用户输入了不允许的字符，那么会显示消息元素
+       * 这个信息id元素用于向用户说明拒绝输入的原因
+       * 它通常应该由css控制样式，所以他开始不可见
+       *
+       * 下面是使用这个模块的HTML代码示例
+       * 邮政编码：<input id='zip' type='text' data-allowed-chars='0123456789' data-messageid='zipwarn'>
+       * <span style="color: red; visibility: hidden;">只支持数字</span>
+       * 这个模块相当的不唐突，他没有定义全局命名空间中的任何符号
+       */
+
+      whenReady(function() {
+        // 查找所有的<input>
+        var inputelts = document.getElementsByTagName('input')
+        // 遍历它们
+        for (var i = 0; i < inputelts.length; i++) {
+          var elt = inputelts[i]
+          if (elt.type != 'text' || !elt.getAttribute('data-allowed-chars'))
+            continue
+          // 在input元素上注册事件处理程序函数
+          // 在传统的keypress事件处理程序能够在任何地方运行
+          // textInput在2010年safari和chrome支持
+          // textinput是3级DOM事件规范草案中的版本
+          if (elt.addEventListener) {
+            elt.addEventListener('keypress', filter, false)
+            elt.addEventListener('textInput', filter, false)
+            elt.addEventListener('textinput', filter, false)
+          } else {
+            // 不支持addEventListener的IE也不会支持textinput
+            elt.attachEvent('onkeypress', filter)
+          }
+        }
+
+        // 这是用于过滤用户输入的keypress、textInput和textinput事件处理程序
+        function filter(event) {
+          // 获取事件对象和目标对象
+          var e = event || window.event
+          var target = e.target || e.srcElement
+          var text = null
+          // 获取输入的字符或文本
+          if (e.type === 'textinput' || e.type === 'textInput') {
+            text = e.data
+          } else {
+            // 这是传统的keypress事件
+            // 对于可打印键的keypress事件，Firefox使用charcode
+            var code = e.charCode || e.keyCode
+            // 如果按下的是任何形式的功能键，不要过滤它
+            // charCode = 0 代表的是功能键 e.ctrlKey || e.altKey 代表的是辅助键
+            if (code < 32 || e.charCode == 0 || e.ctrlKey || e.altKey) return
+            var text = String.fromCharCode(code)
+          }
+
+          // 现在需要从input元素中寻找所需信息
+          var allowed = target.getAttribute('data-allowed-chars') // 合法字符
+          var messageid = target.getAttribute('data-messageid')
+          if (messageid) {
+            var messageElement = document.getElementById(messageid)
+          }
+
+          // 遍历文本中的字符
+          for (var i = 0; i < text.length; i++) {
+            var c = text.charAt(i)
+            if (allowed.indexOf(c) == -1) {
+              // 判断是否为匹配的字符
+              if (messageElement) {
+                messageElement.style.visibility = 'visible'
+              }
+              // 取消默认行为，所有不会插入文本
+              if (e.preventDefault) {
+                e.preventDefault()
+              }
+              if (e.returnValue) {
+                e.returnValue
+              }
+              return false
+            }
+
+            // 如果所有字符都合法，隐藏存在的消息元素
+            if (messageElement) {
+              messageElement.style.visibility = 'hidden'
+            }
+          }
+        }
+      })
+    </script>
+  </body>
+</html>

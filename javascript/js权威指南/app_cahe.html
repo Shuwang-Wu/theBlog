@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>app cache</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 处理应用缓存相关事件
+       * 下面所有事件处理程序都使用此函数来显示状态信息
+       * 由于都是通过调用status函数来显示状态, 因此所有处理程序都返回false来阻止浏览器
+       * */
+
+      //  显示其默认状态消息
+      function status(msg) {
+        // 将消息输出到id为'statusline'的文档元素中
+        document.getElementById('statusline').innerHTML = msg
+        console.log(msg)
+      }
+    </script>
+  </body>
+</html>
