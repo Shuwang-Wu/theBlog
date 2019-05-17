@@ -29,7 +29,39 @@
         if (!navigator.geolocation) {
           throw 'Geolocation is not supported!'
         }
+
+        // 创建一个新的<img>元素, 并开始请求地理位置
+        var img = document.createElement('img')
+        navigator.geolocation.getCurrentPosition(setMapUrl, function() {})
+        return img
       }
+
+      // 当成功获取到地理位置信息后, 会在返回image对象后调用此方法
+      function setMapUrl(pos) {
+        // 从参数对象中获取地理位置
+        var latitude = pos.coords.latitude // 经度
+        var longitude = pos.coords.longitude // 维度
+        var accuracy = pos.coords.accuracy // 精度： 米
+
+        // 构造一个URL, 用于请求一张显示当前位置的静态Google地图
+        var url =
+          'http://maps.google.com/maps/api/staticmap?center=' +
+          latitude +
+          ',' +
+          longitude +
+          '&size=640X640&sensor=true'
+
+        // 设置一个大致的缩放级别
+        var zoomlevel = 20
+        if (accuracy > 80)
+          zoomlevel -= Math.round(Math.log(accuracy / 50) / Math.LN2)
+        url += '&zoom=' + zoomlevel
+
+        // 现在在image对象中显示该地图
+        img.src = url
+      }
+
+      getmap()
     </script>
   </body>
 </html>

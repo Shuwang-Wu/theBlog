@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Web Worker</title>
+  </head>
+  <body>
+    <img
+      src="../../assets/images/performance.png"
+      alt="performance"
+      onclick="smear(this)"
+      crossorigin="anonymous"
+    />
+    <canvas id="canvas"></canvas>
+    <script>
+      // 创建一个Web Worker线程处理图片
+      // 异步地将图片内容替换成动态模糊版本
+      // 以这种方式调用：<img src="testimage.jpg" onclick='smear(this)'>
+
+      function smear(img) {
+        // 创建一个和图片尺寸相同的屏幕外<canvas>
+        var canvas = document.createElement('canvas')
+        console.log(img, img.width)
+        canvas.width = img.width
+        canvas.height = img.height
+        // 将图片复制到画布中, 然后提取器像素
+        var context = canvas.getContext('2d')
+        context.drawImage(img, 0, 0)
+        var pixels = context.getImageData(0, 0, img.width, img.height)
+        // 将像素信息传递给worker线程
+        var worker = new Worker('./smearWorker.js')
+        worker.postMessage(pixels)
+        // 注册事件处理程序来获取worker的响应
+        worker.onmessage = function(e) {
+          var smeared_pixels = e.data
+          context.putImageData(smeared_pixels, 0, 0)
+          img.src = canvas.toDataURL()
+          worker.terminate()
+          canvas.width = canvas.heigt = 0
+        }
+      }
+    </script>
+  </body>
+</html>

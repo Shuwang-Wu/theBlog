@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>web socket</title>
+  </head>
+  <body>
+    <input type="text" id="input" />
+    <script>
+      window.onload = function() {
+        var nick = prompt('Enter your name')
+        var input = document.getElementById('input')
+        input.focus()
+        var socket = new WebSocket('ws://' + 'localhost' + '/')
+        socket.onmessage = function(event) {
+          var msg = event.data
+          var node = document.createTextNode(msg)
+          var div = document.createElement('div')
+          div.appendChild(node)
+          document.body.insertBefore(div, input)
+          input.scrollIntoView()
+        }
+        input.onchange = function() {
+          var msg = nick + ': ' + input.nodeValue
+          socket.send(msg)
+          input.value = ''
+        }
+      }
+    </script>
+  </body>
+</html>
