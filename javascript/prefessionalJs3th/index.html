@@ -5,62 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-    <style>
-      #list {
-        position: absolute;
-        visibility: hidden;
-        background-color: cornflowerblue;
-      }
-    </style>
+    <style></style>
   </head>
   <body>
-    <div id="root"></div>
-    <form action="">
-      <input type="text" id="textbox1" maxlength="3" required />
-      <input type="text" id="textbox2" maxlength="3" />
-      <input type="text" id="textbox3" maxlength="3" />
-      <input type="email" id="textbox3" />
-      <input type="url" id="textbox3" />
-      <button type="submit">submit</button>
-    </form>
+    <input type="file" id="file-list" />
+    <div id="progress"></div>
+    <div id="output"></div>
     <script src="./event_util.js"></script>
     <script>
-      // var textbox = document.forms[0].elements['textbox']
-      // EventUtil.addHandler(textbox, 'paste', function(event) {
-      //   var event = EventUtil.getEvent(event)
-      //   var text = EventUtil.getClipboardText(event)
-      //   console.log(text)
-      //   if (!/^\d*$/.test(text)) {
-      //     EventUtil.preventDefault()
-      //   }
-      // })
-      ;(function() {
-        function tabFoward(event) {
-          event = EventUtil.getEvent(event)
-          var target = EventUtil.getTarget(event)
-          if (target.value.length == target.maxLength) {
-            var form = target.form
-            for (var i = 0; i < form.elements.length; i++) {
-              if (form.elements[i] == target) {
-                if (form.elements[i + 1]) {
-                  form.elements[i + 1].focus()
-                }
-                return
-              }
-            }
-          }
+      var obj = {
+        a: 1
+      }
+      var p = new Proxy(obj, {
+        get: function() {
+          console.log(2)
+          return 101010
+        },
+        set: function() {
+          console.log(1)
         }
-
-        var textbox1 = document.getElementById('textbox1')
-        var textbox2 = document.getElementById('textbox2')
-        var textbox3 = document.getElementById('textbox3')
-
-        console.log(textbox1, textbox2, textbox3)
-
-        EventUtil.addHandler(textbox1, 'keyup', tabFoward)
-        EventUtil.addHandler(textbox2, 'keyup', tabFoward)
-        EventUtil.addHandler(textbox3, 'keyup', tabFoward)
-      })()
+      })
+      console.log(p.a)
     </script>
   </body>
 </html>

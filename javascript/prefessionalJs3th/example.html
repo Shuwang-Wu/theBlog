@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>文字识别</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="880" height="1500"></canvas>
+    <script type="text/javascript">
+      var image = new Image()
+      image.onload = recognition
+      image.src = '../../assets/images/performance.png'
+      function recognition() {
+        // 开始时间，用于计算耗时
+        var beginTime = new Date().getTime()
+        // 获取画布
+        var canvas = document.getElementById('canvas')
+        // 字符库
+        var letters =
+          '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+'
+        // 字型数据
+        var letterData = {}
+        // 获取context
+        var context = canvas.getContext('2d')
+        // 设置字体、字号
+        context.font = '16px 微软雅黑'
+        // 设置文字绘制基线为文字顶端
+        context.textBaseline = 'top'
+        // 一个循环获取字符库对应的字型数据
+        for (var i = 0; i < letters.length; ++i) {
+          var letter = letters[i]
+          // 获取字符绘制宽度
+          var width = context.measureText(letter).width
+          // 绘制白色背景，与图片背景对应
+          context.fillStyle = '#fff'
+          context.fillRect(0, 0, width, 22)
+          // 绘制文字，以获取字型数据
+          context.fillStyle = '#000'
+          context.fillText(letter, 0, 0)
+          // 缓存字型灰度化0-1数据
+          letterData[letter] = {
+            width: width,
+            data: getBinary(context.getImageData(0, 0, width, 22).data)
+          }
+          // 清空该区域以获取下个字符字型数据
+          context.clearRect(0, 0, width, 22)
+        }
+        // console.log(letterData);
+
+        // 绘制图片
+        context.drawImage(this, 0, 0)
+        // 要识别的文字开始坐标
+        var x = (beginX = 8)
+        var y = (beginY = 161)
+        // 行高
+        var lineHeight = 24
+        // 递归次数
+        var count = 0
+        // 结果文本
+        var result = ''
+
+        // 递归开始
+        findLetter(beginX, beginY, '')
+        // 递归函数
+        function findLetter(x, y, str) {
+          // 找到结果文本，则递归结束
+          if (result) {
+            return
+          }
+          // 递归次数自增1
+          ++count
+          // console.log(str);
+          // 队列，用于储存可能匹配的字符
+          var queue = []
+          // 循环匹配字符库字型数据
+          for (var letter in letterData) {
+            // 获取当前字符宽度
+            var width = letterData[letter].width
+            // 获取该矩形区域下的灰度化0-1数据
+            var data = getBinary(context.getImageData(x, y, width, 22).data)
+            // 当前字符灰度化数据与当前矩形区域下灰度化数据的偏差量
+            var deviation = 0
+            // 一个临时变量以确定是否到了行末
+            var isEmpty = true
+            // 如果当前矩形区域已经超出图片宽度，则进行下一个字符匹配
+            if (x + width > 440) {
+              continue
+            }
+            // 计算偏差
+            for (var i = 0, l = data.length; i < l; ++i) {
+              // 如果发现存在的有效像素点，则确定未到行末
+              if (isEmpty && data[i]) {
+                isEmpty = false
+              }
+              // 不匹配的像素点，偏差量自增1
+              if (data[i] != letterData[letter].data[i]) {
+                ++deviation
+              }
+            }
+            // 由于调试时是在猎豹浏览器下进行的，而不同浏览器下的绘图API表现略有不同
+            // 考虑到用Chrome的读者应该也不少，故简单地针对Chrome对偏差进行一点手动微调
+            // （好吧，我承认我是懒得重新调整getBinary方法的灰度化、0-1化公式=_=||）
+            // 下面这段if分支在猎豹浏览器下可以删除
+            if (letter == 'F' || letter == 'E') {
+              deviation -= 6
+            }
+            // 如果匹配完所有17行数据，则递归结束
+            if (y > beginY + lineHeight * 17) {
+              result = str
+              break
+            }
+            // 如果已经到了行末，重置匹配坐标
+            if (isEmpty) {
+              x = beginX
+              y += lineHeight
+              str += '\n'
+            }
+            // 如果偏差量与宽度的比值小于3，则纳入匹配队列中
+            // 这里也是算法中的关键点，怎样的偏差量可以纳入匹配队列中
+            // 刚开始是直接用绝对偏差量判断，当偏差量小于某个值的时候则匹配成功，但调试过程中发现不妥之处
+            // 字符字型较小的绝对偏差量自然也小，这样l，i等较小的字型特别容易匹配成功
+            // 因此使用偏差量与字型宽度的比值作为判断依据较为合理
+            // 而这个判断值3的确定也是难点之一，大了递归的复杂度会大为增长，小了很可能将正确的字符漏掉
+            if (deviation / width < 3) {
+              queue.push({
+                letter: letter,
+                width: width,
+                deviation: deviation
+              })
+            }
+          }
+          // 如果匹配队列不为空
+          if (queue.length) {
+            // 对队列进行排序，同样是根据偏差量与字符宽度的比例
+            queue.sort(compare)
+            // console.log(queue);
+            // 从队头开始进行下一个字符的匹配
+            for (var i = 0; i < queue.length && !result; ++i) {
+              var item = queue[i]
+              // 下一步递归
+              findLetter(x + item.width, y, str + item.letter)
+            }
+          } else {
+            return false
+          }
+        }
+        // 递归结束
+
+        // 两个匹配到的字符的比较方法，用于排序
+        function compare(letter1, letter2) {
+          return (
+            letter1.deviation / letter1.width -
+            letter2.deviation / letter2.width
+          )
+        }
+
+        // 图像数据的灰度化及0-1化
+        function getBinary(data) {
+          var binaryData = []
+          for (var i = 0, l = data.length; i < l; i += 4) {
+            // 尝试过三种方式
+            // 一种是正常的灰度化公式，无论系数如何调整都无法与绘制的文字字型数据很好地匹配
+            // binaryData[i / 4] = (data[i] * 0.3 + data[i + 1] * 0.59 + data[i + 2] * 0.11) < 90;
+            // 一种是自己是通过自己手动调整系数，结果虽然接近但总是不尽人意
+            // binaryData[i / 4] = data[i] < 250 && data[i + 1] < 203 && data[i + 2] < 203;
+            // 最后使用了平均值，结果比较理想
+            binaryData[i / 4] = (data[i] + data[i + 1] + data[i + 2]) / 3 < 200
+          }
+          return binaryData
+        }
+        console.log(result)
+        // 输出耗时
+        console.log(count, (new Date().getTime() - beginTime) / 1000 + ' s')
+
+        // 将文字绘制到图片对应位置上，以方便查看提取是否正确
+        context.drawImage(this, this.width, 0)
+        var textArray = result.split('\n')
+        for (var i = 0; i < textArray.length; ++i) {
+          context.fillText(
+            textArray[i],
+            this.width + beginX,
+            beginY + lineHeight * i
+          )
+        }
+      }
+    </script>
+  </body>
+</html>
