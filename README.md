@@ -48,60 +48,43 @@
 
     es6 笔记
 
-## interview
+## 前端面试题收集
 
 fontend interviews
 
-## javascript
+## javascript 笔记
 
 contain util、DOM、BOM and so on by javascript
 
-1. [\_proto_prototype](./scripts/lib/_proto_prototype.js)
+1. [\js 权威指南](./javascript/js权威指南)
 
-   _proto_ prototype 例子
+2. [开发文档](./javascript/md)
 
-2. [callAndApply](./javascript/scripts/lib/callAndApply.js)
+3. [node 开发指南](./javascript/scripts/lib/callee.js)
 
-   call Apply 例子
+4. [javascript 高级程序设计](./javascript/prefessionalJs3rd)
 
-3. [callee](./javascript/scripts/lib/callee.js)
+5. [随手笔记](./javascript/requirejs)
 
-   callee 递归求和例子
-
-4. [caller](./javascript/scripts/lib/caller.js)
-
-   caller 例子
-
-5. [check-args](./javascript/scripts/lib/check-args.js)
-
-   通过 arguments.callee 验证函数传入的实参、形参 例子
-
-6. [bind](./javascript/scripts/lib/bind.js)
+6. [你不知道的 js](./javascript/youdonotknowjs)
 
    bind 例子 es3 实现 bind
 
-7. [jsonp](./javascript/scripts/lib/jsonp.js)
-
-   由两部分组成: 回调函数和数据; 回调函数的名字一般是在请求中指定的,而数据就是传入回调函数中的 json 数据
-
-8. [http](./javascript/scripts/lib/http.js)
-   http
-
-## react
+## react 笔记
 
 [react](./react)
 
 record react experience
 
-## selfVue
+## selfVue(vue 简易版)
 
 achive simple vue, view [selfVue](./selfVue/README.md)
 
-## typescript
+## typescript 笔记
 
 [typescript note](./typeScipt)
 
-## design pattern
+## 常用设计模式
 
 intro in common use pattern
 
@@ -117,6 +100,6 @@ intro in common use pattern
 
    单例模式
 
-# css
+# css 笔记
 
 1. [选择器、伪类和伪元素](./css/css-190408.md)
