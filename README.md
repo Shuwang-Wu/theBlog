@@ -43,25 +43,35 @@ intro in common use pattern
 
 ## 前端面试题收集
 
-fontend interviews
+1. [组合函数](./interview/assets/curry/compose.html)
+2. [柯里化](./interview/assets/curry/curry.html)
+3. [memorizes](./interview/assets/curry/memorizes.html)
+4. [计算最大的乘积](./interview/assets/html/computeMaxProduct.html)
+5. [防抖函数](./interview/assets/html/debounce.html)
+6. [节流函数](./interview/assets/html/throttle.html)
+   [防抖节流函数](./interview/assets/js/debounce-throttle.js)
+7. [lazyman 实现 1](./interview/assets/js/LazyMan.js)
+8. [lazyman 实现 2](./interview/assets/js/LazyMan2.js)
+9. [map 实现](./interview/assets/js/map.js)
+10. [常见排序](./interview/assets/js/Sort.md)
+11. [prototype,\_\_proto\_\_](./interview/notes/html/prototypeAnd__proto__.html)
+12. [valueOf,toString](./interview/notes/html/valueOfAndToString.html)
+13. [堆栈](./interview/notes/html/stack-heap.md)
+14. [部分面试题收集](./interview/notes/README.md)
+15. [20190110](./interview/notes/20190110.md)
+16. [20190312](./interview/notes/20190312.md)
+17. [20190327](./interview/notes/20190327.md)
 
 ## javascript 笔记
 
 contain util、DOM、BOM and so on by javascript
 
-1. [\js 权威指南](./javascript/js权威指南)
-
+1. [js 权威指南](./javascript/js权威指南)
 2. [开发文档](./javascript/md)
-
 3. [node 开发指南](./javascript/scripts/lib/callee.js)
-
 4. [javascript 高级程序设计](./javascript/prefessionalJs3rd)
-
 5. [随手笔记](./javascript/requirejs)
-
 6. [你不知道的 js](./javascript/youdonotknowjs)
-
-   bind 例子 es3 实现 bind
 
 ## react 笔记
 
