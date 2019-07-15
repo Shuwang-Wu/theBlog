@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>中介者模式实现购买商品</title>
+    <style>
+      .main {
+        padding: 20px 40px;
+        border: 1px solid #aaa;
+        border-radius: 6px;
+        background-color: #ddd;
+      }
+      select {
+        width: 173px;
+        height: 21px;
+      }
+    </style>
+  </head>
+  <body>
+    选择颜色:
+    <select id="colorSelect">
+      <option value="">请选择</option>
+      <option value="red">红色</option>
+      <option value="blue">蓝色</option>
+    </select>
+    输入购买数量: <input type="text" id="numberInput" /> 您选择了颜色:
+    <div id="colorInfo"></div>
+    <br />
+    您输入了数量:
+    <div id="numberInfo"></div>
+    <br />
+    <button id="nextBtn" disabled="true">请选择手机颜色和购买数量</button>
+    <script>
+      var colorSelect = document.getElementById('colorSelect'),
+        numberInput = document.getElementById('numberInput'),
+        colorInfo = document.getElementById('colorInfo'),
+        numberInfo = document.getElementById('numberInfo'),
+        nextBtn = document.getElementById('nextBtn')
+      var goods = {
+        // 手机库存
+        red: 3,
+        blue: 6
+      }
+      colorSelect.onchange = function() {
+        var color = this.value, // 颜色
+          number = numberInput.value, // 数量
+          stock = goods[color] // 该颜色手机对应的当前库存
+        colorInfo.innerHTML = color
+        if (!color) {
+          nextBtn.disabled = true
+          nextBtn.innerHTML = '请选择手机颜色'
+          return
+        }
+        if (((number - 0) | 0) !== number - 0) {
+          // 用户输入的购买数量是否为正整数
+          nextBtn.disabled = true
+          nextBtn.innerHTML = '请输入正确的购买数量'
+          return
+        }
+        if (number > stock) {
+          // 当前选择数量没有超过库存量
+          nextBtn.disabled = true
+          nextBtn.innerHTML = '库存不足'
+          return
+        }
+        nextBtn.disabled = false
+        nextBtn.innerHTML = '放入购物车'
+      }
+    </script>
+  </body>
+</html>

@@ -29,7 +29,7 @@
         return tem
       }
       var result = add(1)(2)(12)(100)
-      console.log(result + 1)
+      console.log(result, result + 1)
 
       /**
        * valueOf toString
@@ -40,7 +40,7 @@
           return 100
         },
         toString: function() {
-          console.log('调用了函数的valueOf')
+          console.log('调用了函数的toString')
           return 200
         }
       }

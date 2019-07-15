@@ -1,21 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>template-pattern</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>template-pattern</title>
-</head>
+  <body>
+    <script>
+      /**
+       * 模版模式
+       * 思路：一般是由两个部分来组成，一部分是抽象父类，一部分是具体实现的子类;
+       *
+       */
 
-<body>
-  <script>
-  /**
-  * 模版模式
-  * 思路：一般是由两个部分来组成，一部分是抽象父类，一部分是具体实现的子类;
-  *      
-  */
-  </script>
-</body>
+      /*************************** Beverage *************************/
+      var Beverage = function() {}
+      Beverage.prototype.boilWater = function() {
+        console.log('把水煮沸')
+      }
+      Beverage.prototype.brew = function() {}
+      Beverage.prototype.pourInCup = function() {
+        console.log('把饮料倒进杯子里面')
+      }
+      Beverage.prototype.addComdiments = function() {}
 
+      /************ template ************/
+      Beverage.prototype.init = function() {
+        this.boilWater()
+        this.brew()
+        this.pourInCup()
+        this.addComdiments()
+      }
+
+      /********** Tea **********/
+      var Tea = function() {}
+      Tea.prototype = new Beverage()
+      Tea.prototype.brew = function() {
+        console.log('用沸水浸泡茶叶')
+      }
+
+      Tea.prototype.addComdiments = function() {
+        console.log('添加柠檬')
+      }
+      var tea = new Tea()
+      tea.init() // call parent class method
+    </script>
+  </body>
 </html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>装饰者模式</title>
+  </head>
+  <body>
+    用户名：<input id="username" type="text" /> 密码：
+    <input id="password" type="password" />
+    <input id="submitBtn" type="button" value="提交" />
+    <script>
+      Function.prototype.before = function(beforefn) {
+        var __self = this
+        return function() {
+          if (beforefn.apply(this, arguments) === false) {
+            // beforefn 返回 false 的情况直接 return，不再执行后面的原函数
+            return
+          }
+          return __self.apply(this, arguments)
+        }
+      }
+      var username = document.getElementById('username'),
+        password = document.getElementById('password'),
+        submitBtn = document.getElementById('submitBtn')
+      var validata = function() {
+        if (username.value === '') {
+          alert('用户名不能为空')
+          return false
+        }
+        if (password.value === '') {
+          alert('密码不能为空')
+          return false
+        }
+      }
+      var formSubmit = function() {
+        var param = {
+          username: username.value,
+          password: password.value
+        }
+        ajax('http:// xxx.com/login', param)
+      }
+      formSubmit = formSubmit.before(validata)
+      submitBtn.onclick = function() {
+        formSubmit()
+      }
+    </script>
+  </body>
+</html>

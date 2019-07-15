@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>组合模式</title>
+  </head>
+  <body>
+    <button class="btn__all">总控开关</button>
+    <script>
+      var openAriConditionerCommand = {
+        execute: function() {
+          console.log('open air conditioner ~')
+        }
+      }
+      var openTVCommand = {
+        execute: function() {
+          console.log('open TV ~')
+        }
+      }
+      var openSoundBoxCommand = {
+        execute: function() {
+          console.log('open SoundBox ~')
+        }
+      }
+      var macroCommand = function() {
+        return {
+          commandList: [],
+          add: function(command) {
+            this.commandList.push(command)
+          },
+          execute: function() {
+            for (var i = 0, len = this.commandList.length; i < len; i++) {
+              this.commandList[i].execute()
+            }
+          }
+        }
+      }
+      var _macroCommand = macroCommand()
+      _macroCommand.add(openAriConditionerCommand)
+      _macroCommand.add(openTVCommand)
+      _macroCommand.add(openSoundBoxCommand)
+      _macroCommand.execute()
+
+      /************************ Folder ***********************/
+      var Folder = function(name) {
+        this.name = name
+        this.files = []
+      }
+      Folder.prototype.add = function(file) {
+        this.files.push(file)
+      }
+      Folder.prototype.scan = function() {
+        console.log('开始扫描文件夹：' + this.name)
+        for (var i = 0, file, files = this.files; (file = files[i++]); ) {
+          file.scan()
+        }
+      }
+      /************************ File ***********************/
+    </script>
+  </body>
+</html>

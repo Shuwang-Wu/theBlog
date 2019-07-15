@@ -1,57 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>singleton</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>singleton</title>
-</head>
-
-<body>
-  <button class="genDiv">genDiv</button>
-  <button class="genIframe">genIframe</button>
-  <script>
-    // create div with html before append to body
-    function createDiv(html) {
-      let div = document.createElement('div');
-      div.innerHTML = html;
-      div.style.display = 'none';
-      document.body.appendChild(div)
-      return div;
-    }
-    // create iframe before append to body
-    function createIframe() {
-      let iframe = document.createElement('iframe');
-      document.body.appendChild(iframe)
-      return iframe;
-    }
-    /**
-     * proxy pattern
-     * avoid to generate element repeat
-     * maintain class single ability 
-     * */
-    function getInstance(fn) {
-      // define a valid on closure
-      var result;
-      return function () {
-        // if has result, user it
-        return result || (result = fn.apply(this, arguments));
+  <body>
+    <button class="genDiv">genDiv</button>
+    <button class="genIframe">genIframe</button>
+    <script>
+      // 单列模式的定义是: 保证一个类仅有一个实例, 并提供一个访问它的全局访问点
+      // create div with html before append to body
+      function createDiv(html) {
+        let div = document.createElement('div')
+        div.innerHTML = html
+        div.style.display = 'none'
+        document.body.appendChild(div)
+        return div
       }
-    }
-    // bind to genDiv
-    var createSingleDiv = getInstance(createDiv);
-    document.getElementsByClassName('genDiv')[0].onclick = function () {
-      var div = createSingleDiv('inject html');
-      div.style.display = 'block';
-    }
-    // bind to genIframe
-    var createSingleIframe = getInstance(createIframe);
-    document.getElementsByClassName('genIframe')[0].onclick = function () {
-      var iframe = createSingleIframe();
-      iframe.src = 'http://www.baidu.com';
-    }
-  </script>
-</body>
-
+      // create iframe before append to body
+      function createIframe() {
+        let iframe = document.createElement('iframe')
+        document.body.appendChild(iframe)
+        return iframe
+      }
+      /**
+       * proxy pattern
+       * avoid to generate element repeat
+       * maintain class single ability
+       * */
+      function getInstance(fn) {
+        // define a valid on closure
+        var result
+        return function() {
+          // if has result, user it
+          return result || (result = fn.apply(this, arguments))
+        }
+      }
+      // bind to genDiv
+      var createSingleDiv = getInstance(createDiv)
+      document.getElementsByClassName('genDiv')[0].onclick = function() {
+        var div = createSingleDiv('inject html')
+        div.style.display = 'block'
+      }
+      // bind to genIframe
+      var createSingleIframe = getInstance(createIframe)
+      document.getElementsByClassName('genIframe')[0].onclick = function() {
+        var iframe = createSingleIframe()
+        iframe.src = 'http://www.baidu.com'
+      }
+    </script>
+  </body>
 </html>

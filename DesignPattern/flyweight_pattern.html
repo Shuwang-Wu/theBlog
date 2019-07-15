@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>享元模式</title>
+  </head>
+  <body>
+    <!-- <button class="delFile">删除文件</button> -->
+    <script>
+      /**
+       * @name {fly_weight}
+       * 内部状态存储于对象内部
+       * 内部状态可以被一些对象共享
+       * 内部状态独立于具体的场景，通常不会变化
+       * 外部状态取决于具体的场景，并根据场景而变化，外部状态不能被共享
+       * 关键是区别内部状态和外部状态
+       * */
+
+      var id = 0
+      window.startUpload = function(uploadType, files) {
+        // uploadType 区分是控件还是 flash
+        for (var i = 0, file; (file = files[i++]); ) {
+          var uploadObj = new Upload(uploadType, file.fileName, file.fileSize)
+          uploadObj.init(id++) // 给 upload 对象设置一个唯一的 id
+        }
+      }
+
+      var Upload = function(uploadType, fileName, fileSize) {
+        this.uploadType = uploadType
+        this.fileName = fileName
+        this.fileSize = fileSize
+        this.dom = null
+      }
+      Upload.prototype.init = function(id) {
+        var that = this
+        this.id = id
+        this.dom = document.createElement('div')
+        this.dom.innerHTML =
+          '<span>文件名称:' +
+          this.fileName +
+          ', 文件大小: ' +
+          this.fileSize +
+          '</span>' +
+          '<button class="delFile">删除</button>'
+        this.dom.querySelector('.delFile').onclick = function() {
+          that.delFile()
+        }
+        document.body.appendChild(this.dom)
+      }
+      Upload.prototype.delFile = function() {
+        if (this.fileSize < 3000) {
+          return this.dom.parentNode.removeChild(this.dom)
+        }
+        if (window.confirm('确定要删除该文件吗? ' + this.fileName)) {
+          return this.dom.parentNode.removeChild(this.dom)
+        }
+      }
+      startUpload('plugin', [
+        {
+          fileName: '1.txt',
+          fileSize: 1000
+        },
+        {
+          fileName: '2.html',
+          fileSize: 3000
+        },
+        {
+          fileName: '3.txt',
+          fileSize: 5000
+        }
+      ])
+      startUpload('flash', [
+        {
+          fileName: '4.txt',
+          fileSize: 1000
+        },
+        {
+          fileName: '5.html',
+          fileSize: 3000
+        },
+        {
+          fileName: '6.txt',
+          fileSize: 5000
+        }
+      ])
+      // refactor
+      var Upload = function(uploadType) {
+        this.uploadType = uploadType
+      }
+      Upload.prototype.delFile = function(id) {
+        uploadManager.setExternalState(id, this) // (1)
+        if (this.fileSize < 3000) {
+          return this.dom.parentNode.removeChild(this.dom)
+        }
+        if (window.confirm('确定要删除该文件吗? ' + this.fileName)) {
+          return this.dom.parentNode.removeChild(this.dom)
+        }
+      }
+      var UploadFactory = (function() {
+        var createdFlyWeightObjs = {}
+        return {
+          create: function(uploadType) {
+            if (createdFlyWeightObjs[uploadType]) {
+              return createdFlyWeightObjs[uploadType]
+            }
+            return (createdFlyWeightObjs[uploadType] = new Upload(uploadType))
+          }
+        }
+      })()
+      var uploadManager = (function() {
+        var uploadDatabase = {}
+        return {
+          add: function(id, uploadType, fileName, fileSize) {
+            var flyWeightObj = UploadFactory.create(uploadType)
+            var dom = document.createElement('div')
+            dom.innerHTML =
+              '<span>文件名称:' +
+              fileName +
+              ', 文件大小: ' +
+              fileSize +
+              '</span>' +
+              '<button class="delFile">删除</button>'
+            dom.querySelector('.delFile').onclick = function() {
+              flyWeightObj.delFile(id)
+            }
+            document.body.appendChild(dom)
+            uploadDatabase[id] = {
+              fileName: fileName,
+              fileSize: fileSize,
+              dom: dom
+            }
+            return flyWeightObj
+          },
+          setExternalState: function(id, flyWeightObj) {
+            var uploadData = uploadDatabase[id]
+            for (var i in uploadData) {
+              flyWeightObj[i] = uploadData[i]
+            }
+          }
+        }
+      })()
+      var id = 0
+      window.startUpload = function(uploadType, files) {
+        for (var i = 0, file; (file = files[i++]); ) {
+          var uploadObj = uploadManager.add(
+            ++id,
+            uploadType,
+            file.fileName,
+            file.fileSize
+          )
+        }
+      }
+      startUpload('plugin', [
+        {
+          fileName: '1.txt',
+          fileSize: 1000
+        },
+        {
+          fileName: '2.html',
+          fileSize: 3000
+        },
+        {
+          fileName: '3.txt',
+          fileSize: 5000
+        }
+      ])
+      startUpload('flash', [
+        {
+          fileName: '4.txt',
+          fileSize: 1000
+        },
+        {
+          fileName: '5.html',
+          fileSize: 3000
+        },
+        {
+          fileName: '6.txt',
+          fileSize: 5000
+        }
+      ])
+
+      /*************** 对象池 *************/
+      var objectPoolFactory = function(createObjFn) {
+        var objectPool = []
+        return {
+          create: function() {
+            var obj =
+              objectPool.length === 0
+                ? createObjFn.apply(this, arguments)
+                : objectPool.shift()
+            return obj
+          },
+          recover: function(obj) {
+            objectPool.push(obj)
+          }
+        }
+      }
+      var iframeFactory = objectPoolFactory(function() {
+        var iframe = document.createElement('iframe')
+        document.body.appendChild(iframe)
+        iframe.onload = function() {
+          iframe.onload = null
+          iframeFactory.recover(iframe)
+        }
+        return iframe
+      })
+      var iframe1 = iframeFactory.create()
+      iframe1.src = 'http://www.baidu.com'
+      var iframe2 = iframeFactory.create()
+      iframe2.src = 'http://www.qq.com'
+      var iframe3 = iframeFactory.create()
+      iframe3.src = 'http://www.163.com'
+      setTimeout(function() {
+        var iframe4 = iframeFactory.create()
+        iframe4.src = 'http://www.163.com'
+      }, 3000)
+    </script>
+  </body>
+</html>
