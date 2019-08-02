@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root">
+      {{ msg }}
+      <component-a :text="'123'" @custom-event="onCustomEvent"></component-a>
+      <component-a></component-a>
+      <component-a></component-a>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <!-- <script type="module">
+      import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.esm.browser.js'
+      const componentA = Vue.component('component-a', {
+        props: {
+          text: {
+            type: String,
+            default: 'default text'
+          }
+        },
+        data: function() {
+          return {
+            count: 0
+          }
+        },
+        methods: {
+          onClick() {
+            this.count++
+            this.$emit('custom-event')
+          }
+        },
+        template: '<button @click="onClick">{{count}}{{text}}</button>'
+      })
+      var vm = new Vue({
+        el: '#root',
+        components: { componentA: componentA },
+        data() {
+          return {
+            msg: 'this is a message'
+          }
+        },
+        methods: {
+          onCustomEvent() {
+            console.log(this)
+          }
+        }
+      })
+    </script> -->
+    <script>
+      $.ajax({
+        url: 'http://localhost:3000',
+        type: 'get',
+        dataType: 'jsonp',
+        jsonpCallback: 'handleCallback'
+      })
+      function handleCallback(res) {
+        console.log(res)
+      }
+    </script>
+  </body>
+</html>

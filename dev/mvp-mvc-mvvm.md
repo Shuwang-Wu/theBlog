@@ -4,9 +4,9 @@
 
 将整个应用分成 Model、View 和 Controller 三个部分，而这些组成部分其实也有着几乎相同的职责。
 
-视图：管理作为位图展示到屏幕上的图形和文字输出；
-控制器：翻译用户的输入并依照用户的输入操作模型和视图；
-模型：管理应用的行为和数据，响应数据请求（经常来自视图）和更新状态的指令（经常来自控制器）；
+- 视图：管理作为位图展示到屏幕上的图形和文字输出；
+- 控制器：翻译用户的输入并依照用户的输入操作模型和视图；
+- 模型：管理应用的行为和数据，响应数据请求（经常来自视图）和更新状态的指令（经常来自控制器）；
 
 ### ASP.NET MVC
 
@@ -65,10 +65,10 @@ Model <==> ViewModel <==> View
 ### MVVM 的演变
 
 1.  PM
+    ![Presentation-Model](../assets/images/mvx/Presentation-Model.jpg)
     PM 模式中创建了一个视图的抽象，叫做 Presentation Model，而视图也成为了这个模型的『渲染』结果。
     PM 通过引入展示模型将模型层中的数据与复杂的业务逻辑封装成属性与简单的数据同时暴露给视图，让视图和展示模型中的属性进行同步。
     展示模型中包含所有的视图渲染需要的动态信息，包括视图的内容（text、color）、组件是否启用（enable），除此之外还会将一些方法暴露给视图用于某些事件的响应
-    ![Presentation-Model](../assets/images/mvx/Presentation-Model.jpg)
 
 2.  ![Model-View-ViewModel](../assets/images/mvx/Model-View-ViewModel.jpg)
     它由三个部分组成: 也就是 Model、View 和 ViewModel；

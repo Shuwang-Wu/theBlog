@@ -41,7 +41,7 @@ intro in common use pattern
 10. [mvc-mvp-mvvm 三种设计模式笔记](./dev/mvp-mvc-mvvm.md)
 11. [es6 笔记](./dev/es6.md)
 
-## 前端面试题收集
+## 前端问题收集
 
 1. [组合函数](./interview/assets/curry/compose.html)
 2. [柯里化](./interview/assets/curry/curry.html)
@@ -77,11 +77,11 @@ contain util、DOM、BOM and so on by javascript
 
 [react](./react)
 
-record react experience
+record react experience[react-note](./javascript/react)
 
 ## selfVue(vue 简易版)
 
-achive simple vue, view [selfVue](./selfVue/README.md)
+achive simple vue, view [selfVue](./javascript/selfVue/README.md)
 
 ## typescript 笔记
 
