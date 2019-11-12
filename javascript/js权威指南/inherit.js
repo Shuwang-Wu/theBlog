@@ -1,3 +1,4 @@
+/*eslint-disable*/
 function inherit() {
   if (p == null) throw TypeError()
   if (Object.create) return Object.create(p)

@@ -1,3 +1,4 @@
+/*eslint-disable*/
 export default function logSlowReducer(reducers, thresholdInMs = 8) {
   Object.keys(reducers).forEach(name => {
     const reducer = reducers[name]

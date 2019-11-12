@@ -1,3 +1,4 @@
+/*eslint-disable*/
 const REACTPATCH = {
   processUpdates: function(parentNode, updates) {
     // 处理新增节点、移动的节点以及需要移除的节点

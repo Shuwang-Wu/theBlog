@@ -1,3 +1,4 @@
+/*eslint-disable*/
 var editor, statusline, savebutton, idletimer
 
 window.onload = function() {

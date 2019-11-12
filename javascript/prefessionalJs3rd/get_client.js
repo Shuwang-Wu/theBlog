@@ -1,3 +1,4 @@
+/*eslint-disable*/
 var client = function() {
   // 呈现引擎
   var engine = {

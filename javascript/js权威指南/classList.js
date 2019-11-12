@@ -1,3 +1,4 @@
+/*eslint-disable*/
 /**
  * 如果e有classList属性，则返回它。否则返回一个为e模拟的DOMTockenList API对象
  * 返回的对象有contains add remove toggle toString等方法

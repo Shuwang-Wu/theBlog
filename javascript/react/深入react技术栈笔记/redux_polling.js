@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import setRafTimeout, { clearRafTimeout } from 'setRafTimeput'
 
 export default ({ dispatch, getState }) => next => action => {

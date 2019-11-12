@@ -1,3 +1,4 @@
+/*eslint-disable*/
 "use strict";
 /* 
 *	parseInt(String, radix): 解析一个传入的字符串，并会返回指定基数的整数，默认是10；

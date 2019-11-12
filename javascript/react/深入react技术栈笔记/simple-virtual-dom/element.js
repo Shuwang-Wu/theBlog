@@ -1,3 +1,4 @@
+/*eslint-disable*/
 var _ = require('./util')
 
 function Element() {

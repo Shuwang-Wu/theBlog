@@ -1,3 +1,4 @@
+/*eslint-disable*/
 // 无状态组件只有一个 render 函数
 StatelessComponent.prototype.render = function() {
   var Component = ReactInstanceMap.get(this)._currentElement.type

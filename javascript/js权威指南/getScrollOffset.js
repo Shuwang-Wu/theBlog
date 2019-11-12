@@ -1,3 +1,4 @@
+/*eslint-disable*/
 // 查询窗口滚动条的位置
 function getScrollOffset(w) {
   // 使用指定的窗口, 如果不带参数则使用当前窗口

@@ -1,13 +1,14 @@
+/* eslint-disabled */
 function SelfVue(options) {
-  var self = this;
+  const self = this;
   // 把data, methods等属性取出来
   this.data = options.data;
   this.methods = options.methods;
 
   // 进行数据代理
-  Object.keys(this.data).forEach((key) => {
-    self.proxyKeys(key)
-  })
+  Object.keys(this.data).forEach(key => {
+    self.proxyKeys(key);
+  });
 
   // 监听数据 => Observe.js
   observe(this.data);
@@ -24,8 +25,8 @@ SelfVue.prototype = {
    * @method proxyKeys
    * @desc 通过Object.defineProperty对传入的参数进行数据代理, 即options
    */
-  proxyKeys: function (key) {
-    var self = this;
+  proxyKeys(key) {
+    const self = this;
     Object.defineProperty(this, key, {
       enumerable: false,
       configurable: true,
@@ -37,4 +38,11 @@ SelfVue.prototype = {
       }
     });
   }
+};
+
+function observe(data) {
+  if (!data || typeof data !== "object") {
+    return;
+  }
+  return new Observe(data);
 }

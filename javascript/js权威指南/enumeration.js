@@ -1,3 +1,4 @@
+/*eslint-disable*/
 // 继承
 function inherit(p) {
   if (p == null) throw TypeError()

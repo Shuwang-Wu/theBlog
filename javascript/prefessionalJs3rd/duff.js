@@ -1,3 +1,4 @@
+/*eslint-disable*/
 var iteration = Math.ceil(values.length / 8)
 var startAt = values.length % 8
 var i = 0

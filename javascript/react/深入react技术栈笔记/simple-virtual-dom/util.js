@@ -1,3 +1,4 @@
+/*eslint-disable*/
 var _ = exports
 
 _.type = function(obj) {

@@ -1,11 +1,12 @@
+/*eslint-disable*/
 // react 代码
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-class HelloMessage extends Component {
-  render() {
-    return <div>Hello {this.props.name}</div>
-  }
-}
+// class HelloMessage extends Component {
+//   render() {
+//     return <div>Hello {this.props.name}</div>
+//   }
+// }
 // babel编译后的代码
 
 var HelloMessage = (function(_Component) {

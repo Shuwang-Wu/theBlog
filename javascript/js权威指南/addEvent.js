@@ -1,3 +1,4 @@
+/*eslint-disable*/
 function addEvent(target, type, handler) {
   if (target.addEventListener) {
     target.addEventListener(type, handler)

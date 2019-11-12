@@ -1,3 +1,4 @@
+/*eslint-disable*/
 /**
  * callee 返回正在执行的对象，也就是的指定的Function上下文
 */

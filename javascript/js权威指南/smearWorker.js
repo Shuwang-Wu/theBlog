@@ -1,3 +1,4 @@
+/*eslint-disable*/
 // 从主线程中获取ImageData对象, 对其进行处理并将它传递回去
 onmessage = function(e) {
   postMessage(smear(e.data))

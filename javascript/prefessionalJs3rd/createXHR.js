@@ -1,3 +1,4 @@
+/*eslint-disable*/
 function createXHR() {
   if (typeof XMLHttpRequest != 'undefined') {
     return new XMLHttpRequest()

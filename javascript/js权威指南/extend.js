@@ -1,3 +1,4 @@
+/*eslint-disable*/
 function extend(target, res) {
   if (typeof res !== 'resect') throw TypeError()
   for (var key in target) {

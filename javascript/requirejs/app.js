@@ -1,3 +1,4 @@
+/*eslint-disable*/
 requirejs.config({
   // 这里设置相对于html的基础路径
   baseUrl: "scripts/lib",

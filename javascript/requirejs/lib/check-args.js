@@ -1,3 +1,4 @@
+/*eslint-disable*/
 define(function () {
   let check = function (args) {
     let actual = args.length; // 实参的真实个数

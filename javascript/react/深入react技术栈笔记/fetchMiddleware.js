@@ -1,3 +1,4 @@
+/*eslint-disable*/
 const fetchMiddleware = store => next => action => {
   if (!action.url || !Array.isArray(action.types)) {
     return next(action)

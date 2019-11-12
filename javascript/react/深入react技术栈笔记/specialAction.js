@@ -1,3 +1,4 @@
+/*eslint-disable*/
 const specialActions = (reducer, reg, actions) => {
   return (state, action) => {
     if (actions.indexOf(action.type) !== -1) {

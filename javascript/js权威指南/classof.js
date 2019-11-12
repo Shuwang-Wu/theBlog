@@ -1,3 +1,4 @@
+/*eslint-disable*/
 function classof() {
   if (o === null) return 'Null'
   if (o === undefined) return 'Undefined'

@@ -1,3 +1,4 @@
+/*eslint-disable*/
 function contains(refNode, otherNode) {
   if (
     typeof refNode.contains == 'function' &&

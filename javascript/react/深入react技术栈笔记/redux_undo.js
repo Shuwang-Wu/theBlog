@@ -1,3 +1,4 @@
+/*eslint-disable*/
 function undoable(reducer) {
   const initialState = {
     // 记录过去的state

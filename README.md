@@ -73,6 +73,10 @@ contain util、DOM、BOM and so on by javascript
 5. [随手笔记](./javascript/requirejs)
 6. [你不知道的 js](./javascript/youdonotknowjs)
 
+## 笔记
+
+1. [20191021](./notes/20191021.md)
+
 ## react 笔记
 
 [react](./react)
@@ -86,3 +90,10 @@ achive simple vue, view [selfVue](./javascript/selfVue/README.md)
 ## typescript 笔记
 
 [typescript note](./typeScipt)
+
+## 前端代码风格
+
+> 当前端团队在一起协作开发的时候, 需要保证代码的一致性
+
+1. 代码格式工具
+   [ESlint + prettier + VScode note](./dev/code-style.md)

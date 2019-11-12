@@ -1,3 +1,4 @@
+/*eslint-disable*/
 export default function createStore(reducer, initialState, enhancer) {
   // ...
 }

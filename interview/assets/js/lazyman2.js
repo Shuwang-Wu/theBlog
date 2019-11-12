@@ -1,3 +1,4 @@
+/*eslint-disable*/
 // 这里传入window undefined是为了避免命名冲突，而传入undefined是为了避免undefin被改写或者是重新赋值
 ;
 (function(window, undefined) {

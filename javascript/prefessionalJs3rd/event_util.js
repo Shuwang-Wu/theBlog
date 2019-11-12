@@ -1,3 +1,4 @@
+/*eslint-disable*/
 /**
  * @module event_util.js
  * @method {addHandler} 添加事件处理程序

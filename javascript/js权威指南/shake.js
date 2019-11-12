@@ -1,3 +1,4 @@
+/*eslint-disable*/
 function shake(e, oncomplete, distance, time) {
   if (typeof e === 'string') e = document.getElementById(e)
   if (!time) time = 500

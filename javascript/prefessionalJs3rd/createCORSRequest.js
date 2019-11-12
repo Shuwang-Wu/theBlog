@@ -1,3 +1,4 @@
+/*eslint-disable*/
 function createCORSRequest() {
   var xhr = new XMLHttpRequest()
   if ('withCredentials' in xhr) {

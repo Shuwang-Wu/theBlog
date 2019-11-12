@@ -1,3 +1,4 @@
+/*eslint-disable*/
 function serialize() {
   var parts = [],
     filed = null,

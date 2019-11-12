@@ -1,3 +1,4 @@
+/*eslint-disable*/
 var CookieUtil = {
   get: function(name) {
     var cookieName = encodeURIComponent(name) + '=',

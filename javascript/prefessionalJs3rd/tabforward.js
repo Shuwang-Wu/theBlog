@@ -1,3 +1,4 @@
+/*eslint-disable*/
 // 自动切换焦点
 ;(function() {
   function tabFoward(event) {

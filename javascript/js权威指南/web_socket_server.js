@@ -1,3 +1,4 @@
+/*eslint-disable*/
 var http = require('http')
 var ws = require('websocket-server')
 

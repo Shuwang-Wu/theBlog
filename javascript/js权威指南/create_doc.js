@@ -1,3 +1,4 @@
+/*eslint-disable*/
 function createDoc() {
   var toc = document.getElementById('TOC')
   if (!toc) {

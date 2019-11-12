@@ -1,3 +1,4 @@
+/*eslint-disable*/
 const debounce = function(fn, interval, immediate) {
   var timerId = null
   return function() {

@@ -1,3 +1,4 @@
+/*eslint-disable*/
 function parent(e, n) {
   if (n === undefined) n = 1
   while (n-- && e) e = e.parentNode

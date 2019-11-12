@@ -1,3 +1,4 @@
+/*eslint-disable*/
 function run(gen) {
   var args = [].slice.call(arguments, 1),
     it

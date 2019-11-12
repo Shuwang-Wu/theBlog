@@ -1,3 +1,4 @@
+/*eslint-disable*/
 // 第一种
 var fileList = document.getElementById('file-list')
 EventUtil.addHandler(fileList, 'change', function(event) {

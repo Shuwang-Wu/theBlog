@@ -1,3 +1,4 @@
+/*eslint-disable*/
 var whenReady = (function() {
   var funcs = []
   var ready = false

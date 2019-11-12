@@ -1,3 +1,4 @@
+/*eslint-disable*/
 var unmountComponentCode = {
   unmountComponent: function(safely) {
     if (!this._renderedComponent) {

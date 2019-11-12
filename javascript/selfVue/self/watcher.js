@@ -1,3 +1,4 @@
+/* eslint-disabled */
 function Watcher(vm, exp, cb) {
   // 回调函数，用来更新html中的变量
   this.cb = cb;
@@ -11,24 +12,24 @@ function Watcher(vm, exp, cb) {
 
 Watcher.prototype = {
   // 更新订阅者
-  update: function () {
+  update() {
     this.run();
   },
-  run: function () {
-    var value = this.vm.data[this.exp];
-    var oldVal = this.value;
+  run() {
+    const value = this.vm.data[this.exp];
+    const oldVal = this.value;
     if (value !== oldVal) {
       this.value = value;
-      this.cb.call(this.vm, value, oldVal)
+      this.cb.call(this.vm, value, oldVal);
     }
   },
-  get: function () {
+  get() {
     // 缓存自己
     Dep.target = this;
     // 强制触发订阅器里面的get函数
-    var value = this.vm.data[this.exp];
+    const value = this.vm.data[this.exp];
     // 释放自己
     Dep.target = null;
     return value;
   }
-}
+};

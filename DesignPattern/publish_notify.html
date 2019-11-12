@@ -26,58 +26,58 @@
         var list = {},
           listen,
           trigger,
-          remove
+          remove;
 
         // 如果当前订阅对象不存在 新建数组存放其订阅事件
         listen = function(key, fn) {
           if (!list[key]) {
-            list[key] = []
+            list[key] = [];
           }
-          list[key].push(fn)
-          console.log(list)
-        }
+          list[key].push(fn);
+          console.log(list);
+        };
 
         // 触发订阅
         trigger = function() {
           // 取到参数列表中的第一个参数
-          var key = Array.prototype.shift.call(arguments)
+          var key = Array.prototype.shift.call(arguments);
           // 从当前订阅列表中取出其所订阅的所有事件
-          var fns = list[key]
+          var fns = list[key];
 
           // 如果当前列表存在且有订阅事件依次执行其订阅的事件
           if (!fns || fns.length === 0) {
-            return false
+            return false;
           }
           for (var i = 0, fn; (fn = fns[i++]); ) {
-            fn.apply(this, arguments)
+            fn.apply(this, arguments);
           }
-        }
+        };
 
         // 移除订阅事件
         remove = function(key, fn) {
-          var fns = list[key]
+          var fns = list[key];
           if (!fns || fns.length === 0) {
-            return false
+            return false;
           }
           // 如果没有传入指定的订阅事件则清空所有订阅
           if (!fn) {
-            fns && (fns.length = 0)
+            fns && (fns.length = 0);
           } else {
             for (var i = fns.length - 1; i >= 0; i--) {
-              var _fn = fns[i]
+              var _fn = fns[i];
               if (_fn === fn) {
-                fn.splice(i, 1)
+                fn.splice(i, 1);
               }
             }
           }
-        }
+        };
 
         return {
           listen: listen,
           trigger: trigger,
           remove: remove
-        }
-      })()
+        };
+      })();
     </script>
   </body>
 </html>

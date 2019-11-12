@@ -1,3 +1,4 @@
+/*eslint-disable*/
 var div = document.getElementById('div1')
 var filter = {
   acceptNode: function() {

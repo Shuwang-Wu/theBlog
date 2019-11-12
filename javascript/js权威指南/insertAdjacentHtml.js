@@ -1,3 +1,4 @@
+/*eslint-disable*/
 var insert = function() {
   if (document.createElement('div').insertAdjacentHTML) {
     return {

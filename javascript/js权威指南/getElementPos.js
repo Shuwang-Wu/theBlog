@@ -1,3 +1,4 @@
+/*eslint-disable*/
 function getElementPos(elt) {
   var x = 0,
     y = 0

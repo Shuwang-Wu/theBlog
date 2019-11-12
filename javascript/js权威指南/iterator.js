@@ -1,3 +1,4 @@
+/*eslint-disable*/
 // 迭代器的特点是每次调用next都会返回集合中的下一个值
 function counter(start) {
   let nextValue = start

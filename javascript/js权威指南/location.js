@@ -1,3 +1,4 @@
+/*eslint-disable*/
 // url parameters tranform to object
 function urlArgs() {
   var urlArgs = {}

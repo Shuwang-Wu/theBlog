@@ -1,3 +1,4 @@
+/*eslint-disable*/
 function disabledStyleSheet(ss) {
   if (typeof ss === 'number') {
     document.styleSheet[ss].disabled = true

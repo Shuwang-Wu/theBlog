@@ -1,3 +1,4 @@
+/*eslint-disable*/
 // receiveComponent 是通过调用updateComponent进行组件更新
 var updateComponentCode = {
   receiveComponent: function(nextElement, transaction, nextContext) {

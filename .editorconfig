@@ -1,0 +1,19 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+ # top-most EditorConfig file
+ root = true
+
+ [*.md]
+ trim_trailing_whitespace = false
+
+ [*.js]
+ trim_trailing_whitespace = true
+
+ # Unix-style newlines with a newline ending every file
+ [*]
+ indent_style = space # 将缩进样式设置为空格而不是制表符；
+ indent_size = 2 # 缩进大小为 2；
+ end_of_line = lf # 行尾是 lf，这样不管使用的是哪种操作系统，都会有相同的行尾；
+ charset = utf-8
+ insert_final_newline = true # 文件末尾应该有一个新行；
+ max_line_length = 120 # 单行的最大度应为 120 个字符。

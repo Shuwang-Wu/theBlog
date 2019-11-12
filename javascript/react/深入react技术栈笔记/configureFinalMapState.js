@@ -1,3 +1,4 @@
+/*eslint-disable*/
 const mapState = mapStateToProps || defaultMapStateToProps
 
 class Connect extends Component {

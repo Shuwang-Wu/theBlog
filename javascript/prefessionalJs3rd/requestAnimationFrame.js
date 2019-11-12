@@ -1,3 +1,4 @@
+/*eslint-disable*/
 ;(function() {
   var percentage = 0 /* 当前宽度 */,
     pointer = 1 /* 递增or递减 */

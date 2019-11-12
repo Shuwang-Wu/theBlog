@@ -1,3 +1,4 @@
+/*eslint-disable*/
 const BaseShapes = props => {
   return (
     <svg width={500} height={200} viewBox="0 0 1000 400">

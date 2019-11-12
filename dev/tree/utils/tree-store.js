@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import Node from './node';
 import {
   getNodeKey
