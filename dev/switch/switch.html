@@ -1,43 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 57px;
+        height: 28px;
+        border: 1px solid #dfdfdf;
+        background-color: #fdfdfd;
+        box-shadow: #dfdfdf 0 0 0 0 inset;
+        border-radius: 20px;
+        background-clip: content-box;
+        /* -webkit-appearance : none 是用来移除原生控件样式  */
+        -webkit-appearance: none;
+        user-select: none;
+        outline: none;
+      }
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <style>
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 57px;
-      height: 28px;
-      border: 1px solid #dfdfdf;
-      background-color: #fdfdfd;
-      box-shadow: #dfdfdf 0 0 0 0 inset;
-      border-radius: 20px;
-      background-clip: content-box;
-      /* -webkit-appearance : none 是用来移除原生控件样式  */
-      -webkit-appearance: none;
-      user-select: none;
-      outline: none;
-    }
+      .switch::before {
+        content: '';
+        width: 26px;
+        height: 26px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 20px;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+      }
 
-    .switch::before {
-      content: '';
-      width: 26px;
-      height: 26px;
-      position: absolute;
-      top: 0;
-      left: 0;
-      border-radius: 20px;
-      background-color: #fff;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-    }
-
-    .switch:checked {
-      border-color: #64bd63;
-      /* box-shadow: 
+      .switch:checked {
+        border-color: #64bd63;
+        /* box-shadow: 
         h-shadow	必需。水平阴影的位置。允许负值。	测试
         v-shadow	必需。垂直阴影的位置。允许负值。	测试
         blur	可选。模糊距离。	测试
@@ -45,89 +44,88 @@
         color	可选。阴影的颜色。请参阅 CSS 颜色值。	测试
         inset 可选。将外部阴影 (outset) 改为内部阴影。 
       */
-      box-shadow: #64bd63 0 0 0 16px inset;
-      background-color: #64bd63;
-    }
+        box-shadow: #64bd63 0 0 0 16px inset;
+        background-color: #64bd63;
+      }
 
-    .switch:checked:before {
-      left: 30px;
-    }
+      .switch:checked:before {
+        left: 30px;
+      }
 
-    .switch.switch-anim {
-      transition: border cubic-bezier(0, 0, 0, 1) 0.4s, box-shadow cubic-bezier(0, 0, 0, 1) 0.4s;
-    }
+      .switch.switch-anim {
+        transition: border cubic-bezier(0, 0, 0, 1) 0.4s, box-shadow cubic-bezier(0, 0, 0, 1) 0.4s;
+      }
 
-    .switch.switch-anim:before {
-      transition: left 0.3s;
-    }
+      .switch.switch-anim:before {
+        transition: left 0.3s;
+      }
 
-    .switch.switch-anim:checked {
-      box-shadow: #64bd63 0 0 0 16px inset;
-      background-color: #64bd63;
-      transition: border ease 0.4s, box-shadow ease 0.4s, background-color ease 1.2s;
-    }
+      .switch.switch-anim:checked {
+        box-shadow: #64bd63 0 0 0 16px inset;
+        background-color: #64bd63;
+        transition: border ease 0.4s, box-shadow ease 0.4s, background-color ease 1.2s;
+      }
 
-    .switch.switch-anim:checked:before {
-      transition: left 0.3s;
-    }
+      .switch.switch-anim:checked:before {
+        transition: left 0.3s;
+      }
 
-    .switch2 {
-      -webkit-appearance: none;
-      position: relative;
-      width: 56px;
-      height: 28px;
-      border-radius: 20px;
-      border: 1px solid #CCC;
-      box-shadow: #dddd 0 0 0 0 inset;
-      outline: none;
-      user-select: none;
-      background-color: #ffffff;
-    }
+      .switch2 {
+        -webkit-appearance: none;
+        position: relative;
+        width: 56px;
+        height: 28px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        box-shadow: #dddd 0 0 0 0 inset;
+        outline: none;
+        user-select: none;
+        background-color: #ffffff;
+      }
 
-    .switch2:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 26px;
-      height: 26px;
-      /* border: 1px solid #eeeeee; */
-      border-radius: 20px;
-      box-shadow: 0 0 3px #000;
-      background-color: #fff;
-    }
+      .switch2:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 26px;
+        height: 26px;
+        /* border: 1px solid #eeeeee; */
+        border-radius: 20px;
+        box-shadow: 0 0 3px #000;
+        background-color: #fff;
+      }
 
-    .switch2:checked {
-      /* background-color: #409eff; */
-      box-shadow: 0 0 0 14px #409eff inset;
-    }
+      .switch2:checked {
+        /* background-color: #409eff; */
+        box-shadow: 0 0 0 14px #409eff inset;
+      }
 
-    .switch2:checked::before {
-      left: 30px;
-      box-shadow: 0 0 3px #409eff;
-    }
+      .switch2:checked::before {
+        left: 30px;
+        box-shadow: 0 0 3px #409eff;
+      }
 
-    .switch2.switch2-anim:before {
-      transition: border .5s, left .5s, background-color 5s, box-shadow .5s;
-    }
+      .switch2.switch2-anim:before {
+        transition: border 0.5s, left 0.5s, background-color 5s, box-shadow 0.5s;
+      }
 
-    .switch2.switch2-anim:checked::before {
-      transition: border .5s, left cubic-bezier(0, 0, 0, 1) .5s, box-shadow .5s;
-    }
+      .switch2.switch2-anim:checked::before {
+        transition: border 0.5s, left cubic-bezier(0, 0, 0, 1) 0.5s, box-shadow 0.5s;
+      }
 
-    .switch2.switch2-anim {
-      transition: border .5s, background-color .5s, box-shadow cubic-bezier(0, 0, 0, 1) .5s;
-    }
+      .switch2.switch2-anim {
+        transition: border 0.5s, background-color 0.5s, box-shadow cubic-bezier(0, 0, 0, 1) 0.5s;
+      }
 
-    .switch2.switch2-anim:checked {
-      transition: border .5s, background-color .5s, box-shadow .5s;
-    }
-  </style>
-</head>
+      .switch2.switch2-anim:checked {
+        transition: border 0.5s, background-color 0.5s, box-shadow 0.5s;
+      }
+    </style>
+  </head>
 
-<body>
-  <input type="checkbox" class="switch switch-anim" />
-  <input type="checkbox" class="switch2 switch2-anim" />
-</body>
-
+  <body>
+    <input type="checkbox" class="switch switch-anim" />
+    <input type="checkbox" class="switch2 switch2-anim" />
+  </body>
 </html>

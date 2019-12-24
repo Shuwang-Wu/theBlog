@@ -11,9 +11,7 @@ function run(gen) {
       if (next.done) {
         return next.value
       } else {
-        return Promise.resolve(next.value).then(handleNext, function handleErr(
-          err
-        ) {
+        return Promise.resolve(next.value).then(handleNext, function handleErr(err) {
           return Promise.resolve(it.throw(err)).then(handleResult)
         })
       }

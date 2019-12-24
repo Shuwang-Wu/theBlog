@@ -27,9 +27,9 @@
       }
     }
     for (i = 0; i < um.length; i++) {
-      um[i] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_".charAt(um[i] || 0);
+      um[i] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'.charAt(um[i] || 0);
     }
-    return um.join("") + "~";
+    return um.join('') + '~';
   };
 
   /**
@@ -39,7 +39,7 @@
    */
   UsageManager.prototype.decode = function(um) {
     um = um.slice(0, -1);
-    var key = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+    var key = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
     var code;
     var binaryCode;
     var reversedbinaryCode;
@@ -47,10 +47,10 @@
     for (var i = 0; i < um.length; i++) {
       code = key.indexOf(um.charAt(i));
       binaryCode = code.toString(2);
-      reversedbinaryCode = binaryCode.split("").reverse();
+      reversedbinaryCode = binaryCode.split('').reverse();
       // console.log(i + '=' + code + '=' + binaryCode + '=reverse(' + reversedbinaryCode + ')');
       for (var j = 0; j < reversedbinaryCode.length; j++) {
-        if (reversedbinaryCode[j] === "1") {
+        if (reversedbinaryCode[j] === '1') {
           codes.push(j + 6 * i);
         }
       }
@@ -103,22 +103,22 @@
   // 下面都是工具函数
   // ========================
   var isFunction = function(input) {
-    return typeof input == "function";
+    return typeof input == 'function';
   };
   var isArray = function(input) {
-    return Object.prototype.toString.call(Object(input)) == "[object Array]";
+    return Object.prototype.toString.call(Object(input)) == '[object Array]';
   };
   var isString = function(input) {
-    return input != null && (a.constructor + "").indexOf("String") > -1;
+    return input != null && (a.constructor + '').indexOf('String') > -1;
   };
   var startWith = function(str, part) {
     return str.indexOf(part) == 0;
   };
   var trim = function(a) {
-    return a ? a.replace(/^[\s\xa0]+|[\s\xa0]+$/g, "") : "";
+    return a ? a.replace(/^[\s\xa0]+|[\s\xa0]+$/g, '') : '';
   };
   var createImg = function(src) {
-    var img = doc.createElement("img");
+    var img = doc.createElement('img');
     img.width = 1;
     img.height = 1;
     img.src = src;
@@ -132,36 +132,39 @@
   };
   var addEventListener = function(a, b, c, d) {
     try {
-      a.addEventListener ? a.addEventListener(b, c, !!d) : a.attachEvent && a.attachEvent("on" + b, c);
+      a.addEventListener
+        ? a.addEventListener(b, c, !!d)
+        : a.attachEvent && a.attachEvent('on' + b, c);
     } catch (e) {
       reg(27);
     }
   };
   var loadScript = function(src, id) {
     if (src) {
-      var scr = doc.createElement("script");
-      scr.type = "text/javascript";
+      var scr = doc.createElement('script');
+      scr.type = 'text/javascript';
       scr.async = true;
       scr.src = src;
       id && (scr.id = id);
-      var lastScr = doc.getElementsByTagName("script")[0];
+      var lastScr = doc.getElementsByTagName('script')[0];
       lastScr.parentNode.insertBefore(scr, lastScr);
     }
   };
   var isHTTPS = function() {
-    return "https:" == doc.location.protocol;
+    return 'https:' == doc.location.protocol;
   };
   var getHostname = function() {
-    var a = "" + doc.location.hostname;
-    return 0 == a.indexOf("www.") ? a.substring(4) : a;
+    var a = '' + doc.location.hostname;
+    return 0 == a.indexOf('www.') ? a.substring(4) : a;
   };
   var ya = function(a) {
     var b = doc.referrer;
     if (/^https?:\/\//i.test(b)) {
       if (a) return b;
-      a = "//" + doc.location.hostname;
+      a = '//' + doc.location.hostname;
       var c = b.indexOf(a);
-      if (5 == c || 6 == c) if (((a = b.charAt(c + a.length)), "/" == a || "?" == a || "" == a || ":" == a)) return;
+      if (5 == c || 6 == c)
+        if (((a = b.charAt(c + a.length)), '/' == a || '?' == a || '' == a || ':' == a)) return;
       return b;
     }
   };
@@ -172,13 +175,13 @@
   // transformInput(['a', 'b', 'c'], [1, 2, {c: 3, d: 4}]);
   // ==> {a: 1, b: 2, c: 3, d: 4}
   var transformInput = function(paramNames, args) {
-    if (1 == args.length && null != args[0] && "object" === typeof args[0]) {
+    if (1 == args.length && null != args[0] && 'object' === typeof args[0]) {
       // args === [{}]
       return args[0];
     }
 
     for (var c = {}, d = Math.min(paramNames.length + 1, args.length), i = 0; i < d; i++) {
-      if ("object" === typeof args[i]) {
+      if ('object' === typeof args[i]) {
         for (var g in args[i]) {
           args[e].hasOwnProperty(g) && (c[g] = args[i][g]);
         }
@@ -198,10 +201,14 @@
   };
   Data.prototype.set = function(fieldName, fieldValue, temporary) {
     this.keys.push(fieldName);
-    temporary ? (this.tmpData[":" + fieldName] = fieldValue) : (this.values[":" + fieldName] = fieldValue);
+    temporary
+      ? (this.tmpData[':' + fieldName] = fieldValue)
+      : (this.values[':' + fieldName] = fieldValue);
   };
   Data.prototype.get = function(fieldName) {
-    return this.tmpData.hasOwnProperty(":" + fieldName) ? this.tmpData[":" + fieldName] : this.values[":" + fieldName];
+    return this.tmpData.hasOwnProperty(':' + fieldName)
+      ? this.tmpData[':' + fieldName]
+      : this.values[':' + fieldName];
   };
   Data.prototype.map = function(callback) {
     for (var b = 0; b < this.keys.length; b++) {
@@ -218,10 +225,10 @@
   // https://tools.google.com/dlpage/gaoptout
   var getGaUserPrefs = function(a) {
     var b = win._gaUserPrefs;
-    if ((b && b.ioo && b.ioo()) || (a && true === win["ga-disable-" + a])) return true;
+    if ((b && b.ioo && b.ioo()) || (a && true === win['ga-disable-' + a])) return true;
     try {
       var c = win.external;
-      if (c && c._gaUserPrefs && "oo" == c._gaUserPrefs) return true;
+      if (c && c._gaUserPrefs && 'oo' == c._gaUserPrefs) return true;
     } catch (d) {}
     return true;
   };
@@ -230,8 +237,8 @@
   // 返回的是一个数组
   var getCookie = function(name) {
     var result = [],
-      cookies = doc.cookie.split(";");
-    var regex = new RegExp("^\\s*" + name + "=\\s*(.*?)\\s*$");
+      cookies = doc.cookie.split(';');
+    var regex = new RegExp('^\\s*' + name + '=\\s*(.*?)\\s*$');
     for (var i = 0; i < cookies.length; i++) {
       var r = cookies[i].match(regex);
       r && result.push(r[1]);
@@ -247,12 +254,20 @@
   // e => trackingId,
   // g => cookieExpires
   // 返回成功与否
-  var setCookie = function(cookieName, cookieValue, cookiePath, cookieDomain, trackingId, cookieExpires) {
+  var setCookie = function(
+    cookieName,
+    cookieValue,
+    cookiePath,
+    cookieDomain,
+    trackingId,
+    cookieExpires
+  ) {
     // 如果用户安装了google的禁止统计的插件，或者在doubleclick页面，或者在google首页
     // 那么都是false
     var canSet = getGaUserPrefs(trackingId)
       ? false
-      : doubleclickURL.test(doc.location.hostname) || ("/" == cookiePath && googleURL.test(cookieDomain))
+      : doubleclickURL.test(doc.location.hostname) ||
+        ('/' == cookiePath && googleURL.test(cookieDomain))
       ? false
       : true;
     if (!canSet) {
@@ -265,12 +280,12 @@
       reg(24);
     }
 
-    var newCookie = cookieName + "=" + cookieValue + "; path=" + cookiePath + "; ";
+    var newCookie = cookieName + '=' + cookieValue + '; path=' + cookiePath + '; ';
     if (cookieExpires) {
-      newCookie += "expires=" + new Date(new Date().getTime() + cookieExpires).toGMTString() + "; ";
+      newCookie += 'expires=' + new Date(new Date().getTime() + cookieExpires).toGMTString() + '; ';
     }
-    if (cookieDomain && "none" != cookieDomain) {
-      newCookie += "domain=" + cookieDomain + ";";
+    if (cookieDomain && 'none' != cookieDomain) {
+      newCookie += 'domain=' + cookieDomain + ';';
     }
     var success;
     var oldCookie = doc.cookie;
@@ -291,21 +306,21 @@
   // 会连括号一起encode掉
   var encodeURIComponentWithBrackets = function(a) {
     return encodeURIComponent(a)
-      .replace(/\(/g, "%28")
-      .replace(/\)/g, "%29");
+      .replace(/\(/g, '%28')
+      .replace(/\)/g, '%29');
   };
   var googleURL = /^(www\.)?google(\.com?)?(\.[a-z]{2})?$/;
   var doubleclickURL = /(^|\.)doubleclick\.net$/i;
 
   // 获取GA请求源的地址
   var getGAOrigin = function() {
-    return (forceHTTPS || isHTTPS() ? "https:" : "http:") + "//www.google-analytics.com";
+    return (forceHTTPS || isHTTPS() ? 'https:' : 'http:') + '//www.google-analytics.com';
   };
 
   // 请求长度过长的错误类
   var OverLengthError = function(a) {
-    this.name = "len";
-    this.message = a + "-8192";
+    this.name = 'len';
+    this.message = a + '-8192';
   };
 
   // 智能ga请求，依据请求的长度和浏览器特性来决定使用哪种请求方式
@@ -314,16 +329,18 @@
     if (2036 >= param.length) {
       imgPing(api, param, callback);
     } else if (8192 >= param.length) {
-      beaconPing(api, param, callback) || xhrPing(api, param, callback) || imgPing(api, param, callback);
+      beaconPing(api, param, callback) ||
+        xhrPing(api, param, callback) ||
+        imgPing(api, param, callback);
     } else {
-      errorPing("len", param.length);
+      errorPing('len', param.length);
       throw new OverLengthError(param.length);
     }
   };
 
   // 使用图片来发请求
   var imgPing = function(a, b, c) {
-    var d = createImg(a + "?" + b);
+    var d = createImg(a + '?' + b);
     d.onload = d.onerror = function() {
       d.onload = null;
       d.onerror = null;
@@ -336,10 +353,10 @@
     var d = win.XMLHttpRequest;
     if (!d) return true;
     var e = new d();
-    if (!("withCredentials" in e)) return true;
-    e.open("POST", a, true);
+    if (!('withCredentials' in e)) return true;
+    e.open('POST', a, true);
     e.withCredentials = true;
-    e.setRequestHeader("Content-Type", "text/plain");
+    e.setRequestHeader('Content-Type', 'text/plain');
     e.onreadystatechange = function() {
       4 == e.readyState && (c(), (e = null));
     };
@@ -358,17 +375,17 @@
   // exc 表示内部执行出错
   var errorPing = function(errorType, b, c) {
     // 1%的几率上报
-    if (1 <= 100 * Math.random() || getGaUserPrefs("?")) {
+    if (1 <= 100 * Math.random() || getGaUserPrefs('?')) {
       return;
     }
-    var params = ["t=error", "_e=" + errorType, "_v=j41", "sr=1"];
-    b && params.push("_f=" + b);
-    c && params.push("_m=" + encodeURIComponent(c.substring(0, 100)));
+    var params = ['t=error', '_e=' + errorType, '_v=j41', 'sr=1'];
+    b && params.push('_f=' + b);
+    c && params.push('_m=' + encodeURIComponent(c.substring(0, 100)));
     // IP地址匿名显示
-    params.push("aip=1");
+    params.push('aip=1');
     // 随机数
-    params.push("z=" + _uuid());
-    imgPing(getGAOrigin() + "/collect", params.join("&"), noop);
+    params.push('z=' + _uuid());
+    imgPing(getGAOrigin() + '/collect', params.join('&'), noop);
   };
 
   // 函数的名字队列类
@@ -389,27 +406,32 @@
       }
     } catch (d) {}
     var hitCb = model.get(HIT_CALLBACK);
-    hitCb != noop && isFunction(hitCb) && (model.set(HIT_CALLBACK, noop, true), setTimeout(hitCb, 10));
+    hitCb != noop &&
+      isFunction(hitCb) &&
+      (model.set(HIT_CALLBACK, noop, true), setTimeout(hitCb, 10));
   };
 
   // 判断的是否进行ga的采样
   function samplerTaskFunc(a) {
-    if (100 != a.get(SAMPLE_RATE) && str2Num(getString(a, CLIENT_ID)) % 1e4 >= 100 * getNumber(a, SAMPLE_RATE))
-      throw "abort";
+    if (
+      100 != a.get(SAMPLE_RATE) &&
+      str2Num(getString(a, CLIENT_ID)) % 1e4 >= 100 * getNumber(a, SAMPLE_RATE)
+    )
+      throw 'abort';
   }
   function isGAPrefsAllowed(a) {
-    if (getGaUserPrefs(getString(a, TRACKING_ID))) throw "abort";
+    if (getGaUserPrefs(getString(a, TRACKING_ID))) throw 'abort';
   }
   function notHTTP() {
     var a = doc.location.protocol;
-    if ("http:" != a && "https:" != a) throw "abort";
+    if ('http:' != a && 'https:' != a) throw 'abort';
   }
 
   function buildHitTaskFunc(model) {
     try {
       if (win.navigator.sendBeacon) {
         reg(42);
-      } else if (win.XMLHttpRequest && "withCredentials" in new win.XMLHttpRequest()) {
+      } else if (win.XMLHttpRequest && 'withCredentials' in new win.XMLHttpRequest()) {
         reg(40);
       }
     } catch (c) {}
@@ -423,33 +445,33 @@
         // 不为空、不是默认值的键值对，才会被上传
         if (undefined != e && e != d.defaultValue) {
           // boolean类型转换成数字
-          if ("boolean" == typeof e) {
+          if ('boolean' == typeof e) {
             e *= 1;
           }
-          b.push(d.paramName + "=" + encodeURIComponent("" + e));
+          b.push(d.paramName + '=' + encodeURIComponent('' + e));
         }
       }
     });
-    b.push("z=" + uuid());
-    model.set(HIT_PAYLOAD, b.join("&"), true);
+    b.push('z=' + uuid());
+    model.set(HIT_PAYLOAD, b.join('&'), true);
   }
 
   // 发送任务的任务
   function sendHitTaskFunc(model) {
-    var api = getString(model, TRANSPORT_URL) || getGAOrigin() + "/collect";
+    var api = getString(model, TRANSPORT_URL) || getGAOrigin() + '/collect';
     var transportValue = getString(model, TRANSPORT);
     if (!transportValue && model.get(USE_BEACON)) {
-      transportValue = "beacon";
+      transportValue = 'beacon';
     }
 
     if (transportValue) {
       var params = getString(model, HIT_PAYLOAD);
       var hitCallbackFunc = model.get(HIT_CALLBACK);
       hitCallbackFunc = hitCallbackFunc || noop;
-      "image" == transportValue
+      'image' == transportValue
         ? imgPing(api, params, hitCallbackFunc)
-        : ("xhr" == transportValue && xhrPing(api, params, hitCallbackFunc)) ||
-          ("beacon" == transportValue && beaconPing(api, params, hitCallbackFunc)) ||
+        : ('xhr' == transportValue && xhrPing(api, params, hitCallbackFunc)) ||
+          ('beacon' == transportValue && beaconPing(api, params, hitCallbackFunc)) ||
           smartPing(api, params, hitCallbackFunc);
     } else {
       smartPing(api, getString(model, HIT_PAYLOAD), model.get(HIT_CALLBACK));
@@ -473,20 +495,20 @@
   }
 
   function isPreviewLoad() {
-    if (win.navigator && "preview" == win.navigator.loadPurpose) throw "abort";
+    if (win.navigator && 'preview' == win.navigator.loadPurpose) throw 'abort';
   }
 
   // 从全局的 gaDevIds 里面获取 did 的值
   function devIdTaskFunc(model) {
     var devids = win.gaDevIds;
     if (isArray(devids) && 0 != devids.length) {
-      model.set("&did", b.join(","), true);
+      model.set('&did', b.join(','), true);
     }
   }
 
   // 验证trackingId是否正确的任务
   function validationTaskFunc(a) {
-    if (!a.get(TRACKING_ID)) throw "abort";
+    if (!a.get(TRACKING_ID)) throw 'abort';
   }
 
   // 基本的uuid方法
@@ -514,7 +536,7 @@
       reg(15);
     }
     var hitTypeV = getString(model, HIT_TYPE);
-    if ("transaction" != hitTypeV && "item" != hitTypeV) {
+    if ('transaction' != hitTypeV && 'item' != hitTypeV) {
       var avaliable = getNumber(model, AVALIABLE_COUNT);
       var time = new Date().getTime();
       var lastSendTime = getNumber(model, LAST_SEND_TIME);
@@ -532,7 +554,7 @@
 
       // 额度用完，此次发送取消
       if (avaliable <= 0) {
-        throw "abort";
+        throw 'abort';
       }
       // 每次发送消耗掉
       model.set(AVALIABLE_COUNT, --avaliable);
@@ -543,12 +565,12 @@
   // 返回配置（值是字符串），如果没有则返回空字符串
   var getString = function(conf, key) {
     var value = conf.get(key);
-    return undefined == value ? "" : "" + value;
+    return undefined == value ? '' : '' + value;
   };
   // 返回配置（值是数字），如果没有则返回0
   var getNumber = function(conf, key) {
     var value = conf.get(key);
-    return undefined == value || "" === value ? 0 : 1 * c;
+    return undefined == value || '' === value ? 0 : 1 * c;
   };
 
   // 全局的Hook配置
@@ -562,7 +584,7 @@
 
   // 新增特殊配置生成规则
   var addSpecialHook = function(fieldNameReg, gen) {
-    specialHooks.push([new RegExp("^" + fieldNameReg + "$"), gen]);
+    specialHooks.push([new RegExp('^' + fieldNameReg + '$'), gen]);
   };
   // 获取hookMap中的配置，如果配置不存在，则使用specialHooks中的规则生成
   var getHook = function(fieldName) {
@@ -612,8 +634,9 @@
       return;
     }
 
-    if ("object" == typeof fieldName)
-      for (var d in fieldName) fieldName.hasOwnProperty(d) && _modelSet(this, d, fieldName[d], temporary);
+    if ('object' == typeof fieldName)
+      for (var d in fieldName)
+        fieldName.hasOwnProperty(d) && _modelSet(this, d, fieldName[d], temporary);
     else _modelSet(this, fieldName, fieldValue, temporary);
   };
 
@@ -667,108 +690,109 @@
     return addHook(name, paramName, defaultValue, undefined, noop2);
   };
   var noop2 = function() {};
-  var GA_HOOK = (isString(window.GoogleAnalyticsObject) && trim(window.GoogleAnalyticsObject)) || "ga";
+  var GA_HOOK =
+    (isString(window.GoogleAnalyticsObject) && trim(window.GoogleAnalyticsObject)) || 'ga';
   var forceHTTPS = false;
-  const BR = addHook("_br");
-  const API_VERSION = addReadonlyHook("apiVersion", "v");
-  const CLIENT_VERSION = addReadonlyHook("clientVersion", "_v");
-  addHook("anonymizeIp", "aip");
-  const AD_SENSE_ID = addHook("adSenseId", "a");
-  const HIT_TYPE = addHook("hitType", "t");
-  const HIT_CALLBACK = addHook("hitCallback");
-  const HIT_PAYLOAD = addHook("hitPayload");
-  addHook("nonInteraction", "ni");
-  addHook("currencyCode", "cu");
-  addHook("dataSource", "ds");
-  const USE_BEACON = addHook("useBeacon", undefined, true);
-  const TRANSPORT = addHook("transport");
-  addHook("sessionControl", "sc", "");
-  addHook("sessionGroup", "sg");
-  addHook("queueTime", "qt");
-  const _S = addHook("_s", "_s");
-  addHook("screenName", "cd");
-  const LOCATION = addHook("location", "dl", "");
-  const REFERRER = addHook("referrer", "dr");
-  const PAGE = addHook("page", "dp", "");
-  addHook("hostname", "dh");
-  const LANGUAGE = addHook("language", "ul");
-  const ENCODING = addHook("encoding", "de");
-  addHook("title", "dt", function() {
+  const BR = addHook('_br');
+  const API_VERSION = addReadonlyHook('apiVersion', 'v');
+  const CLIENT_VERSION = addReadonlyHook('clientVersion', '_v');
+  addHook('anonymizeIp', 'aip');
+  const AD_SENSE_ID = addHook('adSenseId', 'a');
+  const HIT_TYPE = addHook('hitType', 't');
+  const HIT_CALLBACK = addHook('hitCallback');
+  const HIT_PAYLOAD = addHook('hitPayload');
+  addHook('nonInteraction', 'ni');
+  addHook('currencyCode', 'cu');
+  addHook('dataSource', 'ds');
+  const USE_BEACON = addHook('useBeacon', undefined, true);
+  const TRANSPORT = addHook('transport');
+  addHook('sessionControl', 'sc', '');
+  addHook('sessionGroup', 'sg');
+  addHook('queueTime', 'qt');
+  const _S = addHook('_s', '_s');
+  addHook('screenName', 'cd');
+  const LOCATION = addHook('location', 'dl', '');
+  const REFERRER = addHook('referrer', 'dr');
+  const PAGE = addHook('page', 'dp', '');
+  addHook('hostname', 'dh');
+  const LANGUAGE = addHook('language', 'ul');
+  const ENCODING = addHook('encoding', 'de');
+  addHook('title', 'dt', function() {
     return doc.title || undefined;
   });
-  addSpecialHook("contentGroup([0-9]+)", function(a) {
-    return new Hook(a[0], "cg" + a[1]);
+  addSpecialHook('contentGroup([0-9]+)', function(a) {
+    return new Hook(a[0], 'cg' + a[1]);
   });
-  const SCREEN_COLORS = addHook("screenColors", "sd");
-  const SCREEN_RESOLUTION = addHook("screenResolution", "sr");
-  const VIEWPORT_SIZE = addHook("viewportSize", "vp");
-  const JAVA_ENABLED = addHook("javaEnabled", "je");
-  const FLASH_VERSION = addHook("flashVersion", "fl");
-  addHook("campaignId", "ci");
-  addHook("campaignName", "cn");
-  addHook("campaignSource", "cs");
-  addHook("campaignMedium", "cm");
-  addHook("campaignKeyword", "ck");
-  addHook("campaignContent", "cc");
+  const SCREEN_COLORS = addHook('screenColors', 'sd');
+  const SCREEN_RESOLUTION = addHook('screenResolution', 'sr');
+  const VIEWPORT_SIZE = addHook('viewportSize', 'vp');
+  const JAVA_ENABLED = addHook('javaEnabled', 'je');
+  const FLASH_VERSION = addHook('flashVersion', 'fl');
+  addHook('campaignId', 'ci');
+  addHook('campaignName', 'cn');
+  addHook('campaignSource', 'cs');
+  addHook('campaignMedium', 'cm');
+  addHook('campaignKeyword', 'ck');
+  addHook('campaignContent', 'cc');
   // 事件相关字段
-  const EVENT_CATEGORY = addHook("eventCategory", "ec");
-  const EVENT_ACTION = addHook("eventAction", "ea");
-  const EVENT_LABEL = addHook("eventLabel", "el");
-  const EVENT_VALUE = addHook("eventValue", "ev");
+  const EVENT_CATEGORY = addHook('eventCategory', 'ec');
+  const EVENT_ACTION = addHook('eventAction', 'ea');
+  const EVENT_LABEL = addHook('eventLabel', 'el');
+  const EVENT_VALUE = addHook('eventValue', 'ev');
 
   // 社交请求相关字段
-  const SOCIAL_NETWORK = addHook("socialNetwork", "sn");
-  const SOCIAL_ACTION = addHook("socialAction", "sa");
-  const SOCIAL_TARGET = addHook("socialTarget", "st");
+  const SOCIAL_NETWORK = addHook('socialNetwork', 'sn');
+  const SOCIAL_ACTION = addHook('socialAction', 'sa');
+  const SOCIAL_TARGET = addHook('socialTarget', 'st');
 
-  const L1 = addHook("l1", "plt");
-  const L2 = addHook("l2", "pdt");
-  const L3 = addHook("l3", "dns");
-  const L4 = addHook("l4", "rrt");
-  const L5 = addHook("l5", "srt");
-  const L6 = addHook("l6", "tcp");
-  const L7 = addHook("l7", "dit");
-  const L8 = addHook("l8", "clt");
+  const L1 = addHook('l1', 'plt');
+  const L2 = addHook('l2', 'pdt');
+  const L3 = addHook('l3', 'dns');
+  const L4 = addHook('l4', 'rrt');
+  const L5 = addHook('l5', 'srt');
+  const L6 = addHook('l6', 'tcp');
+  const L7 = addHook('l7', 'dit');
+  const L8 = addHook('l8', 'clt');
 
   // 计时器相关字段
-  const TIMING_CATEGORY = addHook("timingCategory", "utc");
-  const TIMING_VAR = addHook("timingVar", "utv");
-  const TIMING_LABEL = addHook("timingLabel", "utl");
-  const TIMING_VALUE = addHook("timingValue", "utt");
+  const TIMING_CATEGORY = addHook('timingCategory', 'utc');
+  const TIMING_VAR = addHook('timingVar', 'utv');
+  const TIMING_LABEL = addHook('timingLabel', 'utl');
+  const TIMING_VALUE = addHook('timingValue', 'utt');
   // 应用名称
-  addHook("appName", "an");
+  addHook('appName', 'an');
   // 应用版本
-  addHook("appVersion", "av", "");
+  addHook('appVersion', 'av', '');
   // 应用名称
-  addHook("appId", "aid", "");
+  addHook('appId', 'aid', '');
   // 应用安装程序 ID
-  addHook("appInstallerId", "aiid", "");
+  addHook('appInstallerId', 'aiid', '');
   // 异常说明
-  addHook("exDescription", "exd");
+  addHook('exDescription', 'exd');
   // 异常是否严重？
-  addHook("exFatal", "exf");
+  addHook('exFatal', 'exf');
   // 实验 ID
-  const EXP_ID = addHook("expId", "xid");
+  const EXP_ID = addHook('expId', 'xid');
   // 实验变体
-  const EXP_VAR = addHook("expVar", "xvar");
+  const EXP_VAR = addHook('expVar', 'xvar');
 
-  const _UTMA = addHook("_utma", "_utma");
-  const _UTMZ = addHook("_utmz", "_utmz");
-  const _UTMHT = addHook("_utmht", "_utmht");
-  const HIT_COUNT = addHook("_hc", undefined, 0);
-  const LAST_SEND_TIME = addHook("_ti", undefined, 0);
-  const AVALIABLE_COUNT = addHook("_to", undefined, 20);
-  addSpecialHook("dimension([0-9]+)", function(a) {
-    return new Hook(a[0], "cd" + a[1]);
+  const _UTMA = addHook('_utma', '_utma');
+  const _UTMZ = addHook('_utmz', '_utmz');
+  const _UTMHT = addHook('_utmht', '_utmht');
+  const HIT_COUNT = addHook('_hc', undefined, 0);
+  const LAST_SEND_TIME = addHook('_ti', undefined, 0);
+  const AVALIABLE_COUNT = addHook('_to', undefined, 20);
+  addSpecialHook('dimension([0-9]+)', function(a) {
+    return new Hook(a[0], 'cd' + a[1]);
   });
-  addSpecialHook("metric([0-9]+)", function(a) {
-    return new Hook(a[0], "cm" + a[1]);
+  addSpecialHook('metric([0-9]+)', function(a) {
+    return new Hook(a[0], 'cm' + a[1]);
   });
-  addHook("linkerParam", undefined, undefined, linkerParamGetter, noop2);
-  const USAGE = addHook("usage", "_u");
-  const USAGE_MANAGER = addHook("_um");
+  addHook('linkerParam', undefined, undefined, linkerParamGetter, noop2);
+  const USAGE = addHook('usage', '_u');
+  const USAGE_MANAGER = addHook('_um');
   addHook(
-    "forceSSL",
+    'forceSSL',
     undefined,
     undefined,
     function() {
@@ -779,8 +803,8 @@
       forceHTTPS = !!c;
     }
   );
-  const JID = addHook("_j1", "jid");
-  addSpecialHook("\\&(.*)", function(a) {
+  const JID = addHook('_j1', 'jid');
+  addSpecialHook('\\&(.*)', function(a) {
     var b = new Hook(a[0], a[1]);
     var c = yc(a[0].substring(1));
     if (c) {
@@ -794,47 +818,47 @@
     }
     return b;
   });
-  const _OOT = addReadonlyHook("_oot");
-  const PREVIEW_TASK = addHook("previewTask");
-  const CHECK_PROTOCOL_TASK = addHook("checkProtocolTask");
-  const VALIDATION_TASK = addHook("validationTask");
-  const CHECK_STORAGE_TASK = addHook("checkStorageTask");
-  const HISTORY_IMPORT_TASK = addHook("historyImportTask");
-  const SAMPLER_TASK = addHook("samplerTask");
-  const _RLT = addHook("_rlt");
-  const BUILD_HIT_TASK = addHook("buildHitTask");
-  const SEND_HIT_TASK = addHook("sendHitTask");
-  const CE_TASK = addHook("ceTask");
-  const DEV_ID_TASK = addHook("devIdTask");
-  const TIMING_TASK = addHook("timingTask");
-  const DISPLAY_FEATURES_TASK = addHook("displayFeaturesTask");
+  const _OOT = addReadonlyHook('_oot');
+  const PREVIEW_TASK = addHook('previewTask');
+  const CHECK_PROTOCOL_TASK = addHook('checkProtocolTask');
+  const VALIDATION_TASK = addHook('validationTask');
+  const CHECK_STORAGE_TASK = addHook('checkStorageTask');
+  const HISTORY_IMPORT_TASK = addHook('historyImportTask');
+  const SAMPLER_TASK = addHook('samplerTask');
+  const _RLT = addHook('_rlt');
+  const BUILD_HIT_TASK = addHook('buildHitTask');
+  const SEND_HIT_TASK = addHook('sendHitTask');
+  const CE_TASK = addHook('ceTask');
+  const DEV_ID_TASK = addHook('devIdTask');
+  const TIMING_TASK = addHook('timingTask');
+  const DISPLAY_FEATURES_TASK = addHook('displayFeaturesTask');
   // 跟踪器名称
-  const NAME = addReadonlyHook("name");
+  const NAME = addReadonlyHook('name');
   // 客户端 ID
-  const CLIENT_ID = addReadonlyHook("clientId", "cid");
+  const CLIENT_ID = addReadonlyHook('clientId', 'cid');
   // 用户 ID
-  const USER_ID = addHook("userId", "uid");
+  const USER_ID = addHook('userId', 'uid');
   // 跟踪 ID/网络媒体资源 ID
-  const TRACKING_ID = addReadonlyHook("trackingId", "tid");
+  const TRACKING_ID = addReadonlyHook('trackingId', 'tid');
   // Cookie 名称
-  const COOKIE_NAME = addReadonlyHook("cookieName", undefined, "_ga");
+  const COOKIE_NAME = addReadonlyHook('cookieName', undefined, '_ga');
   // Cookie 网域
-  const COOKIE_DOMAIN = addReadonlyHook("cookieDomain");
-  const COOKIE_PATH = addReadonlyHook("cookiePath", undefined, "/");
+  const COOKIE_DOMAIN = addReadonlyHook('cookieDomain');
+  const COOKIE_PATH = addReadonlyHook('cookiePath', undefined, '/');
   // 63072E3 单位为秒，时长两年
-  const COOKIE_EXPIRES = addReadonlyHook("cookieExpires", undefined, 63072e3);
-  const LEGACY_COOKIE_DOMAIN = addReadonlyHook("legacyCookieDomain");
-  const LEGACY_HISTORY_IMPORT = addReadonlyHook("legacyHistoryImport", undefined, true);
-  const STORAGE = addReadonlyHook("storage", undefined, "cookie");
-  const ALLOW_LINKER = addReadonlyHook("allowLinker", undefined, true);
-  const ALLOW_ANCHOR = addReadonlyHook("allowAnchor", undefined, true);
+  const COOKIE_EXPIRES = addReadonlyHook('cookieExpires', undefined, 63072e3);
+  const LEGACY_COOKIE_DOMAIN = addReadonlyHook('legacyCookieDomain');
+  const LEGACY_HISTORY_IMPORT = addReadonlyHook('legacyHistoryImport', undefined, true);
+  const STORAGE = addReadonlyHook('storage', undefined, 'cookie');
+  const ALLOW_LINKER = addReadonlyHook('allowLinker', undefined, true);
+  const ALLOW_ANCHOR = addReadonlyHook('allowAnchor', undefined, true);
   // 抽样率，指定应对多大比例的用户进行跟踪。默认值为100（跟踪所有用户），但是大型网站可能需要降低抽样率，以免超出Google Analytics（分析）的处理上限。
-  const SAMPLE_RATE = addReadonlyHook("sampleRate", "sf", 100);
+  const SAMPLE_RATE = addReadonlyHook('sampleRate', 'sf', 100);
   // 网站速度抽样率
-  const SITE_SPEED_SAMPLE_RATE = addReadonlyHook("siteSpeedSampleRate", undefined, 1);
-  const ALYWAYS_SEND_REFERRER = addReadonlyHook("alwaysSendReferrer", undefined, false);
-  const TRANSPORT_URL = addHook("transportUrl");
-  const _R = addHook("_r", "_r");
+  const SITE_SPEED_SAMPLE_RATE = addReadonlyHook('siteSpeedSampleRate', undefined, 1);
+  const ALYWAYS_SEND_REFERRER = addReadonlyHook('alwaysSendReferrer', undefined, false);
+  const TRANSPORT_URL = addHook('transportUrl');
+  const _R = addHook('_r', '_r');
 
   // 包裹一下指定的API函数
   // 每次执行都会记录一下idx
@@ -845,7 +869,7 @@
         idx && reg(idx);
         return method.apply(this, arguments);
       } catch (e) {
-        errorPing("exc", methodName, e && e.name);
+        errorPing('exc', methodName, e && e.name);
         throw e;
       }
     };
@@ -883,15 +907,15 @@
       var b = Ed(ie, model);
       if (b && !(!win.navigator.sendBeacon && 4 <= b && 6 >= b)) {
         var c = new Date().getHours(),
-          d = [uuid(), uuid(), uuid()].join(".");
-        a = (3 == b || 5 == b ? "https:" : "http:") + "//www.google-analytics.com/collect?z=br.";
-        a += [b, "A", c, d].join(".");
-        var e = 1 != b % 3 ? "https:" : "http:",
-          e = e + "//www.google-analytics.com/collect?z=br.",
-          e = e + [b, "B", c, d].join(".");
-        7 == b && (e = e.replace("//www.", "//ssl."));
+          d = [uuid(), uuid(), uuid()].join('.');
+        a = (3 == b || 5 == b ? 'https:' : 'http:') + '//www.google-analytics.com/collect?z=br.';
+        a += [b, 'A', c, d].join('.');
+        var e = 1 != b % 3 ? 'https:' : 'http:',
+          e = e + '//www.google-analytics.com/collect?z=br.',
+          e = e + [b, 'B', c, d].join('.');
+        7 == b && (e = e.replace('//www.', '//ssl.'));
         c = function() {
-          4 <= b && 6 >= b ? win.navigator.sendBeacon(e, "") : createImg(e);
+          4 <= b && 6 >= b ? win.navigator.sendBeacon(e, '') : createImg(e);
         };
 
         uuid() % 2 ? (createImg(a), c()) : (c(), createImg(a));
@@ -905,24 +929,24 @@
     if ((c = (c = win.navigator) ? c.plugins : null) && c.length)
       for (var d = 0; d < c.length && !b; d++) {
         var e = c[d];
-        -1 < e.name.indexOf("Shockwave Flash") && (b = e.description);
+        -1 < e.name.indexOf('Shockwave Flash') && (b = e.description);
       }
     if (!b)
       try {
-        (a = new ActiveXObject("ShockwaveFlash.ShockwaveFlash.7")), (b = a.GetVariable("$version"));
+        (a = new ActiveXObject('ShockwaveFlash.ShockwaveFlash.7')), (b = a.GetVariable('$version'));
       } catch (g) {}
     if (!b)
       try {
-        (a = new ActiveXObject("ShockwaveFlash.ShockwaveFlash.6")),
-          (b = "WIN 6,0,21,0"),
-          (a.AllowScriptAccess = "always"),
-          (b = a.GetVariable("$version"));
+        (a = new ActiveXObject('ShockwaveFlash.ShockwaveFlash.6')),
+          (b = 'WIN 6,0,21,0'),
+          (a.AllowScriptAccess = 'always'),
+          (b = a.GetVariable('$version'));
       } catch (g) {}
     if (!b)
       try {
-        (a = new ActiveXObject("ShockwaveFlash.ShockwaveFlash")), (b = a.GetVariable("$version"));
+        (a = new ActiveXObject('ShockwaveFlash.ShockwaveFlash')), (b = a.GetVariable('$version'));
       } catch (g) {}
-    b && (a = b.match(/[\d]+/g)) && 3 <= a.length && (b = a[0] + "." + a[1] + " r" + a[2]);
+    b && (a = b.match(/[\d]+/g)) && 3 <= a.length && (b = a[0] + '.' + a[1] + ' r' + a[2]);
     return b || undefined;
   }
 
@@ -955,7 +979,7 @@
         // 加载完成之后再试
         addEventListener(
           win,
-          "load",
+          'load',
           function() {
             calTiming(config, callback);
           },
@@ -1008,13 +1032,13 @@
   // 创建一个timing任务
   var craeteTimingTask = function(a) {
     return function(b) {
-      if ("pageview" != b.get(HIT_TYPE) || a.I) {
+      if ('pageview' != b.get(HIT_TYPE) || a.I) {
         return;
       }
 
       a.I = true;
       calTiming(b, function(b) {
-        a.send("timing", b);
+        a.send('timing', b);
       });
     };
   };
@@ -1022,15 +1046,24 @@
   var gaCookieSetted = false;
   // 设置GA cookie
   var setGACookie = function(model) {
-    if ("cookie" == getString(model, STORAGE)) {
+    if ('cookie' == getString(model, STORAGE)) {
       var cookieNameV = getString(model, COOKIE_NAME);
       var cookieValue = calGACookieValue(model);
       var cookiePathV = normalizePath(getString(model, COOKIE_PATH));
       var cookieDomainV = normalizeDomain(getString(model, COOKIE_DOMAIN));
       var cookieExpiresV = 1e3 * getNumber(model, COOKIE_EXPIRES);
       var trackingIdV = getString(model, TRACKING_ID);
-      if ("auto" != cookieDomainV) {
-        if (setCookie(cookieNameV, cookieValue, cookiePathV, cookieDomainV, trackingIdV, cookieExpiresV)) {
+      if ('auto' != cookieDomainV) {
+        if (
+          setCookie(
+            cookieNameV,
+            cookieValue,
+            cookiePathV,
+            cookieDomainV,
+            trackingIdV,
+            cookieExpiresV
+          )
+        ) {
           gaCookieSetted = true;
         }
       } else {
@@ -1038,7 +1071,7 @@
         var subDomains = [];
         a: {
           // => e.mp.qq.com
-          var hostParts = getHostname().split(".");
+          var hostParts = getHostname().split('.');
           // => ['e', 'mp', 'qq', 'com']
           var lastPart;
           if (
@@ -1047,25 +1080,34 @@
           ) {
             // hostname是ip地址的情况下
             // 10.6.8.10
-            subDomains = ["none"];
+            subDomains = ['none'];
             break a;
           }
           for (var i = hostParts.length - 2; 0 <= i; i--) {
-            subDomains.push(hostParts.slice(i).join("."));
+            subDomains.push(hostParts.slice(i).join('.'));
           }
           // => ['qq.com', 'mp.qq.com', 'e.mp.qq.com']
-          subDomains.push("none");
+          subDomains.push('none');
           // => ['qq.com', 'mp.qq.com', 'e.mp.qq.com', 'none'];
         }
         for (var i = 0; i < subDomains.length; i++) {
           var domain = subDomains[i];
           model.data.set(domain, e);
-          if (setCookie(cookieNameV, calGACookieValue(model), cookiePathV, e, trackingIdV, cookieExpiresV)) {
+          if (
+            setCookie(
+              cookieNameV,
+              calGACookieValue(model),
+              cookiePathV,
+              e,
+              trackingIdV,
+              cookieExpiresV
+            )
+          ) {
             gaCookieSetted = true;
             return;
           }
         }
-        model.data.set(COOKIE_DOMAIN, "auto");
+        model.data.set(COOKIE_DOMAIN, 'auto');
       }
     }
   };
@@ -1073,7 +1115,8 @@
   // 检查cookie的storage
   // 如果没设置cookie，则设置一遍
   var checkStorageTaskFunc = function(a) {
-    if ("cookie" == getString(a, STORAGE) && !gaCookieSetted && (setGACookie(a), !gaCookieSetted)) throw "abort";
+    if ('cookie' == getString(a, STORAGE) && !gaCookieSetted && (setGACookie(a), !gaCookieSetted))
+      throw 'abort';
   };
 
   // 前一版本GA的数据的导入，方便迁移
@@ -1081,12 +1124,12 @@
     if (model.get(LEGACY_HISTORY_IMPORT)) {
       var cookieDomainV = getString(model, COOKIE_DOMAIN);
       var legacyCookieDomainV = getString(model, LEGACY_COOKIE_DOMAIN) || getHostname();
-      var utma = parseAndGetOldGACookie("__utma", legacyCookieDomainV, cookieDomainV);
+      var utma = parseAndGetOldGACookie('__utma', legacyCookieDomainV, cookieDomainV);
       if (utma) {
         reg(19);
         model.set(_UTMHT, new Date().getTime(), true);
         model.set(_UTMA, utma.R);
-        var utmz = parseAndGetOldGACookie("__utmz", legacyCookieDomainV, cookieDomainV);
+        var utmz = parseAndGetOldGACookie('__utmz', legacyCookieDomainV, cookieDomainV);
         if (utmz && utma.hash === utmz.hash) {
           model.set(_UTMZ, utmz.R);
         }
@@ -1099,8 +1142,8 @@
     var thisClientId = encodeURIComponentWithBrackets(getString(conf, CLIENT_ID));
     var cookieDomainCount = getDomainCount(getString(conf, COOKIE_DOMAIN));
     var cookiePathCount = getPathCount(getString(conf, COOKIE_PATH));
-    1 < cookiePathCount && (cookieDomainCount += "-" + cookiePathCount);
-    return ["GA1", cookieDomainCount, thisClientId].join(".");
+    1 < cookiePathCount && (cookieDomainCount += '-' + cookiePathCount);
+    return ['GA1', cookieDomainCount, thisClientId].join('.');
   };
 
   // 计算cookie值中，层级相同或更小层级的cookie值
@@ -1133,11 +1176,11 @@
   // 补全Domain
   // 如果第一个字符是“.”，则去掉
   var normalizeDomain = function(a) {
-    return 0 == a.indexOf(".") ? a.substr(1) : a;
+    return 0 == a.indexOf('.') ? a.substr(1) : a;
   };
   // 获取domain的层级
   var getDomainCount = function(a) {
-    return normalizeDomain(a).split(".").length;
+    return normalizeDomain(a).split('.').length;
   };
   // 补全path
   // 没有输入，则返回 '/'
@@ -1146,17 +1189,17 @@
   var normalizePath = function(path) {
     if (!path) {
       // 没有输入，则返回 '/'
-      return "/";
+      return '/';
     }
 
-    if (1 < path.length && path.lastIndexOf("/") == path.length - 1) {
+    if (1 < path.length && path.lastIndexOf('/') == path.length - 1) {
       // 如果最后一个字符是'/'并且还有别的字符，则去掉path中的最后一个 '/'
       path = path.substr(0, path.length - 1);
     }
 
-    if (path.indexOf("/") != 0) {
+    if (path.indexOf('/') != 0) {
       // 如果path的第一个字符不是 “/”，则补全
-      path = "/" + path;
+      path = '/' + path;
     }
 
     return path;
@@ -1167,21 +1210,21 @@
   // '/as/a'表示三级
   var getPathCount = function(a) {
     a = normalizePath(a);
-    return "/" == a ? 1 : a.split("/").length;
+    return '/' == a ? 1 : a.split('/').length;
   };
 
   // 解析和获取旧的GA cookie
   // name为 __utma 或者 __utmz
   function parseAndGetOldGACookie(name, legacyDomain, curDomain) {
-    if ("none" == legacyDomain) {
-      legacyDomain = "";
+    if ('none' == legacyDomain) {
+      legacyDomain = '';
     }
 
     var parsedValues = [];
     var values = getCookie(name);
-    var length = "__utma" == name ? 6 : 2;
+    var length = '__utma' == name ? 6 : 2;
     for (var i = 0; i < values.length; i++) {
-      var valueArr = ("" + value[i]).split(".");
+      var valueArr = ('' + value[i]).split('.');
       if (valueArr.length >= length) {
         parsedValues.push({
           hash: valueArr[0],
@@ -1218,7 +1261,7 @@
       hash1 = hash2 = 1;
     } else {
       hash1 = str2Num(domain);
-      hash2 = str2Num(startWith(domain, ".") ? domain.substring(1) : "." + domain);
+      hash2 = str2Num(startWith(domain, '.') ? domain.substring(1) : '.' + domain);
     }
 
     for (var i = 0; i < parsedValues.length; i++) {
@@ -1236,7 +1279,7 @@
   function linkerParamGetter(a) {
     a = a.get(CLIENT_ID);
     var b = calCheckCode(a, 0);
-    return "_ga=1." + encodeURIComponent(b + "." + a);
+    return '_ga=1.' + encodeURIComponent(b + '.' + a);
   }
 
   // 计算校验字符串，计算依赖于：
@@ -1258,7 +1301,7 @@
       curDate.getMinutes() + minuteOffset
     ];
     for (var i = 0; i < plugins.length; ++i) c.push(plugins[i].description);
-    return str2Num(c.join("."));
+    return str2Num(c.join('.'));
   }
 
   var Linker = function(a) {
@@ -1269,40 +1312,41 @@
   // 给连接地址、a标签、form标签加上特定的ga参数
   Linker.prototype.decorate = function(a, b) {
     if (a.tagName) {
-      if ("a" == a.tagName.toLowerCase()) {
+      if ('a' == a.tagName.toLowerCase()) {
         a.href && (a.href = qd(this, a.href, b));
         return;
       }
-      if ("form" == a.tagName.toLowerCase()) return rd(this, a);
+      if ('form' == a.tagName.toLowerCase()) return rd(this, a);
     }
-    if ("string" == typeof a) return qd(this, a, b);
+    if ('string' == typeof a) return qd(this, a, b);
   };
   var qd = function(a, b, c) {
     var d = ANCHOR_GA_REGEX.exec(b);
-    d && 3 <= d.length && (b = d[1] + (d[3] ? d[2] + d[3] : ""));
-    a = a.target.get("linkerParam");
-    var e = b.indexOf("?"),
-      d = b.indexOf("#");
+    d && 3 <= d.length && (b = d[1] + (d[3] ? d[2] + d[3] : ''));
+    a = a.target.get('linkerParam');
+    var e = b.indexOf('?'),
+      d = b.indexOf('#');
     c
-      ? (b += (-1 == d ? "#" : "&") + a)
-      : ((c = -1 == e ? "?" : "&"), (b = -1 == d ? b + (c + a) : b.substring(0, d) + c + a + b.substring(d)));
-    return (b = b.replace(/&+_ga=/, "&_ga="));
+      ? (b += (-1 == d ? '#' : '&') + a)
+      : ((c = -1 == e ? '?' : '&'),
+        (b = -1 == d ? b + (c + a) : b.substring(0, d) + c + a + b.substring(d)));
+    return (b = b.replace(/&+_ga=/, '&_ga='));
   };
   var rd = function(a, b) {
     if (b && b.action) {
-      var c = a.target.get("linkerParam").split("=")[1];
-      if ("get" == b.method.toLowerCase()) {
+      var c = a.target.get('linkerParam').split('=')[1];
+      if ('get' == b.method.toLowerCase()) {
         for (var d = b.childNodes || [], e = 0; e < d.length; e++)
-          if ("_ga" == d[e].name) {
-            d[e].setAttribute("value", c);
+          if ('_ga' == d[e].name) {
+            d[e].setAttribute('value', c);
             return;
           }
-        d = doc.createElement("input");
-        d.setAttribute("type", "hidden");
-        d.setAttribute("name", "_ga");
-        d.setAttribute("value", c);
+        d = doc.createElement('input');
+        d.setAttribute('type', 'hidden');
+        d.setAttribute('name', '_ga');
+        d.setAttribute('value', c);
         b.appendChild(d);
-      } else "post" == b.method.toLowerCase() && (b.action = qd(a, b.action));
+      } else 'post' == b.method.toLowerCase() && (b.action = qd(a, b.action));
     }
   };
   // 自动给页面绑定mousedown、keyup、submit事情
@@ -1324,8 +1368,8 @@
           }
           d = {};
         }
-        ("http:" == d.protocol || "https:" == d.protocol) &&
-          sd(a, d.hostname || "") &&
+        ('http:' == d.protocol || 'https:' == d.protocol) &&
+          sd(a, d.hostname || '') &&
           d.href &&
           (d.href = qd(e, d.href, b));
       } catch (w) {
@@ -1333,7 +1377,10 @@
       }
     }
     var e = this;
-    this.T || ((this.T = true), addEventListener(doc, "mousedown", d, true), addEventListener(doc, "keyup", d, true));
+    this.T ||
+      ((this.T = true),
+      addEventListener(doc, 'mousedown', d, true),
+      addEventListener(doc, 'keyup', d, true));
     if (c) {
       c = function(b) {
         b = b || win.event;
@@ -1342,7 +1389,7 @@
           c && sd(a, c[1]) && rd(e, b);
         }
       };
-      for (var g = 0; g < doc.forms.length; g++) addEventListener(doc.forms[g], "submit", c);
+      for (var g = 0; g < doc.forms.length; g++) addEventListener(doc.forms[g], 'submit', c);
     }
   };
   function sd(a, b) {
@@ -1360,12 +1407,12 @@
     this.apiUrl = apiUrl;
     if (!c) {
       var trackerName = getString(model, name);
-      if (trackerName && trackerName != "t0") {
+      if (trackerName && trackerName != 't0') {
         this.gatCookieName = /^gtm\d+$/.test(trackerName)
-          ? "_gat_" + encodeURIComponentWithBrackets(getString(model, TRACKING_ID))
-          : "_gat_" + encodeURIComponentWithBrackets(trackerName);
+          ? '_gat_' + encodeURIComponentWithBrackets(getString(model, TRACKING_ID))
+          : '_gat_' + encodeURIComponentWithBrackets(trackerName);
       } else {
-        this.gatCookieName = "_gat";
+        this.gatCookieName = '_gat';
       }
     }
   };
@@ -1392,16 +1439,23 @@
       return;
     }
 
-    if (getCookie(a.gatCookieName)[0] == "1") {
-      model.set(a.jidKey, "", true);
+    if (getCookie(a.gatCookieName)[0] == '1') {
+      model.set(a.jidKey, '', true);
     } else {
-      model.set(a.jidKey, "" + _uuid(), true);
+      model.set(a.jidKey, '' + _uuid(), true);
     }
   };
   // 设置 _gat cookie值为1
   var setGatCookie = function(a, model) {
     if (model.get(a.jidKey)) {
-      setCookie(a.gatCookieName, "1", model.get(COOKIE_PATH), model.get(COOKIE_DOMAIN), model.get(TRACKING_ID), 6e5);
+      setCookie(
+        a.gatCookieName,
+        '1',
+        model.get(COOKIE_PATH),
+        model.get(COOKIE_DOMAIN),
+        model.get(TRACKING_ID),
+        6e5
+      );
     }
   };
   // 发送请求
@@ -1422,12 +1476,12 @@
       data.set(getHook(USAGE).paramName, mergeAndEncodeUM(model));
       var api = a.apiUrl;
       data.map(function(fieldName, fieldValue) {
-        api += encodeURIComponent(fieldName) + "=";
-        api += encodeURIComponent("" + fieldValue) + "&";
+        api += encodeURIComponent(fieldName) + '=';
+        api += encodeURIComponent('' + fieldValue) + '&';
       });
-      api += "z=" + _uuid();
+      api += 'z=' + _uuid();
       createImg(api);
-      model.set(a.jidKey, "", true);
+      model.set(a.jidKey, '', true);
     }
   };
   // 展示广告插件
@@ -1437,30 +1491,30 @@
   // https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features?hl=zh-cn#overview
   var displayfeaturesPlugin = function(tracker, opts) {
     var model = tracker.model;
-    if (!model.get("dcLoaded")) {
+    if (!model.get('dcLoaded')) {
       setModelUM(model, 29);
       opts = opts || {};
       var d;
       if (opts[COOKIE_NAME]) {
         d = encodeURIComponentWithBrackets(opts[COOKIE_NAME]);
       }
-      d = new Jd(model, "https://stats.g.doubleclick.net/r/collect?t=dc&aip=1&_r=3&", d);
+      d = new Jd(model, 'https://stats.g.doubleclick.net/r/collect?t=dc&aip=1&_r=3&', d);
       wrapBuildAndSendTask(d, model);
-      model.set("dcLoaded", true);
+      model.set('dcLoaded', true);
     }
   };
 
   // 如果没有加载 doubleclick 的展示广告插件，并且用的cookie存储
   // 则使用 /r/collect 作为API地址
   var displayFeaturesTaskFunc = function(model) {
-    if (!model.get("dcLoaded") && "cookie" == model.get(STORAGE)) {
+    if (!model.get('dcLoaded') && 'cookie' == model.get(STORAGE)) {
       setModelUM(model, 51);
       var b = new Jd(model);
       setJid(b, model);
       setGatCookie(b, model);
       if (model.get(b.jidKey)) {
         model.set(_R, 1, true);
-        model.set(TRANSPORT_URL, getGAOrigin() + "/r/collect", true);
+        model.set(TRANSPORT_URL, getGAOrigin() + '/r/collect', true);
       }
     }
   };
@@ -1479,16 +1533,18 @@
         g = /^#?gaso=([^&]*)/;
       if (
         (e =
-          (d = (d = (d && d.match(g)) || (e && e.match(g))) ? d[1] : getCookie("GASO")[0] || "") &&
+          (d = (d = (d && d.match(g)) || (e && e.match(g))) ? d[1] : getCookie('GASO')[0] || '') &&
           d.match(/^(?:!([-0-9a-z.]{1,40})!)?([-.\w]{10,1200})$/i))
       )
-        setCookie("GASO", "" + d, c, b, a, 0),
+        setCookie('GASO', '' + d, c, b, a, 0),
           window._udo || (window._udo = b),
           window._utcp || (window._utcp = c),
           (a = e[1]),
           loadScript(
-            "https://www.google.com/analytics/web/inpage/pub/inpage.js?" + (a ? "prefix=" + a + "&" : "") + _uuid(),
-            "_gasojs"
+            'https://www.google.com/analytics/web/inpage/pub/inpage.js?' +
+              (a ? 'prefix=' + a + '&' : '') +
+              _uuid(),
+            '_gasojs'
           );
       inpageLoaded = true;
     }
@@ -1523,7 +1579,7 @@
     setData(STORAGE, opts[STORAGE]);
     setData(USER_ID, opts[USER_ID]);
     setData(API_VERSION, 1);
-    setData(CLIENT_VERSION, "j41");
+    setData(CLIENT_VERSION, 'j41');
     addFilter(_OOT, isGAPrefsAllowed);
     addFilter(PREVIEW_TASK, isPreviewLoad);
     addFilter(CHECK_PROTOCOL_TASK, notHTTP);
@@ -1541,12 +1597,16 @@
     Jc(this.model, opts[CLIENT_ID]);
     setBasicData(this.model);
     this.model.set(AD_SENSE_ID, Lc());
-    loadInpageAnalytics(this.model.get(TRACKING_ID), this.model.get(COOKIE_DOMAIN), this.model.get(COOKIE_PATH));
+    loadInpageAnalytics(
+      this.model.get(TRACKING_ID),
+      this.model.get(COOKIE_DOMAIN),
+      this.model.get(COOKIE_PATH)
+    );
   };
   var Jc = function(model, optClientId) {
     var c;
     var d;
-    if ("cookie" == getString(model, STORAGE)) {
+    if ('cookie' == getString(model, STORAGE)) {
       gaCookieSetted = false;
       var cookieClientId;
       var parsedGaCookieValues;
@@ -1560,21 +1620,21 @@
             // 1.2.286403989.1366364567
             // GA1.3.494346849.1446193077
             var gaCookie;
-            gaCookie = gaCookieValues[i].split(".");
+            gaCookie = gaCookieValues[i].split('.');
             // 第一个区域值是版本号
             var gaVersion = gaCookie.shift();
             var ca;
-            if (("GA1" == gaVersion || "1" == gaVersion) && gaCookie.length > 1) {
+            if (('GA1' == gaVersion || '1' == gaVersion) && gaCookie.length > 1) {
               // 第二个区域用于确认是否是指定域名和路径的cookie，因为GA可以在不同的域名和路径上设置多个cookie
               // 所以需要这个区域值来区分，以获取到正确的cookie值
               // 值的格式是 \d[-\d]，例如：“2-1” 或者 “2”
               // 第一个数字是 域名的层级，qq.com 为 “2；b.qq.com” 为 “3”
               // 第二个数字是 路径的层级, / 为空字符， /data 为 “-2”，/user/xxx 为 “-3”
               var gaSecondField = gaCookie.shift();
-              ca = gaSecondField.split("-");
+              ca = gaSecondField.split('-');
               if (1 == ca.length) {
                 // 补全下 路径为 / 时，省略的 “-1”
-                ca[1] = "1";
+                ca[1] = '1';
               }
 
               // 字符串转换成数字
@@ -1587,7 +1647,7 @@
                 // 第三和第四区域的组合值，也就是clientId的值
                 // 第三区域是一个随机数
                 // 第四区域是cookie第一次设置时候的时间值
-                idAndTime: gaCookie.join(".")
+                idAndTime: gaCookie.join('.')
               };
             } else {
               gaCookie = undefined;
@@ -1608,7 +1668,11 @@
           else {
             reg(14);
             var domainCount = getDomainCount(getString(model, COOKIE_DOMAIN));
-            var filtedGaCookieValues = getSameOrSmallCookieValues(parsedGaCookieValues, domainCount, 0);
+            var filtedGaCookieValues = getSameOrSmallCookieValues(
+              parsedGaCookieValues,
+              domainCount,
+              0
+            );
             if (filtedGaCookieValues.length == 1) {
               cookieClientId = filtedGaCookieValues[0].idAndTime;
               break b;
@@ -1624,10 +1688,14 @@
       if (!cookieClientId) {
         var cookieDomainV = getString(model, COOKIE_DOMAIN);
         var legacyCookieDomainV = getString(model, LEGACY_COOKIE_DOMAIN) || getHostname();
-        var legacyCookieValue = parseAndGetOldGACookie("__utma", legacyCookieDomainV, cookieDomainV);
+        var legacyCookieValue = parseAndGetOldGACookie(
+          '__utma',
+          legacyCookieDomainV,
+          cookieDomainV
+        );
         if (legacyCookieValue != null) {
           reg(10);
-          cookieClientId = legacyCookieValue.O[1] + "." + legacyCookieValue.O[2];
+          cookieClientId = legacyCookieValue.O[1] + '.' + legacyCookieValue.O[2];
         } else {
           cookieClientId = null;
         }
@@ -1640,24 +1708,26 @@
     }
     // 是否允许定位点参数
     var allowAnchorV = model.get(ALLOW_ANCHOR);
-    var r = doc.location[allowAnchorV ? "href" : "search"].match(
-      "(?:&|#|\\?)" + encodeURIComponent("_ga").replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1") + "=([^&#]*)"
+    var r = doc.location[allowAnchorV ? 'href' : 'search'].match(
+      '(?:&|#|\\?)' +
+        encodeURIComponent('_ga').replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1') +
+        '=([^&#]*)'
     );
-    var anchorGaValue = r && r.length == 2 ? r[1] : "";
+    var anchorGaValue = r && r.length == 2 ? r[1] : '';
     if (anchorGaValue) {
       // 有定位点ga参数
       if (model.get(ALLOW_LINKER)) {
         // 定位点 ga 参数值的形式为： '1.校验字符串.clientId'
         // 允许链接器参数
-        var indexOfPoint = anchorGaValue.indexOf(".");
+        var indexOfPoint = anchorGaValue.indexOf('.');
         if (indexOfPoint == -1) {
           reg(22);
         } else {
           var tmpStr = anchorGaValue.substring(indexOfPoint + 1);
-          if (anchorGaValue.substring(0, indexOfPoint) != "1") {
+          if (anchorGaValue.substring(0, indexOfPoint) != '1') {
             reg(22); // 格式不正确
           } else {
-            indexOfPoint = tmpStr.indexOf(".");
+            indexOfPoint = tmpStr.indexOf('.');
             if (indexOfPoint == -1) {
               reg(22); // 格式不正确
             } else {
@@ -1700,14 +1770,19 @@
         // 如果没有clientId，则自己生成一个
         reg(8);
         var uaAndCookieAndRef =
-          win.navigator.userAgent + (doc.cookie ? doc.cookie : "") + (doc.referrer ? doc.referrer : "");
+          win.navigator.userAgent +
+          (doc.cookie ? doc.cookie : '') +
+          (doc.referrer ? doc.referrer : '');
         var len = uaAndCookieAndRef.length;
         for (var i = win.history.length; i > 0; ) {
           uaAndCookieAndRef += i-- ^ len++;
         }
         model.data.set(
           CLIENT_ID,
-          [_uuid() ^ (str2Num(uaAndCookieAndRef) & 2147483647), Math.round(new Date().getTime() / 1e3)].join(".")
+          [
+            _uuid() ^ (str2Num(uaAndCookieAndRef) & 2147483647),
+            Math.round(new Date().getTime() / 1e3)
+          ].join('.')
         );
       }
     }
@@ -1722,39 +1797,39 @@
       d = doc.location;
     model.set(REFERRER, ya(model.get(ALYWAYS_SEND_REFERRER)));
     if (d) {
-      var e = d.pathname || "";
-      "/" != e.charAt(0) && (reg(31), (e = "/" + e));
-      model.set(LOCATION, d.protocol + "//" + d.hostname + e + d.search);
+      var e = d.pathname || '';
+      '/' != e.charAt(0) && (reg(31), (e = '/' + e));
+      model.set(LOCATION, d.protocol + '//' + d.hostname + e + d.search);
     }
-    c && model.set(SCREEN_RESOLUTION, c.width + "x" + c.height);
-    c && model.set(SCREEN_COLORS, c.colorDepth + "-bit");
+    c && model.set(SCREEN_RESOLUTION, c.width + 'x' + c.height);
+    c && model.set(SCREEN_COLORS, c.colorDepth + '-bit');
     var c = doc.documentElement,
       g = (e = doc.body) && e.clientWidth && e.clientHeight,
       ca = [];
-    c && c.clientWidth && c.clientHeight && ("CSS1Compat" === doc.compatMode || !g)
+    c && c.clientWidth && c.clientHeight && ('CSS1Compat' === doc.compatMode || !g)
       ? (ca = [c.clientWidth, c.clientHeight])
       : g && (ca = [e.clientWidth, e.clientHeight]);
-    c = 0 >= ca[0] || 0 >= ca[1] ? "" : ca.join("x");
+    c = 0 >= ca[0] || 0 >= ca[1] ? '' : ca.join('x');
     model.set(VIEWPORT_SIZE, c);
     model.set(FLASH_VERSION, getFlashVersion());
     model.set(ENCODING, doc.characterSet || doc.charset);
-    model.set(JAVA_ENABLED, (b && "function" === typeof b.javaEnabled && b.javaEnabled()) || true);
-    model.set(LANGUAGE, ((b && (b.language || b.browserLanguage)) || "").toLowerCase());
+    model.set(JAVA_ENABLED, (b && 'function' === typeof b.javaEnabled && b.javaEnabled()) || true);
+    model.set(LANGUAGE, ((b && (b.language || b.browserLanguage)) || '').toLowerCase());
     if (d && model.get(ALLOW_ANCHOR) && (b = doc.location.hash)) {
       b = b.split(/[?&#]+/);
       d = [];
       for (c = 0; c < b.length; ++c)
-        (startWith(b[c], "utm_id") ||
-          startWith(b[c], "utm_campaign") ||
-          startWith(b[c], "utm_source") ||
-          startWith(b[c], "utm_medium") ||
-          startWith(b[c], "utm_term") ||
-          startWith(b[c], "utm_content") ||
-          startWith(b[c], "gclid") ||
-          startWith(b[c], "dclid") ||
-          startWith(b[c], "gclsrc")) &&
+        (startWith(b[c], 'utm_id') ||
+          startWith(b[c], 'utm_campaign') ||
+          startWith(b[c], 'utm_source') ||
+          startWith(b[c], 'utm_medium') ||
+          startWith(b[c], 'utm_term') ||
+          startWith(b[c], 'utm_content') ||
+          startWith(b[c], 'gclid') ||
+          startWith(b[c], 'dclid') ||
+          startWith(b[c], 'gclsrc')) &&
           d.push(b[c]);
-      0 < d.length && ((b = "#" + d.join("&")), model.set(LOCATION, model.get(LOCATION) + b));
+      0 < d.length && ((b = '#' + d.join('&')), model.set(LOCATION, model.get(LOCATION) + b));
     }
   };
   Tracker.prototype.get = function(fieldName) {
@@ -1779,7 +1854,7 @@
     if (arguments.length >= 1) {
       var hitTypeV;
       var opts;
-      if ("string" === typeof arguments[0]) {
+      if ('string' === typeof arguments[0]) {
         hitTypeV = arguments[0];
         opts = [].slice.call(arguments, 1);
       } else {
@@ -1803,7 +1878,7 @@
   // 在浏览器预渲染的时候避免执行函数
   // 返回：是否预渲染
   var executeWithoutPrerender = function(func) {
-    if ("prerender" == doc.visibilityState) return false;
+    if ('prerender' == doc.visibilityState) return false;
     func();
     return true;
   };
@@ -1823,17 +1898,17 @@
       var r = commandRegex.exec(args[0]);
       if (r != null && r.length == 4) {
         // Tracker名字默认为t0
-        this.trackerName = r[1] || "t0";
+        this.trackerName = r[1] || 't0';
         // pluginName
-        this.pluginName = r[2] || "";
+        this.pluginName = r[2] || '';
         // methodName
         this.methodName = r[3];
         this.fields = [].slice.call(args, 1);
         if (!this.pluginName) {
-          this.isCreateCommand = "create" == this.methodName;
-          this.isRequireCommand = "require" == this.methodName;
-          this.isProvideCommand = "provide" == this.methodName;
-          this.isRemoveCommand = "remove" == this.methodName;
+          this.isCreateCommand = 'create' == this.methodName;
+          this.isRequireCommand = 'require' == this.methodName;
+          this.isProvideCommand = 'provide' == this.methodName;
+          this.isRemoveCommand = 'remove' == this.methodName;
         }
 
         if (this.isRequireCommand) {
@@ -1856,26 +1931,29 @@
       var thirdArg = args[2];
       if (!this.methodName)
         // 必须有一个方法名
-        throw "abort";
-      if (this.isRequireCommand && (!isString(secondArg) || "" == secondArg))
+        throw 'abort';
+      if (this.isRequireCommand && (!isString(secondArg) || '' == secondArg))
         // require命令的第二个参数，必须是字符串，且不为空字符串
-        throw "abort";
-      if (this.isProvideCommand && (!isString(secondArg) || "" == secondArg || !isFunction(thirdArg)))
+        throw 'abort';
+      if (
+        this.isProvideCommand &&
+        (!isString(secondArg) || '' == secondArg || !isFunction(thirdArg))
+      )
         // 必须是这种输入，才算正确的provide命令
         // ga('provide', pluginName, pluginConstuctor);
-        throw "abort";
+        throw 'abort';
       if (hasPointOrColon(this.trackerName) || hasPointOrColon(this.pluginName))
         // tracker和plugin的名字不能包含点和冒号
-        throw "abort";
-      if (this.isProvideCommand && "t0" != this.trackerName)
+        throw 'abort';
+      if (this.isProvideCommand && 't0' != this.trackerName)
         // 不能单独为某个Tracker来provide插件
-        throw "abort";
+        throw 'abort';
     }
   };
 
   // 是否有点或者冒号
   function hasPointOrColon(a) {
-    return 0 <= a.indexOf(".") || 0 <= a.indexOf(":");
+    return 0 <= a.indexOf('.') || 0 <= a.indexOf(':');
   }
 
   // 记录了所有插件的map，插件名作为key
@@ -1901,33 +1979,35 @@
   // }
   var parseUrl = function(url) {
     function parseLink(link) {
-      var hostname = (link.hostname || "").split(":")[0].toLowerCase();
-      var protocol = (link.protocol || "").toLowerCase();
-      var port = 1 * link.port || ("http:" == protocol ? 80 : "https:" == protocol ? 443 : "");
-      var pathname = link.pathname || "";
-      if (!startWith(pathname, "/")) {
-        pathname = "/" + pathname;
+      var hostname = (link.hostname || '').split(':')[0].toLowerCase();
+      var protocol = (link.protocol || '').toLowerCase();
+      var port = 1 * link.port || ('http:' == protocol ? 80 : 'https:' == protocol ? 443 : '');
+      var pathname = link.pathname || '';
+      if (!startWith(pathname, '/')) {
+        pathname = '/' + pathname;
       }
-      return [hostname, "" + port, pathname];
+      return [hostname, '' + port, pathname];
     }
 
-    var link = doc.createElement("a");
+    var link = doc.createElement('a');
     link.href = doc.location.href;
-    var protocol = (link.protocol || "").toLowerCase();
+    var protocol = (link.protocol || '').toLowerCase();
     var locationPart = parseLink(link);
-    var search = link.search || "";
-    var baseUrl = protocol + "//" + locationPart[0] + (locationPart[1] ? ":" + locationPart[1] : "");
-    if (startWith(url, "//")) {
+    var search = link.search || '';
+    var baseUrl =
+      protocol + '//' + locationPart[0] + (locationPart[1] ? ':' + locationPart[1] : '');
+    if (startWith(url, '//')) {
       url = protocol + url;
     } else {
-      if (startWith(url, "/")) {
+      if (startWith(url, '/')) {
         url = baseUrl + url;
       } else {
-        if (!url || startWith(url, "?")) {
+        if (!url || startWith(url, '?')) {
           url = baseUrl + locationPart[2] + (url || search);
         } else {
-          if (url.split("/")[0].indexOf(":") < 0) {
-            url = baseUrl + locationPart[2].substring(0, locationPart[2].lastIndexOf("/")) + "/" + url;
+          if (url.split('/')[0].indexOf(':') < 0) {
+            url =
+              baseUrl + locationPart[2].substring(0, locationPart[2].lastIndexOf('/')) + '/' + url;
           }
         }
       }
@@ -1935,12 +2015,12 @@
     link.href = url;
     var r = parseLink(link);
     return {
-      protocol: (link.protocol || "").toLowerCase(),
+      protocol: (link.protocol || '').toLowerCase(),
       host: r[0],
       port: r[1],
       path: r[2],
-      query: link.search || "",
-      url: url || ""
+      query: link.search || '',
+      url: url || ''
     };
   };
 
@@ -1962,7 +2042,9 @@
     MethodQueue.cmdQueue = [];
     for (
       ;
-      0 < tmpCmds.length && !MethodQueue.runCommand(tmpCmds[0]) && !(tmpCmds.shift(), 0 < MethodQueue.cmdQueue.length);
+      0 < tmpCmds.length &&
+      !MethodQueue.runCommand(tmpCmds[0]) &&
+      !(tmpCmds.shift(), 0 < MethodQueue.cmdQueue.length);
 
     );
     MethodQueue.cmdQueue = MethodQueue.cmdQueue.concat(tmpCmds);
@@ -1990,38 +2072,43 @@
               var requiredUrl = cmd.requiredName;
               if (!requiredUrl && pluginUsageIdMap.hasOwnProperty(pluginName)) {
                 reg(39);
-                requiredUrl = pluginName + ".js";
+                requiredUrl = pluginName + '.js';
               } else {
                 reg(43);
               }
 
               if (requiredUrl) {
-                if (requiredUrl && 0 <= requiredUrl.indexOf("/")) {
+                if (requiredUrl && 0 <= requiredUrl.indexOf('/')) {
                   requiredUrl =
-                    (forceHTTPS || isHTTPS() ? "https:" : "http:") +
-                    "//www.google-analytics.com/plugins/ua/" +
+                    (forceHTTPS || isHTTPS() ? 'https:' : 'http:') +
+                    '//www.google-analytics.com/plugins/ua/' +
                     requiredUrl;
                 }
                 var urlParts = parseUrl(requiredUrl);
                 var urlProtocol = urlParts.protocol,
                   baseProtocol = doc.location.protocol,
                   supported =
-                    "https:" == urlProtocol || urlProtocol == baseProtocol
+                    'https:' == urlProtocol || urlProtocol == baseProtocol
                       ? true
-                      : "http:" != urlProtocol
+                      : 'http:' != urlProtocol
                       ? false
-                      : "http:" == baseProtocol;
+                      : 'http:' == baseProtocol;
                 if (supported) {
                   var baseUrlParts = parseUrl(doc.location.href);
-                  if (urlParts.query || urlParts.url.indexOf("?") >= 0 || urlParts.path.indexOf("://") >= 0)
+                  if (
+                    urlParts.query ||
+                    urlParts.url.indexOf('?') >= 0 ||
+                    urlParts.path.indexOf('://') >= 0
+                  )
                     supported = false;
-                  else if (urlParts.host == baseUrlParts.host && urlParts.port == baseUrlParts.port) supported = true;
+                  else if (urlParts.host == baseUrlParts.host && urlParts.port == baseUrlParts.port)
+                    supported = true;
                   else {
-                    var port = "http:" == urlParts.protocol ? 80 : 443;
+                    var port = 'http:' == urlParts.protocol ? 80 : 443;
                     supported =
-                      urlParts.host == "www.google-analytics.com" &&
+                      urlParts.host == 'www.google-analytics.com' &&
                       (urlParts.port || port) == port &&
-                      startWith(urlParts.path, "/plugins/")
+                      startWith(urlParts.path, '/plugins/')
                         ? true
                         : false;
                   }
@@ -2046,11 +2133,11 @@
   MethodQueue.runCommand = function(cmd) {
     try {
       if (cmd.readyCallback) {
-        cmd.readyCallback.call(win, GA.getByName("t0"));
+        cmd.readyCallback.call(win, GA.getByName('t0'));
       } else {
         var tracker = cmd.trackerName == GA_HOOK ? GA : GA.getByName(cmd.trackerName);
         if (cmd.isCreateCommand) {
-          "t0" == cmd.trackerName && GA.create.apply(GA, cmd.fields);
+          't0' == cmd.trackerName && GA.create.apply(GA, cmd.fields);
         } else if (cmd.isRemoveCommand) {
           GA.remove(cmd.trackerName);
         } else if (tracker) {
@@ -2096,10 +2183,10 @@
   GA.create = function() {
     var opts = transformInput(uc, [].slice.call(arguments));
     if (!opts[NAME]) {
-      opts[NAME] = "t0";
+      opts[NAME] = 't0';
     }
 
-    var trackerName = "" + opts[NAME];
+    var trackerName = '' + opts[NAME];
     if (GA.trackerMap[trackerName]) {
       return GA.trackerMap[trackerName];
     }
@@ -2133,32 +2220,32 @@
 
   // 主入口方法
   GA.main = function() {
-    "ga" != GA_HOOK && reg(49);
+    'ga' != GA_HOOK && reg(49);
     var tmpGa = win[GA_HOOK];
     if (!tmpGa || 42 != tmpGa.answer) {
       // tmpGa.l 是在投放代码里面设置的时间，记录了投放代码执行的时间点
       GA.startTime = tmpGa && tmpGa.l;
       GA.loaded = true;
       var ga = (win[GA_HOOK] = GA);
-      wrapApi("create", ga, ga.create);
-      wrapApi("remove", ga, ga.remove);
-      wrapApi("getByName", ga, ga.getByName, 5);
-      wrapApi("getAll", ga, ga.getAll, 6);
+      wrapApi('create', ga, ga.create);
+      wrapApi('remove', ga, ga.remove);
+      wrapApi('getByName', ga, ga.getByName, 5);
+      wrapApi('getAll', ga, ga.getAll, 6);
       var trackerProto = Tracker.prototype;
-      wrapApi("get", trackerProto, trackerProto.get, 7);
-      wrapApi("set", trackerProto, trackerProto.set, 4);
-      wrapApi("send", trackerProto, trackerProto.send);
+      wrapApi('get', trackerProto, trackerProto.get, 7);
+      wrapApi('set', trackerProto, trackerProto.set, 4);
+      wrapApi('send', trackerProto, trackerProto.send);
       var modelProto = Model.prototype;
-      wrapApi("get", modelProto, modelProto.get);
-      wrapApi("set", modelProto, modelProto.set);
+      wrapApi('get', modelProto, modelProto.get);
+      wrapApi('set', modelProto, modelProto.set);
       if (!isHTTPS() && !forceHTTPS) {
         // 如果设置使用https，则通过引入的js文件地址来判断是否使用https
         a: {
           var useHTTPS;
-          var scripts = doc.getElementsByTagName("script");
+          var scripts = doc.getElementsByTagName('script');
           for (var i = 0; i < scripts.length && 100 > i; i++) {
             var src = scripts[i].src;
-            if (src && src.indexOf("https://www.google-analytics.com/analytics") == 0) {
+            if (src && src.indexOf('https://www.google-analytics.com/analytics') == 0) {
               reg(33);
               useHTTPS = true;
               break a;
@@ -2175,11 +2262,11 @@
 
       (win.gaplugins = win.gaplugins || {}).Linker = Linker;
       var linkerProto = Linker.prototype;
-      pluginsMap.set("linker", Linker);
-      wrapApi("decorate", linkerProto, linkerProto.decorate, 20);
-      wrapApi("autoLink", linkerProto, linkerProto.autoLink, 25);
-      pluginsMap.set("displayfeatures", displayfeaturesPlugin);
-      pluginsMap.set("adfeatures", displayfeaturesPlugin);
+      pluginsMap.set('linker', Linker);
+      wrapApi('decorate', linkerProto, linkerProto.decorate, 20);
+      wrapApi('autoLink', linkerProto, linkerProto.autoLink, 25);
+      pluginsMap.set('displayfeatures', displayfeaturesPlugin);
+      pluginsMap.set('adfeatures', displayfeaturesPlugin);
 
       // tmpGa.q ga的js代码执行前，push到ga命令队列里面的命令
       tmpGa = tmpGa && tmpGa.q;
@@ -2200,11 +2287,11 @@
         if (!executed && executeWithoutPrerender(a)) {
           executed = true;
           doc.removeEventListener
-            ? doc.removeEventListener("visibilitychange", cb, false)
-            : doc.detachEvent && doc.detachEvent("onvisibilitychange", cb);
+            ? doc.removeEventListener('visibilitychange', cb, false)
+            : doc.detachEvent && doc.detachEvent('onvisibilitychange', cb);
         }
       };
-      addEventListener(doc, "visibilitychange", c);
+      addEventListener(doc, 'visibilitychange', c);
     }
   })();
 
