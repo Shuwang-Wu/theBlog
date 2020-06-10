@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Float</title>
+    <style>
+        p {
+            height: 60px;
+        }
+        .wrap {
+            overflow: hidden;
+        }
+        .sidebar {
+            float: left;
+            width: 60px;
+            background-color: blue;
+        }
+        .content {
+            margin-left: 70px;
+            background-color: red;
+        }
+        .example-1 {
+            overflow: hidden;
+        }
+        .example-1 a {
+            width: 60px;
+        }
+        .fl {
+            float: left;
+        }
+        .fr {
+            float: right;
+        }
+        .example-1 h3 {
+            margin: 0 100px;
+            text-align: center;   
+        }
+        /* .example-2  */
+        .example-2  {
+            height: 200px
+        }
+        .example-2 .fl {
+            width: 60px;
+            height: 60px;
+            background-color: red;
+        }
+        .example-2 .content {
+            overflow: hidden;
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- 一列定宽 -->
+    <div class="wrap">
+        <p class="sidebar"></p>
+        <p class="content">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore, quo obcaecati itaque dolorem, perferendis quia eveniet nemo deserunt sint dolore magnam officiis alias praesentium fuga voluptate, sunt harum enim omnis!</p>
+    </div>
+    <!-- 左右定宽 -->
+    <div class="example-1">
+        <a class="fl">&laquo;上一章</a>
+        <a class="fr">下一章&raquo;</a>
+        <h3>标题</h3>
+    <div>
+
+    <div class="example-2">
+        <p class="fl"></p>
+        <p class="content">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius similique quia, laboriosam, delectus quaerat velit neque modi corporis iure architecto culpa ex accusantium labore qui quis earum, tenetur error nulla!</p>
+    </div>
+</body>
+</html>

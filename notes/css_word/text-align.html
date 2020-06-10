@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>text-align</title>
+    <style>
+        img {
+            height: 100px
+        }
+        .example-1 {
+            text-align: center;
+            font-size: 30px;
+            border:1px solid #ddd;
+        }
+        .example-2 {
+            width: 300px;
+            line-height: 0;
+            text-align: justify;
+        }
+        .example-2 > .justify-fix {
+            display: inline-block;
+            width: 90px;
+            border-bottom: 1px dashed #aaa;
+        }
+        .example-3 > .dis-baseline {
+            display: inline-block;
+            width: 150px;
+            height: 150px;
+            border: 1px solid red;
+            background-color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="example-1">
+        x<img src="../../assets/images/performance.png" alt="">
+    </div>
+    <div class="example-2">
+        <img src="../../assets/images/performance.png" alt="">
+        <img src="../../assets/images/performance.png" alt="">
+        <img src="../../assets/images/performance.png" alt="">
+        <img src="../../assets/images/performance.png" alt="">
+        <i class="justify-fix"></i>
+        <i class="justify-fix"></i>
+        <i class="justify-fix"></i>
+    </div>
+    <div class="example-3">
+        <span class="dis-baseline"></span>
+        <span class="dis-baseline">baseline</span>
+        这两个不能对其的原因是：第一个元素没有内联元素，对其位置在其margin的下边缘；而第二个有则会对其到到字符的基线位置
+    </div>
+    
+</body>
+</html>

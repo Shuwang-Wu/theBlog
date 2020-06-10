@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./waterMark.css" />
+  </head>
+  <body>
+    <script src="./waterMark.js"></script>
+    <script>
+    //   watermark({ watermark_txt: "测试水印" }); //传入动态水印内容
+
+      //onload时触发水印绘制
+      window.onload = function() {
+        watermark({ watermark_txt: "当换科技" });
+      };
+
+      //onresize时触发水印绘制
+      window.onresize = function() {
+        watermark({ watermark_txt: "当换科技", watermark_width: 50 });
+      };
+    </script>
+  </body>
+</html>

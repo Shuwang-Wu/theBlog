@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>vertical-align</title>
+    <style>
+      .cell {
+        display: table-cell;
+        width: 300px;
+        /* height: 300px; */
+      }
+      img {
+        width: 100px;
+        height: 100px;
+      }
+      .example-1 {
+          height: 200px;
+          line-height: 200px;
+      }
+      .example-1 > img {
+          vertical-align: middle;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="cell">
+      <span class="span-elem">字母x</span>
+      <img src="../../assets/images/performance.png" alt="performance" />
+    </div>
+    <select name="selectVerticalAlign" id="selectVerticalAlign">
+      <option value="0px">0px</option>
+      <option value="20px">20px</option>
+      <option value="-20px">-20px</option>
+      <option value="20%">20%</option>
+      <option value="-20%">-20%</option>
+      <option value="sub">sub</option>
+      <option value="super">super</option>
+      <option value="text-top">text-top</option>
+      <option value="text-bottom">text-bottom</option>
+      <option value="baseline">baseline</option>
+      <option value="top">top</option>
+      <option value="middle">middle</option>
+      <option value="bottom">bottom</option>
+    </select>
+
+    <div class="example-1">
+        <img src="../../assets/images/performance.png" alt="performance" />
+    </div>
+    <script>
+      /**
+       * vertical-align起作用是有前提条件的，这个前提条件就是：只能应用于内联元素以及display值为table-cell的元素
+       * 换句话说，vertical-align属性只能作用在display计算值为inline、inline-block, inline-table或table-cell的元素上
+       * */
+
+      /**
+       * vertical-align属性值
+       * 1. 数值百分比，如: 20px, 20%
+       * 2. 上下标类，如sub, super
+       * 3. 文本类，如text-top, text-bottom
+       * 4. 线类，baseline, top, middle, bottom
+       * */
+
+      let cellElem = document.querySelector(".cell");
+      let selectElem = document.getElementById("selectVerticalAlign");
+      let spanElem = document.querySelector(".span-elem");
+      selectElem.onchange = function(e) {
+        console.log(e.target.value);
+        let val = e.target.value;
+        cellElem.style.verticalAlign = val;
+        spanElem.style.verticalAlign = val;
+      };
+    </script>
+  </body>
+</html>

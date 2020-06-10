@@ -5,7 +5,7 @@
  * 返回的了类数组对象有length和数组索引属性，模拟DOMTockenList不是类数组对象
  * 但是他有一个toArray方法来返回一个含元素类名的纯数组快照
  *  */
-
+/* eslint-disable */ 
 function classList(e) {
   if (e.classList) {
     return e.classList

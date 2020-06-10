@@ -34,12 +34,6 @@
     "url": "https://github.com/ID071108/notes/issues"
   },
   "homepage": "https://github.com/ID071108/notes#readme",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "git push"
-    }
-  },
   "lint-staged": {
     "*.(js|jsx)": [
       "npm run lint:write",

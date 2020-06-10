@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        new Promise((resolve, reject) => {
+            // resolve('resolve')
+            reject('reject')
+        }).then((res) => {
+            console.log(1, res)
+        }).catch((err) => {
+            console.log(2, err)
+        })
+        let p1 = new Promise((resolve, reject) => {
+            // resolve('resolve')
+            reject('reject')
+        })
+        let p2 = new Promise((resolve, reject) => {
+            resolve('resolve')
+        })
+        let p3 = new Promise((resolve, reject) => {
+            reject('reject 2')
+        })
+        Promise.all([p1, p2]).then((res) => {
+            console.log(res, 'all')
+        }).catch((err) => {
+            console.log(err, 'all')
+        })
+        Promise.race([p1, p3]).then((res) => {
+            console.log(res, 'race')
+        }).catch((err) => {
+            console.log(err, 'race')
+        })
+        Promise.race([p2, p3]).then((res) => {
+            console.log(res, 'race 2')
+        }).catch((err) => {
+            console.log(err, 'race 2')
+        })
+        Promise.race([p3, p2]).then((res) => {
+            console.log(res, 'race 3')
+        }).catch((err) => {
+            console.log(err, 'race 3')
+        })
+        console.log(Promise.length) // 1
+        // console
+        // 1
+        // promise.html: 19 2 "reject"
+        // promise.html: 37 resolve 1
+        // promise.html: 34 reject 2
+
+        const promise1 = Promise.resolve(3);
+        const promise2 = new Promise((resolve, reject) => setTimeout(reject, 100, 'foo'));
+        const promises = [promise1, promise2];
+
+        Promise.allSettled(promises).
+        then((results) => results.forEach((result) => console.log(result, result.status)));
+        setTimeout((...params)=> {
+            console.log(params)
+        }, 1000, 123123, 2222)
+    </script>
+</body>
+
+</html>
