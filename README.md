@@ -76,6 +76,9 @@ contain util、DOM、BOM and so on by javascript
 ## 笔记
 
 1. [20191021](./notes/20191021.md)
+2. [css 世界]('./notes/css_word/promise.md') ps:张鑫旭版
+3. [Promise]('./notes/promise/promise.md')
+4. [事件循环]('./notes/event-loop/event-loop.md')
 
 ## react 笔记
 

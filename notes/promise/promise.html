@@ -61,9 +61,129 @@
 
         Promise.allSettled(promises).
         then((results) => results.forEach((result) => console.log(result, result.status)));
-        setTimeout((...params)=> {
+        setTimeout((...params) => {
             console.log(params)
         }, 1000, 123123, 2222)
+        /**
+         * @name 使用Promise使其按顺序间隔1s输出1, 2, 3
+         * */
+        const arr = [1, 2, 3];
+        const result = arr.reduce((p, x) => {
+            return p.then(new Promise(r => {
+                return setTimeout(() => r(console.log(x)), 1000)
+            }))
+        }, Promise.resolve());
+
+        /**
+         * @name 使用Promise实现红绿灯交替重复亮
+         * @description 红灯3秒亮一次， 黄灯2秒亮一次， 绿灯1秒亮一次； 如何让三个灯不断交替重复亮灯？（ 用Promise实现） 三个亮灯函数已经存在
+         * */
+        function red() {
+            console.log("red");
+        }
+
+        function green() {
+            console.log("green");
+        }
+
+        function yellow() {
+            console.log("yellow");
+        }
+        const light = function (timer, cb) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    cb()
+                    resolve()
+                }, timer)
+            })
+        }
+        const step = function () {
+            Promise.resolve().then(() => {
+                return light(3000, red)
+            }).then(() => {
+                return light(2000, green)
+            }).then(() => {
+                return light(1000, yellow)
+            }).then(() => {
+                return step()
+            })
+        }
+
+        step();
+
+        /**
+         * @name 实现mergePromise函数
+         * @description 具体题目如下所示
+         * */
+        const time = (timer) => {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve()
+                }, timer)
+            })
+        }
+        const ajax1 = () => time(2000).then(() => {
+            console.log(1);
+            return 1
+        })
+        const ajax2 = () => time(1000).then(() => {
+            console.log(2);
+            return 2
+        })
+        const ajax3 = () => time(1000).then(() => {
+            console.log(3);
+            return 3
+        })
+
+        function mergePromise() {
+            // 在这里写代码
+        }
+
+        mergePromise([ajax1, ajax2, ajax3]).then(data => {
+            console.log("done");
+            console.log(data); // data 为 [1, 2, 3]
+        });
+
+        // 要求分别输出
+        // 1
+        // 2
+        // 3
+        // done
+        // [1, 2, 3]
+        // 8.6 限制异步操作的并发个数并尽可能快的完成全部
+        // 有8个图片资源的url，已经存储在数组urls中。
+        // urls类似于['https://image1.png', 'https://image2.png', ....]
+        // 而且已经有一个函数function loadImg，输入一个url链接，返回一个Promise，该Promise在图片下载完成的时候resolve，下载失败则reject。
+        // 但有一个要求，任何时刻同时下载的链接数量不可以超过3个。
+        // 请写一段代码实现这个需求，要求尽可能快速地将所有图片下载完成。
+        var urls = [
+            "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting1.png",
+            "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting2.png",
+            "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting3.png",
+            "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting4.png",
+            "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting5.png",
+            "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/bpmn6.png",
+            "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/bpmn7.png",
+            "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/bpmn8.png",
+        ];
+
+        function loadImg(url) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = function () {
+                    console.log("一张图片加载完成");
+                    resolve(img);
+                };
+                img.onerror = function () {
+                    reject(new Error('Could not load image at' + url));
+                };
+                img.src = url;
+            });
+        }
+
+        urls.map(url => {
+            loadImg(url)
+        })
     </script>
 </body>
 
