@@ -1,0 +1,58 @@
+<!--
+ * @Description  : 
+ * @Author       : YH000052
+ * @LastEditors  : YH000052
+ * @Date         : 2020-07-03 11:43:33
+ * @LastEditTime : 2020-07-03 12:24:32
+ * @FilePath     : \notes\javascript\vue\source_code_analyze\proxy.html
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // Proxy 的常规使用
+        let handler = {
+            get(obj, key, proxy) {
+                if (key in obj) {
+                    return obj[key]
+                } else {
+                    return '071108'
+                }
+            },
+            set(obj, key, value, proxy) {
+                if (key in obj) {
+                    obj[key] = value
+                } else {
+                    console.error(`Can not find property "${key}" in target, please check that is exist`)
+                }
+            }
+        }
+
+        let target = {
+            a: null,
+            b: null,
+            c: null
+        }
+
+        let p = new Proxy(target, handler)
+
+        p.a = 1
+        p.b = 2
+        p.c = 3
+        p.d = 4
+        console.log(p.a, p.b, p.c, p.d)
+
+        // Proxy.revocable 创建可以撤销的proxy对象
+    </script>
+</body>
+
+</html>
