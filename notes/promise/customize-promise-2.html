@@ -1,0 +1,105 @@
+<!--
+ * @Description  : 自定义promise-2
+ * @Author       : YH000052
+ * @LastEditors  : YH000052
+ * @Date         : 2020-07-27 16:57:39
+ * @LastEditTime : 2020-07-27 17:57:51
+ * @FilePath     : \notes\notes\promise\customize-promise-2.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0">
+        <title>Customize-Promise-2</title>
+    </head>
+
+    <body>
+        <script>
+        /**
+         * @name 自定义promise
+         * @param {Function} excutor 执行函数
+         * @return {undefined}
+         */
+        function CPromise(excutor) {
+            this.state = 'pending'
+            this.value = undefined
+            this.reason = undefined
+            let resolve = value => {
+                if (this.state == 'pending') {
+                    this.state = 'fullfilled'
+                    this.value = value
+                }
+            }
+            let reject = reason => {
+                if (this.state == 'pending') {
+                    this.state = 'reject'
+                    this.reason = reason
+                }
+            }
+            try {
+                excutor(resolve, reject)
+            } catch (err) {
+                reject(err)
+            }
+        }
+
+
+        CPromise.prototype.then = function (fn1, fn2) {
+            var self = this
+            var promise2
+            // 首先对入参fn1, fn2进行判断
+            fn1 = typeof fn === 'function' ? fn1 : function (v) {}
+            fn2 = typeof fn === 'function' ? fn2 : function (r) {}
+
+            if (self.status === 'resolved') {
+                return promise2 = new CPromise(function (resolve, reject) {
+                    // 把 fn1、fn2 放在 try catch 里面，毕竟 fn1、fn2 是用户传入的，报错嘛，很常见
+                    try {
+                        var x = fn1(self.data)
+                        // fn1 执行后，会有返回值，通过 resolve 注入到 then 返回的 promise 中
+                        resolve(x)
+                    } catch (e) {
+                        reject(e)
+                    }
+                })
+            }
+            if (self.status === 'rejected') {
+                return promise2 = new CPromise(function (resolve, reject) {
+                    try {
+                        var x = fn2(self.data)
+                        reject(x)
+                    } catch (e) {
+                        reject(e)
+                    }
+
+                })
+            }
+            if (self.status === 'pending') {
+                return promise2 = new CPromise(function (resolve, reject) {
+                    this.fn1Callback.push(function (value) {
+                        try {
+                            var x = fn1(self.data);
+                            resolve(x)
+                        } catch (e) {
+                            reject(e)
+                        }
+                    })
+                    this.fn2Callback.push(function (value) {
+                        try {
+                            var x = fn2(self.data);
+                            reject(x)
+                        } catch (e) {
+                            reject(e)
+                        }
+                    })
+                })
+            }
+
+        }
+    </script>
+    </body>
+
+</html>

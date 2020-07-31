@@ -1,66 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div id="root">
-      {{ msg }}
-      <component-a :text="'123'" @custom-event="onCustomEvent"></component-a>
-      <component-a></component-a>
-      <component-a></component-a>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible"
+        content="ie=edge" />
+  <title>Document</title>
+
+  <style>
+    #box {
+      background-color: rgba(40, 40, 190, 255);
+      border: 4px solid rgb(20, 20, 120);
+      transition: background-color 1s, border 1s;
+      width: 350px;
+      height: 350px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .vertical {
+      color: white;
+      font: 32px "Arial";
+    }
+
+    .extra {
+      width: 350px;
+      height: 350px;
+      margin-top: 10px;
+      border: 4px solid rgb(20, 20, 120);
+      text-align: center;
+      padding: 20px;
+    }
+    .padding {
+      height: 1000px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="box">
+    <div class="vertical">
+      Welcome to <strong>The Box!</strong>
     </div>
-    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
-    <!-- <script type="module">
-      import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.esm.browser.js'
-      const componentA = Vue.component('component-a', {
-        props: {
-          text: {
-            type: String,
-            default: 'default text'
-          }
-        },
-        data: function() {
-          return {
-            count: 0
-          }
-        },
-        methods: {
-          onClick() {
-            this.count++
-            this.$emit('custom-event')
-          }
-        },
-        template: '<button @click="onClick">{{count}}{{text}}</button>'
-      })
-      var vm = new Vue({
-        el: '#root',
-        components: { componentA: componentA },
-        data() {
-          return {
-            msg: 'this is a message'
-          }
-        },
-        methods: {
-          onCustomEvent() {
-            console.log(this)
-          }
-        }
-      })
-    </script> -->
-    <script>
-      $.ajax({
-        url: 'http://localhost:3000',
-        type: 'get',
-        dataType: 'jsonp',
-        jsonpCallback: 'handleCallback'
-      })
-      function handleCallback(res) {
-        console.log(res)
+  </div>
+  <div class="padding"></div>
+  <script>
+    const numSteps = 20.0;
+
+    let boxElement;
+    let prevRatio = 0.0;
+    let increasingColor = "rgba(40, 40, 190, ratio)";
+    let decreasingColor = "rgba(190, 40, 40, ratio)";
+
+    // Set things up
+    window.addEventListener("load", (event) => {
+      boxElement = document.querySelector("#box");
+
+      createObserver();
+    }, false);
+
+    function createObserver() {
+      let observer;
+
+      let options = {
+        root: null,
+        rootMargin: "0px",
+        threshold: buildThresholdList()
+      };
+
+      observer = new IntersectionObserver(handleIntersect, options);
+      observer.observe(boxElement);
+    }
+
+    function buildThresholdList() {
+      let thresholds = [];
+      let numSteps = 20;
+
+      for (let i = 1.0; i <= numSteps; i++) {
+        let ratio = i / numSteps;
+        thresholds.push(ratio);
       }
-    </script>
-  </body>
+
+      thresholds.push(0);
+      return thresholds;
+    }
+
+    function handleIntersect(entries, observer) {
+      entries.forEach((entry) => {
+        if (entry.intersectionRatio > prevRatio) {
+          entry.target.style.backgroundColor = increasingColor.replace("ratio", entry.intersectionRatio);
+        } else {
+          entry.target.style.backgroundColor = decreasingColor.replace("ratio", entry.intersectionRatio);
+        }
+
+        prevRatio = entry.intersectionRatio;
+      });
+    }
+  </script>
+</body>
+
 </html>

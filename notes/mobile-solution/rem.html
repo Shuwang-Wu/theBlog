@@ -1,0 +1,66 @@
+<!--
+ * @Description  : 
+ * @Author       : YH000052
+ * @LastEditors  : YH000052
+ * @Date         : 2020-07-22 09:05:05
+ * @LastEditTime : 2020-07-29 11:25:42
+ * @FilePath     : \notes\notes\mobile-solution\rem.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0">
+        <title>Rem</title>
+        <style lang="scss">
+        /* // 以 Iphone 6、6s、7、8 为设计基础。750px
+        // 定义预计根元素 fontSize。
+        $rootFontSize: 375 / 10;
+
+        // 定义像素转化为 rem 函数
+        @function px2rem ($px) {
+            @return $px / 2 / $rootFontSize+rem;
+        } */
+    </style>
+    </head>
+
+    <body>
+        <script>
+        // const MAX_FONT_SIZE = 42;
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     const html = document.querySelector('html');
+        //     let fontSize = window.innerWidth / 10;
+        //     fontSize = fontSize > MAX_FONT_SIZE ? MAX_FONT_SIZE : fontSize;
+        //     html.style.fontSize = fontSize + 'px';
+        // });
+        function setHtmlFontSize(baseFontSize) {
+
+            const _baseFontSize = baseFontSize || 75; //设计htmlfotnszie
+            const ua = navigator.userAgent;
+            const matches = ua.match(/Android[\S\s]+AppleWebkit\/(\d{3})/i);
+            const isIos = navigator.appVersion.match(/(iphone|ipad|ipod)/gi);
+            let dpr = window.devicePixelRatio || 1;
+            if (!isIos && !(matches && matches[1] > 534)) {
+                // 如果非iOS, 非Android4.3以上, dpr设为1;
+                dpr = 1;
+            }
+            const scale = 1 / dpr; //设备像素比
+            let metaEl = document.querySelector('meta[name="viewport"]');
+            if (!metaEl) {
+                metaEl = document.createElement('meta');
+                metaEl.setAttribute('name', 'viewport');
+                window.document.head.appendChild(metaEl);
+            }
+            metaEl.setAttribute('content', 'width=device-width,user-scalable=no,initial-scale=' + scale +
+                ',maximum-scale=' + scale + ',minimum-scale=' + scale);
+
+            document.documentElement.style.fontSize = document.documentElement.clientWidth / (750 / _baseFontSize) +
+                'px';
+        };
+        setHtmlFontSize()
+    </script>
+    </body>
+
+</html>

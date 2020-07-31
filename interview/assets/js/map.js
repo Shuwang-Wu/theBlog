@@ -26,16 +26,20 @@ arr_sqrt_fun();
 
 // 使用map重新格式化数组中的对象
 function arr_reformattObject_fun() {
-  var arr_reformattObject = [{
-    key: 1,
-    value: 10
-  }, {
-    key: 2,
-    value: 20
-  }, {
-    key: 3,
-    value: 30
-  }];
+  var arr_reformattObject = [
+    {
+      key: 1,
+      value: 10
+    },
+    {
+      key: 2,
+      value: 20
+    },
+    {
+      key: 3,
+      value: 30
+    }
+  ];
   var reformatt_object = arr_reformattObject.map((v, k, arr) => {
     var newObject = {};
     newObject[arr[k].key] = arr[k].value;
@@ -46,12 +50,11 @@ function arr_reformattObject_fun() {
 }
 // arr_reformattObject_fun();
 
-
 // 一般的使用方法
 function map_method_ordinaty() {
   var map = Array.prototype.map;
   var str = "hello,map";
-  var arr_str = map.call(str, (v) => {
+  var arr_str = map.call(str, v => {
     return v;
   });
   console.log(arr_str); //["h", "e", "l", "l", "o", ",", "m", "a", "p"];
@@ -61,7 +64,7 @@ function map_method_ordinaty() {
 // querySelectorAll 的应用
 function map_method_queryAll() {
   let divs = docuemnt.querySelectorAll("div");
-  let div_map_method_queryAll = Array.prototype.map.call(divs, (singleDiv) => {
+  let div_map_method_queryAll = Array.prototype.map.call(divs, singleDiv => {
     return singleDiv.style.color;
   });
   console.log(div_map_method_queryAll); // ...
@@ -71,9 +74,12 @@ function map_method_queryAll() {
 // 反转字符串
 function map_method_reverseStr() {
   let str = "hello,map";
-  var reverse_str = Array.prototype.map.call(str, (v) => {
-    return v;
-  }).reverse().join("");
+  var reverse_str = Array.prototype.map
+    .call(str, v => {
+      return v;
+    })
+    .reverse()
+    .join("");
   console.log(str);
   console.log(reverse_str);
 }
@@ -83,8 +89,7 @@ function map_method_reverseStr() {
 // 实现 ECMA-262, Edition 5, 15.4.4.19
 // 参考: http://es5.github.com/#x15.4.4.19
 if (!Array.prototype.map) {
-  Array.prototype.map = function (callback, thisArg) {
-
+  Array.prototype.map = function(callback, thisArg) {
     var T, A, k;
 
     if (this == null) {
@@ -115,12 +120,10 @@ if (!Array.prototype.map) {
 
     // 7. 当 k < len 时,执行循环.
     while (k < len) {
-
       var kValue, mappedValue;
 
       //遍历O,k为原数组索引
       if (k in O) {
-
         //kValue为索引k对应的值.
         kValue = O[k];
 
