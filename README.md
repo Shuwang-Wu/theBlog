@@ -108,3 +108,8 @@ achive simple vue, view [selfVue](./javascript/selfVue/README.md)
 
 1. 代码格式工具
    [ESlint + prettier + VScode note](./dev/code-style.md)
+
+## webpack笔记
+1. webpack
+   [webpack-demo](./webpack/webpack-demo/README.md)
+   实现简版webpack原理
