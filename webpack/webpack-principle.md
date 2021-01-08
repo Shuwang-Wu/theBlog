@@ -1,9 +1,9 @@
 <!--
  * @Description  : webpack 工作原理
  * @Author       : YH000052
- * @LastEditors  : YH000052
+ * @LastEditors  : Please set LastEditors
  * @Date         : 2020-07-10 09:41:49
- * @LastEditTime : 2020-07-15 15:59:24
+ * @modifiedDate : 2020-08-28 09:47:01
  * @FilePath     : \notes\webpack\webpack-principle.md
 -->
 
@@ -38,7 +38,7 @@
 ### bundle.js 结构分析
 
 ```js
-(function(modules) {
+(function (modules) {
   // 已经加载的模块
   var installedModules = [];
   function __webpack_require__(moduleId) {
@@ -54,7 +54,7 @@
       // 该模块是否已经加载完毕
       l: false,
       // 该模块的导出值
-      exports: {}
+      exports: {},
     });
 
     // 从 modules 中获取 index 为 moduleId 的模块对应的函数
@@ -79,20 +79,20 @@
   // 所有模块都存放到这个数组中
   [
     /* 0 */
-    function(module, exports, __webpack_require__) {
+    function (module, exports, __webpack_require__) {
       // 通过 __webpack_require__ 规范导入 show 函数，show.js 对应的模块 index 为 1
       const show = __webpack_require__(1);
       // 执行 show 函数
       show("Webpack");
     },
     /* 1 */
-    function(module, exports) {
+    function (module, exports) {
       function show(content) {
         window.document.getElementById("app").innerText = "Hello," + content;
       }
       // 通过 CommonJS 规范导出 show 函数
       module.exports = show;
-    }
+    },
   ]
 );
 ```
@@ -102,6 +102,7 @@
 > 会输出两个文件, 分别是 bundle.js , 0.chunck.js
 
 ```js
+
 ```
 
 ## Loader
@@ -114,14 +115,14 @@
 
 ```js
 // 一个最简单的 Loader 的源码如下：
-module.exports = function(source) {
+module.exports = function (source) {
   // source 为 compiler 传递给 Loader 的一个文件的原内容
   // 该函数需要返回处理后的内容，这里简单起见，直接把原内容返回了，相当于该 Loader 没有做任何转换
   return source;
 };
 // 由于 Loader 运行在 Node.js 中，你可以调用任何 Node.js 自带的 API，或者安装第三方模块进行调用：
 const sass = require("node-sass");
-module.exports = function(source) {
+module.exports = function (source) {
   return sass(source);
 };
 ```
@@ -162,7 +163,7 @@ class BasicPlugin {
 
   // Webpack 会调用 BasicPlugin 实例的 apply 方法给插件实例传入 compiler 对象
   apply(compiler) {
-    compiler.plugin("compilation", function(compilation) {});
+    compiler.plugin("compilation", function (compilation) {});
   }
 }
 
@@ -180,21 +181,21 @@ module.exports = BasicPlugin;
 ```js
 class Plugin {
   apply(compiler) {
-    compiler.plugin("emit", function(compilation, callback) {
+    compiler.plugin("emit", function (compilation, callback) {
       // compilation.chunks 存放所有代码块，是一个数组
-      compilation.chunks.forEach(function(chunk) {
+      compilation.chunks.forEach(function (chunk) {
         // chunk 代表一个代码块
         // 代码块由多个模块组成，通过 chunk.forEachModule 能读取组成代码块的每个模块
-        chunk.forEachModule(function(module) {
+        chunk.forEachModule(function (module) {
           // module 代表一个模块
           // module.fileDependencies 存放当前模块的所有依赖的文件路径，是一个数组
-          module.fileDependencies.forEach(function(filepath) {});
+          module.fileDependencies.forEach(function (filepath) {});
         });
 
         // Webpack 会根据 Chunk 去生成输出的文件资源，每个 Chunk 都对应一个及其以上的输出文件
         // 例如在 Chunk 中包含了 CSS 模块并且使用了 ExtractTextPlugin 时，
         // 该 Chunk 就会生成 .js 和 .css 两个文件
-        chunk.files.forEach(function(filename) {
+        chunk.files.forEach(function (filename) {
           // compilation.assets 存放当前所有即将输出的资源
           // 调用一个输出资源的 source() 方法能获取到输出资源的内容
           let source = compilation.assets[filename].source();
@@ -207,4 +208,126 @@ class Plugin {
     });
   }
 }
+```
+
+### DllPlugin
+
+DLLPlugin 和 DLLReferencePlugin 用某种方法实现了拆分 bundles，同时还大大提升了构建的速度。这个插件是在一个额外的独立的 webpack 设置中创建一个只有 dll 的 bundle(dll-only-bundle)。 这个插件会生成一个名为 manifest.json 的文件，这个文件是用来让 DLLReferencePlugin 映射到相关的依赖上去的。
+
+- context (optional): manifest 文件中请求的上下文(context)(默认值为 webpack 的上下文(context))
+- name: 暴露出的 DLL 的函数名 (TemplatePaths: [hash] & [name] )
+- path: manifest json 文件的绝对路径 (输出文件)
+
+```js
+new webpack.DllPlugin(options);
+```
+
+在给定的 path 路径下创建一个名为 manifest.json 的文件。 这个文件包含了从 require 和 import 的 request 到模块 id 的映射。 DLLReferencePlugin 也会用到这个文件。
+
+这个插件与 output.library 的选项相结合可以暴露出 (也叫做放入全局域) dll 函数
+
+**DllReferencePlugin**
+
+这个插件是在 webpack 主配置文件中设置的， 这个插件把只有 dll 的 bundle(们)(dll-only-bundle(s)) 引用到需要的预编译的依赖。
+
+- context: (绝对路径) manifest (或者是内容属性)中请求的上下文
+- manifest: 包含 content 和 name 的对象，或者在编译时(compilation)的一个用于加载的 JSON manifest 绝对路径
+- content (optional): 请求到模块 id 的映射 (默认值为 manifest.content)
+- name (optional): dll 暴露的地方的名称 (默认值为 manifest.name) (可参考 externals)
+- scope (optional): dll 中内容的前缀
+- sourceType (optional): dll 是如何暴露的 (libraryTarget)
+
+```js
+new webpack.DllReferencePlugin(options);
+```
+
+通过引用 dll 的 manifest 文件来把依赖的名称映射到模块的 id 上，之后再在需要的时候通过内置的 **webpack_require** 函数来 require 他们
+
+### webpack-dev-server 及常用模块
+
+```js
+module.exports = {
+  devServer: {
+    // 指定要使用的 host。如果你希望服务器可从外部访问
+    host: "localhost",
+    contentBase: path.join(__dirname, "dist"),
+    // 如果想使用 contentBasePublicPath 在多个 URL 上提供静态内容，也可以从多个目录提供服务
+    // contentBase: [path.join(__dirname, 'public'), path.join(__dirname, 'assets')]
+    compress: true,
+    port: 9000,
+    // 是否启用webpack的HotModuleReplacementPlugin
+    hot: true,
+    // 告诉 dev-server 在服务器启动后打开浏览器
+    // open: true,
+    // 启用热模块替换，而无需页面刷新作为构建失败时的回退
+    // hotOnly: true,
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        pathRewrite: { "^/api": "" },
+      },
+      // 有时不想代理所有内容。 可以基于函数的返回值绕过代理。
+
+      // 在该功能中，可以访问请求，响应和代理选项。
+
+      // 返回 null 或 undefined 以继续使用代理处理请求。
+      // 返回 false 会为请求产生404错误。
+      // 返回提供服务的路径，而不是继续代理请求。
+      // 例如。 对于浏览器请求，想要提供 HTML 页面，但是对于 API 请求，想要代理它。 可以执行以下操作：
+      // '/api': {
+      //   target: 'http://localhost:3000',
+      //   bypass: function(req, res, proxyOptions) {
+      //     if (req.headers.accept.indexOf('html') !== -1) {
+      //       console.log('Skipping proxy for browser request.');
+      //       return '/index.html';
+      //     }
+      //   }
+      // }
+    },
+    // 默认情况下，开发服务器将通过HTTP提供服务。可以选择使用HTTPS通过HTTP/2提供服务
+    // https: true,
+    // 根据上述配置，将使用自签名证书，但是你也可以提供自己的证书
+    // key: fs.readFileSync('/path/to/server.key'),
+    // cert: fs.readFileSync('/path/to/server.crt'),
+    // ca: fs.readFileSync('/path/to/ca.pem'),
+    // 允许访问的域名
+    // allowedHosts: [
+    //   'host.com',
+    //   'subdomain.host.com',
+    //   'subdomain2.host.com',
+    //   'host2.com'
+    // ],
+    // 提供了一个在 devServer 内部的 所有中间件执行之前的自定义执行函数
+    // before: function (app, server, compiler) {
+    // app.get('/some/path', function (req, res) {
+    //   res.json({ custom: 'response' })
+    // console.log(app, server, compiler, 'before')
+    // })
+    // },
+    // 提供了一个在 devServer 内部的 所有中间件执行之后的自定义执行函数
+    // after: function (app, server, compiler) {
+    // do fancy stuff
+    // console.log(app, server, compiler, 'after')
+    // },
+    // 这个配置用于在启动时通过 ZeroConf 网络广播你的开发服务器，用于服务发现
+    // bonjour: true,
+    // 为每个静态文件开启 gzip compression
+    compress: true,
+    // 当将此项配置设置为 true 时，将会跳过 host 检查. 这是不推荐的 因为不检查host的应用容易受到DNS重新绑定攻击。
+    // disableHostCheck: true,
+    // 为所有请求添加响应标头
+    // headers: {
+    //   'X-Custom-Foo': 'bar'
+    // },
+    // 当使用 HTML5 History API 时, 所有的 404 请求都会响应 index.html 的内容。 将 devServer.historyApiFallback 设为 true开启
+    // 通过传递对象，可以使用配置选项诸如 rewrites
+    // historyApiFallback: {
+    //   rewrites: [
+    //     { from: /^\/$/, to: '/views/landing.html' },
+    //     { from: /^\/subpage/, to: '/views/subpage.html' },
+    //     { from: /./, to: '/views/404.html' }
+    //   ]
+    // }
+  },
+};
 ```
