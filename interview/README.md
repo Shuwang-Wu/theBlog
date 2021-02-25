@@ -1,9 +1,13 @@
 # javascript 面试题收集
 
+### 介绍下 Set、Map、WeakSet 和 WeakMap 的区别？
+
+
 - ["1", "2", "3"].map(parseInt)
   > parseInt(1, 0) => 1
   > parseInt(2, 1) => 1
   > parseInt(3, 2) => 1
+	
 - 当设置 padding 为 ~% 的时候，计算的基准是屏幕的宽度
 
 - add(1)(2)(3)
