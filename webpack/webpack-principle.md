@@ -3,7 +3,7 @@
  * @Author       : YH000052
  * @LastEditors  : Please set LastEditors
  * @Date         : 2020-07-10 09:41:49
- * @modifiedDate : 2020-08-28 09:47:01
+ * @modifiedDate : 2021-04-12 15:06:41
  * @FilePath     : \notes\webpack\webpack-principle.md
 -->
 
@@ -22,13 +22,19 @@
 - Plugin
 
 ### 基本概念
+- Compiler 对象
+  负责文件监听和启动编译。Compiler 实例中包含了完整的 webpack 配置，全局只有一个 Compiler 实例
+- Compilation 对象
+  当 webpack 以开发模式运行时，每当检测到文件变化，一次新的 Compilation 将被创建。一个 Compilation 对象包含了当前的模块资源、编译生成资源、变化的文件等。Compilation 对象也提供了很多事件回调供插件做扩展
 
 ### 流程概括
 
 ### 流程细节
 
 ### 初始化阶段
-
+- 合并shell和配置文件文件的参数并且实例化Complier对象
+- 加载插件
+- 处理入口
 ### 编译阶段
 
 ### 输出阶段

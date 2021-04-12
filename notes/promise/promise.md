@@ -1,11 +1,32 @@
 # Promise
 
+Promise对象用于表示一个异步操作的最终完成(或失败)及其结果值
+
 - intro
   [Promise 流程图]('../assets/images/promise/promises.png')
 - code
   [Promise 代码]('./promise.html')
 - promise
   [Promise]('../../assets/images/promise/promise.png')
+
+## 关于原型
+
+Promise的原型：
+Promise
+__proto__
+  - catch
+  - constructor
+  - finally
+  - then
+  - Symbol(Symbol.toStringTag): "Promise"
+  - __proto__
+    - constructor
+    - hasOwnProperty
+    - isPrototypeOf
+    - propertyIsEnumerable
+    - toLocaleString
+    - toString
+    - valueOf
 
 ## attribute
 
