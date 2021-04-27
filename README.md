@@ -53,6 +53,7 @@ contain util、DOM、BOM and so on by javascript
 4. [javascript 高级程序设计](./javascript/prefessionalJs3rd)
 5. [随手笔记](./javascript/requirejs)
 6. [你不知道的 js](./javascript/youdonotknowjs)
+7. [vue 组件精讲](./javascript/vue-component)
 
 ## 笔记
 
@@ -90,7 +91,13 @@ achive simple vue, view [selfVue](./javascript/selfVue/README.md)
 1. 代码格式工具
    [ESlint + prettier + VScode note](./dev/code-style.md)
 
-## webpack笔记
+## webpack 笔记
+
 1. webpack
    [webpack-demo](./webpack/webpack-demo/README.md)
-   实现简版webpack原理
+   实现简版 webpack 原理
+
+## websocket
+
+1. [ws心跳重连](./notes/websocket-heartCheck.md)
+   
