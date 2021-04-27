@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>拖拽事件</title>
+    <style>
+      .drag-item {
+        width: 100px;
+        height: 100px;
+        background-color: black;
+      }
+      .drop-wrap {
+        width: 300px;
+        height: 300px;
+        background-color: cornsilk;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      function dragstart_handler(ev) {
+        // Add the target element's id to the data transfer object
+        ev.dataTransfer.setData("application/my-app", ev.target.id);
+        ev.dataTransfer.dropEffect = "copy";
+      }
+      function dragover_handler(ev) {
+        ev.preventDefault();
+        ev.dataTransfer.dropEffect = "copy";
+      }
+      function drop_handler(ev) {
+        ev.preventDefault();
+        // Get the id of the target and add the moved element to the target's DOM
+        var data = ev.dataTransfer.getData("application/my-app");
+        var node = document.getElementById(data).cloneNode(true);
+        ev.target.appendChild(node);
+      }
+    </script>
+
+    <p id="p1" draggable="true" ondragstart="dragstart_handler(event)">
+      This element is draggable.
+    </p>
+    <div
+      id="target"
+      ondrop="drop_handler(event)"
+      ondragover="dragover_handler(event)"
+    >
+      Drop Zone
+    </div>
+    <!-- 定义放置区 -->
+    <!-- <p id="p1" class="drag-item" draggable="true">
+      draggable
+    </p>
+    <p
+      id="target"
+      class="drop-wrap"
+      ondrop="drop_handler(event)"
+      ondragover="dragover_handler(event)"
+    >
+      Drop Zone
+    </p> -->
+    <!-- <script>
+      function dragover_handler(ev) {
+        ev.preventDefault();
+        ev.dataTransfer.dropEffect = "copy";
+        // ev.dataTransfer.dropEffect = "move";
+        // ev.dataTransfer.dropEffect = "link";
+      }
+      function drop_handler(ev) {
+        debugger
+        ev.preventDefault();
+        // Get the id of the target and add the moved element to the target's DOM
+        var data = ev.dataTransfer.getData("text/plain");
+        ev.target.appendChild(document.getElementById(data));
+      }
+
+      function dragstart_handler(ev) {
+        ev.dataTransfer.dropEffect = "link";
+        // Add the target element`s id to the data transfer object
+        ev.dataTransfer.setData("text/plain", ev.target.id);
+      }
+      window.addEventListener("DOMContentLoaded", () => {
+        // Get the element by id
+        const element = document.getElementById("p1");
+        element.addEventListener("dragstart", dragstart_handler);
+      });
+    </script> -->
+  </body>
+</html>

@@ -3,26 +3,7 @@
 ## 常用设计模式
 
 intro in common use pattern
-
-1. [工厂模式](./DesignPattern/factory.html)
-2. [单例模式](./DesignPattern/singleton.html)
-3. [职责链 1](./DesignPattern/abilityChain.html)
-   [职责链 2](./DesignPattern/chain_of_responsibility_pattern.html)
-4. [适配器模式](./DesignPattern/adapter_pattern.html)
-5. [命令模式](./DesignPattern/command.html)
-6. [组合模式](./DesignPattern/composite_pattern.html)
-7. [装饰器模式](./DesignPattern/decorator_pattern.html)
-8. [享元模式](./DesignPattern/flyweight_pattern.html)
-9. [中介者模式 1](./DesignPattern/mediator_pattern_1.html)
-   [中介者模式 2](./DesignPattern/mediator_pattern_2.html)
-   [中介者模式 3](./DesignPattern/mediator_pattern_3.html)
-10. [模块模式](./DesignPattern/module.html)
-11. [代理模式](./DesignPattern/proxy.html)
-12. [观察者模式](./DesignPattern/publish_notify.html)
-13. [单例模式](./DesignPattern/singleton.html)
-14. [状态模式](./DesignPattern/state_pattern.html)
-15. [策略模式](./DesignPattern/strategy_pattern.html)
-16. [模版模式](./DesignPattern/template_pattern.html)
+[模式](./DesignPattern/factory.html)
 
 ## dev
 
