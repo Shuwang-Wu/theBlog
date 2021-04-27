@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>memorizes</title>
+</head>
+
+<body>
+  <script>
+    var memorizes = function (f) {
+      var cache = {};
+      return function () {
+        var arg_str = JSON.stringify(arguments);
+        cache[arg_str] = cache[arg_str] || f.apply(f, arguments);
+        return cache[arg_str];
+      }
+    }
+    var squareNum = memorizes(function (x) {
+      return x * x;
+    });
+    console.log(squareNum(1));
+    console.log(squareNum(1));
+    console.log(squareNum(2));
+    console.log(squareNum(2));
+    console.log(squareNum(3));
+    console.log(squareNum(3));
+  </script>
+</body>
+
+</html>

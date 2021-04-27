@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>throttle</title>
+</head>
+
+<body>
+  <script>
+    var throttle = function (func, delay) {
+      var timer = null;
+      var startTime = Date.now();
+
+      return function () {
+        var currTime = Date.now();
+        var remaining = delay - (currTime - startTime);
+        var context = this;
+        var args = arguments;
+
+        clearTimeout(timer);
+        if (remaining <= 0) {
+          func.apply(context, args);
+          startTime = Date.now();
+        } else {
+          timer = setTimeout(func, remaining);
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

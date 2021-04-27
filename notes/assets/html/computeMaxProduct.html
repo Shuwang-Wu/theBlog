@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>计算最大的乘积</title>
+</head>
+
+<body>
+  <script>
+    /**
+    * 计算一个数组中3个元素相乘最大的乘积
+    * thinking: the greatest product equal: 
+        (minNegativeNum1 * minNegativeNum2 * maxPositiveNum1) || (maxPositiveNum1 * maxPositiveNum2 * maxPositiveNum3)
+    * 即两个最小的负数与最大正数的乘积或者三个最大正数的乘积
+    */
+
+    var arr = [-10, 100, -220, 120, -30, -520];
+
+    function computeProduct(arr) {
+      var sort_arr = arr.sort(function (a, b) {
+        return a - b;
+      });
+
+      let product1, product2;
+      let posilen = sort_arr.length;
+      let pmax1 = sort_arr[posilen - 1];
+      let pmax2 = sort_arr[posilen - 2];
+      let pmax3 = sort_arr[posilen - 3];
+      product1 = pmax1 * pmax2 * pmax3;
+
+      let nmin1 = sort_arr[0];
+      let nmin2 = sort_arr[1];
+      product2 = nmin1 * nmin2 * pmax1;
+
+      if (product1 > product2) {
+        return product1;
+      }
+
+      return product2;
+    }
+
+    let product = computeProduct(arr);
+    console.log(product);
+
+  </script>
+</body>
+
+</html>
