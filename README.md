@@ -1,7 +1,7 @@
 <!--
  * @Author: shuwang_wu
  * @Date: 2021-05-07 10:31:26
- * @LastEditTime: 2021-05-22 18:06:12
+ * @LastEditTime: 2021-05-22 18:07:36
  * @LastEditors: shuwang_wu
  * @Description: README.md
  * @FilePath: \notes\README.md
@@ -11,37 +11,7 @@
 
 ## 笔记
 
-1. [20191021](./notes/20191021.md) 
-2. [Promise]('./notes/promise/promise.md')
-3. [事件循环]('./notes/event-loop/event-loop.md')
-4. [switch 组件](./notes/switch)
-5. [tree 组件](./notes/tree)
-6. [webpack 笔记](./notes/webpack)
-7. [weex 开发笔记](./notes/weex)
-8. [meta tag](./notes/meta-tag.md)
-9. [npm-package](./notes/npm-package.md)
-10. [text-ellipsis](./notes/text-ellipsis.md)
-11. [vue-router 开发笔记](./notes/vue-router.md)
-12. [mvc-mvp-mvvm 三种设计模式笔记](./notes/mvp-mvc-mvvm.md)
-13. [es6 笔记](./notes/es6.md)
-14. [组合函数](./notes/assets/curry/compose.html)
-15. [柯里化](./notes/assets/curry/curry.html)
-16. [memorizes](./notes/assets/curry/memorizes.html)
-17. [计算最大的乘积](./notes/assets/html/computeMaxProduct.html)
-18. [防抖函数](./notes/assets/html/debounce.html)
-19. [节流函数](./notes/assets/html/throttle.html)
-20. [防抖节流函数](./notes/assets/js/debounce-throttle.js)
-21. [lazyman 实现 1](./notes/assets/js/LazyMan.js)
-22. [lazyman 实现 2](./notes/assets/js/LazyMan2.js)
-23. [map 实现](./notes/assets/js/map.js)
-24. [常见排序](./notes/assets/js/Sort.md)
-25. [prototype,\_\_proto\_\_](./notes/notes/html/prototypeAnd__proto__.html)
-26. [valueOf,toString](./notes/notes/html/valueOfAndToString.html)
-27. [堆栈](./notes/notes/html/stack-heap.md)
-28. [部分面试题收集](./notes/notes/README.md)
-29. [20190110](./notes/notes/20190110.md)
-30. [20190312](./notes/notes/20190312.md)
-31. [20190327](./notes/notes/20190327.md)
+[note](./note)
 
 ## 前端框架
 
