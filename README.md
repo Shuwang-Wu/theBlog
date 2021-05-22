@@ -1,7 +1,7 @@
 <!--
  * @Author: shuwang_wu
  * @Date: 2021-05-07 10:31:26
- * @LastEditTime: 2021-05-22 17:25:07
+ * @LastEditTime: 2021-05-22 18:04:39
  * @LastEditors: shuwang_wu
  * @Description: README.md
  * @FilePath: \notes\README.md
@@ -63,7 +63,7 @@ achive simple vue, view [selfVue](./javascript/selfVue/README.md)
 
 ### Taro 微信小程序
 
-[code](./code/code)
+[code](./code)
 
 ### 前端缓存
 
