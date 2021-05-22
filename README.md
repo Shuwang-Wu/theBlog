@@ -1,62 +1,90 @@
+<!--
+ * @Author: shuwang_wu
+ * @Date: 2021-05-07 10:31:26
+ * @LastEditTime: 2021-05-22 17:25:07
+ * @LastEditors: shuwang_wu
+ * @Description: README.md
+ * @FilePath: \notes\README.md
+-->
+
 # 目录简介
 
 ## 笔记
 
-1. [20191021](./notes/20191021.md)
-2. [css 世界]('./notes/css_word/promise.md') ps:张鑫旭版
-3. [Promise]('./notes/promise/promise.md')
-4. [事件循环]('./notes/event-loop/event-loop.md')
-5. [switch 组件](./notes/switch)
-3. [tree 组件](./notes/tree)
-4. [webpack 笔记](./notes/webpack)
-5. [weex 开发笔记](./notes/weex)
-6. [meta tag](./notes/meta-tag.md)
-7. [npm-package](./notes/npm-package.md)
-8. [text-ellipsis](./notes/text-ellipsis.md)
-9. [vue-router 开发笔记](./notes/vue-router.md)
-10. [mvc-mvp-mvvm 三种设计模式笔记](./notes/mvp-mvc-mvvm.md)
-11. [es6 笔记](./notes/es6.md)
-12. [组合函数](./notes/assets/curry/compose.html)
-13. [柯里化](./notes/assets/curry/curry.html)
-14. [memorizes](./notes/assets/curry/memorizes.html)
-15. [计算最大的乘积](./notes/assets/html/computeMaxProduct.html)
-16. [防抖函数](./notes/assets/html/debounce.html)
-17. [节流函数](./notes/assets/html/throttle.html)
-   [防抖节流函数](./notes/assets/js/debounce-throttle.js)
-18. [lazyman 实现 1](./notes/assets/js/LazyMan.js)
-19. [lazyman 实现 2](./notes/assets/js/LazyMan2.js)
-20. [map 实现](./notes/assets/js/map.js)
-21. [常见排序](./notes/assets/js/Sort.md)
-22. [prototype,\_\_proto\_\_](./notes/notes/html/prototypeAnd__proto__.html)
-23. [valueOf,toString](./notes/notes/html/valueOfAndToString.html)
-24. [堆栈](./notes/notes/html/stack-heap.md)
-25. [部分面试题收集](./notes/notes/README.md)
-26. [20190110](./notes/notes/20190110.md)
-27. [20190312](./notes/notes/20190312.md)
-28. [20190327](./notes/notes/20190327.md)
+1. [20191021](./notes/20191021.md) 
+2. [Promise]('./notes/promise/promise.md')
+3. [事件循环]('./notes/event-loop/event-loop.md')
+4. [switch 组件](./notes/switch)
+5. [tree 组件](./notes/tree)
+6. [webpack 笔记](./notes/webpack)
+7. [weex 开发笔记](./notes/weex)
+8. [meta tag](./notes/meta-tag.md)
+9. [npm-package](./notes/npm-package.md)
+10. [text-ellipsis](./notes/text-ellipsis.md)
+11. [vue-router 开发笔记](./notes/vue-router.md)
+12. [mvc-mvp-mvvm 三种设计模式笔记](./notes/mvp-mvc-mvvm.md)
+13. [es6 笔记](./notes/es6.md)
+14. [组合函数](./notes/assets/curry/compose.html)
+15. [柯里化](./notes/assets/curry/curry.html)
+16. [memorizes](./notes/assets/curry/memorizes.html)
+17. [计算最大的乘积](./notes/assets/html/computeMaxProduct.html)
+18. [防抖函数](./notes/assets/html/debounce.html)
+19. [节流函数](./notes/assets/html/throttle.html)
+20. [防抖节流函数](./notes/assets/js/debounce-throttle.js)
+21. [lazyman 实现 1](./notes/assets/js/LazyMan.js)
+22. [lazyman 实现 2](./notes/assets/js/LazyMan2.js)
+23. [map 实现](./notes/assets/js/map.js)
+24. [常见排序](./notes/assets/js/Sort.md)
+25. [prototype,\_\_proto\_\_](./notes/notes/html/prototypeAnd__proto__.html)
+26. [valueOf,toString](./notes/notes/html/valueOfAndToString.html)
+27. [堆栈](./notes/notes/html/stack-heap.md)
+28. [部分面试题收集](./notes/notes/README.md)
+29. [20190110](./notes/notes/20190110.md)
+30. [20190312](./notes/notes/20190312.md)
+31. [20190327](./notes/notes/20190327.md)
 
+## 前端框架
 
-## react 笔记
+### react 笔记
 
 [react](./react)
 
 record react experience[react-note](./javascript/react)
-## vue 笔记
-### selfVue(vue 简易版)
+
+### vue 笔记
+
+selfVue(vue 简易版)
 
 achive simple vue, view [selfVue](./javascript/selfVue/README.md)
 
-## typescript 笔记
+### typescript 笔记
 
 [typescript note](./typeScipt)
 
-## 前端缓存
+### Taro 微信小程序
+
+[code](./code/code)
+
+### 前端缓存
 
 [cache](./cache)
 
-## 前端路由实现
+### 前端路由实现
 
 [router](./web-router)
+
+## 前端工具
+
+### webpack笔记
+
+1. webpack
+   [webpack-demo](./webpack/webpack-demo/README.md)
+   实现简版webpack原理
+
+## 设计模式
+
+intro in common use pattern
+[模式](./DesignPattern/factory.html)
 
 ## 前端代码风格
 
@@ -64,17 +92,6 @@ achive simple vue, view [selfVue](./javascript/selfVue/README.md)
 
 1. 代码格式工具
    [ESlint + prettier + VScode note](./notes/code-style.md)
-
-## webpack笔记
-1. webpack
-   [webpack-demo](./webpack/webpack-demo/README.md)
-   实现简版webpack原理
-
-
-## 常用设计模式
-
-intro in common use pattern
-[模式](./DesignPattern/factory.html)
 
 ## 书籍相关
 
@@ -86,3 +103,4 @@ contain util、DOM、BOM and so on by javascript
 4. [javascript 高级程序设计](./javascript/prefessionalJs3rd)
 5. [随手笔记](./javascript/requirejs)
 6. [你不知道的 js](./javascript/youdonotknowjs)
+7. [css 世界]('./notes/css_word/promise.md') ps:张鑫旭版

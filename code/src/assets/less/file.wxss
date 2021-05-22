@@ -1,0 +1,15 @@
+.file-wrap {
+  padding: 48rpx 40rpx 65rpx;
+}
+
+.file-header-1 {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 1);
+}
+
+.file-text {
+  font-size: 26rpx;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 1);
+}

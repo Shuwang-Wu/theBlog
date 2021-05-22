@@ -1,0 +1,68 @@
+/* 移动端边框1像素的问题 */
+.border-1px {
+  position: relative;
+  border: none;
+}
+.border-1px.border-all::after {
+  content: '';
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  border: 1px solid #000;
+  -webkit-transform: scale(0.5);
+  transform: scale(0.5);
+  -webkit-transform-origin: left top;
+  transform-origin: left top;
+}
+.border-1px.border-top::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  border-top: 1px solid #000;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
+.border-1px.border-bottom::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border-bottom: 1px solid #000;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
+.border-1px.border-left::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 200%;
+  border-left: 1px solid #000;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
+.border-1px.border-right::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 200%;
+  border-right: 1px solid #000;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+}

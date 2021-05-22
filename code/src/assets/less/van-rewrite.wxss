@@ -1,0 +1,20 @@
+/* 导航栏重写样式 */
+.van-nav-bar.van-nav-bar--fixed {
+  background-color: #fff;
+}
+.van-nav-bar.van-nav-bar--fixed .van-nav-bar__text {
+  font-size: 36rpx;
+  color: #333333;
+}
+.van-ellipsis {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: rgba(51, 51, 51, 1);
+}
+.tab-active .van-ellipsis {
+  color: #ff2f47;
+}
+.van-tabs__nav .van-tabs__line {
+  background-color: #ff2f47;
+}
+
