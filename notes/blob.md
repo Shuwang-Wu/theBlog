@@ -1,3 +1,11 @@
+<!--
+ * @Author: shuwang_wu
+ * @Date: 2021-05-07 10:31:26
+ * @LastEditTime: 2021-09-16 15:26:14
+ * @LastEditors: shuwang_wu
+ * @Description: 
+ * @FilePath: \notes\notes\blob.md
+-->
 # 前端通过后端返回的 blob 实现下载功能
 
 ## 知识点
@@ -5,10 +13,10 @@
 1. blob 对象
    HTML5 中的 file 等是基于 blob 对象来实现的
 
-
 ## 解决代码
 
 1. 请求接口处理
+
 ```js
 $.ajax({
     url: 'xxx'
@@ -19,12 +27,12 @@ $.ajax({
 ```
 
 2. 前端代码处理
+
 ```js
 function downloadFile(data, fileName) {
-    let blob = new Blob([blob], {type: 'application/vnd.ms-excel'})
-    let tagA = document.createElement('a')
-    let href = URL.createObjectURL(blob)
-    tagA.style.display = 'none'
-
+  let blob = new Blob([blob], { type: 'application/vnd.ms-excel' })
+  let tagA = document.createElement('a')
+  let href = URL.createObjectURL(blob)
+  tagA.style.display = 'none'
 }
 ```

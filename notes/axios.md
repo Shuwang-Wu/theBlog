@@ -1,4 +1,4 @@
-## axios
+# axios
 
 Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js 中
 
@@ -18,85 +18,85 @@ Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js �
 
 1. 使用 npm
 
-```bush
-  npm install axios
-```
+   ```bush
+     npm install axios
+   ```
 
 2. 使用 bower
 
-```bush
-  bower install axios
-```
+   ```bush
+     bower install axios
+   ```
 
 3. 使用 cdn
 
-```js
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-```
+   ```js
+   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+   ```
 
 ## 案例
 
 1. 执行 get 请求
 
-```js
-// 为给定 ID 的 user 创建请求
-axios
-  .get('/user?ID=12345')
-  .then(function (response) {
-    console.log(response)
-  })
-  .catch(function (error) {
-    console.log(error)
-  })
+   ```js
+   // 为给定 ID 的 user 创建请求
+   axios
+     .get('/user?ID=12345')
+     .then(function (response) {
+       console.log(response)
+     })
+     .catch(function (error) {
+       console.log(error)
+     })
 
-// 上面的请求也可以这样做
-axios
-  .get('/user', {
-    params: {
-      ID: 12345
-    }
-  })
-  .then(function (response) {
-    console.log(response)
-  })
-  .catch(function (error) {
-    console.log(error)
-  })
-```
+   // 上面的请求也可以这样做
+   axios
+     .get('/user', {
+       params: {
+         ID: 12345
+       }
+     })
+     .then(function (response) {
+       console.log(response)
+     })
+     .catch(function (error) {
+       console.log(error)
+     })
+   ```
 
 2. 执行 get 请求
 
-```js
-axios
-  .post('/user', {
-    firstName: 'Fred',
-    lastName: 'Flintstone'
-  })
-  .then(function (response) {
-    console.log(response)
-  })
-  .catch(function (error) {
-    console.log(error)
-  })
-```
+   ```js
+   axios
+     .post('/user', {
+       firstName: 'Fred',
+       lastName: 'Flintstone'
+     })
+     .then(function (response) {
+       console.log(response)
+     })
+     .catch(function (error) {
+       console.log(error)
+     })
+   ```
 
 3. 执行多个并发请求
 
-```js
-function getUserAccount() {
-  return axios.get('/user/12345')
-}
+   ```js
+   function getUserAccount() {
+     return axios.get('/user/12345')
+   }
 
-function getUserPermissions() {
-  return axios.get('/user/12345/permissions')
-}
+   function getUserPermissions() {
+     return axios.get('/user/12345/permissions')
+   }
 
-axios.all([getUserAccount(), getUserPermissions()]).then(
-  axios.spread(function (acct, perms) {
-    // 两个请求现在都执行完成
-  })
-)
-```
+   axios.all([getUserAccount(), getUserPermissions()]).then(
+     axios.spread(function (acct, perms) {
+       // 两个请求现在都执行完成
+     })
+   )
+   ```
 
 ## axios API
 
@@ -104,35 +104,35 @@ axios.all([getUserAccount(), getUserPermissions()]).then(
 
 1. axios(config)
 
-```js
-// 发送 POST 请求
-axios({
-  method: 'post',
-  url: '/user/12345',
-  data: {
-    firstName: 'Fred',
-    lastName: 'Flintstone'
-  }
-})
-```
+   ```js
+   // 发送 POST 请求
+   axios({
+     method: 'post',
+     url: '/user/12345',
+     data: {
+       firstName: 'Fred',
+       lastName: 'Flintstone'
+     }
+   })
+   ```
 
-```js
-// 获取远端图片
-axios({
-  method: 'get',
-  url: 'http://bit.ly/2mTM3nY',
-  responseType: 'stream'
-}).then(function (response) {
-  response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
-})
-```
+   ```js
+   // 获取远端图片
+   axios({
+     method: 'get',
+     url: 'http://bit.ly/2mTM3nY',
+     responseType: 'stream'
+   }).then(function (response) {
+     response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
+   })
+   ```
 
 2. axios(url[, config])
 
-```js
-// 发送 GET 请求（默认的方法）
-axios('/user/12345')
-```
+   ```js
+   // 发送 GET 请求（默认的方法）
+   axios('/user/12345')
+   ```
 
 ## 请求方法的别名
 

@@ -1,6 +1,6 @@
 # javascript 面试题收集
 
-1. [20191021](./notes/20191021.md) 
+1. [20191021](./notes/20191021.md)
 2. [Promise]('./notes/promise/promise.md')
 3. [事件循环]('./notes/event-loop/event-loop.md')
 4. [switch 组件](./notes/switch)
@@ -46,11 +46,11 @@
 ```js
 function add(x) {
   let sum = x
-  let calc = function(y) {
+  let calc = function (y) {
     sum = sum + y
     return tmp
   }
-  tmp.toString = function(sum) {
+  tmp.toString = function (sum) {
     return sum
   }
   return calc
@@ -79,10 +79,10 @@ var max2 = Math.max.apply(null, arr)
 
 ```js
 var lis = document.querySelectorAll('#test li')
-;[1, 2, 3].map(function(lielem, key) {
+;[1, 2, 3].map(function (lielem, key) {
   console.log(lielem, key)
 })
-Array.prototype.slice.call(lis).map(function(lielem, key) {
+Array.prototype.slice.call(lis).map(function (lielem, key) {
   lielem.addEventListener('click', () => {
     alert(key)
   })
@@ -108,35 +108,31 @@ parseInt(3, 2) => NaN
 - script 变量提升
 
 ```js
-	<script>
-		var string = "test";
-		arrFun([1]);
-	</script>
+var string = 'test'
+arrFun([1])
 
-	<script>
-		document.write('<scr'+'ipt>console.log(string);arrFun([1]);console.log(num);<'+"/script>");
-	</script>
+document.write(
+  '<scr' + 'ipt>console.log(string);arrFun([1]);console.log(num);<' + '/script>'
+)
 
-	<script>
-		var num = 666;
-		function arrFun(arr) {
-			if (arr instanceof Array) {
-				console.log(arr);
-			}
-		}
-	</script>
+var num = 666
+function arrFun(arr) {
+  if (arr instanceof Array) {
+    console.log(arr)
+  }
+}
 ```
 
 - 缓存与不缓存的设置
 
-```js
-	<!-- 下面的两个meta用来设置浏览器的缓存，单位s -->
-	<meta http-equiv="Cache-Control" content="max-age=7200" />
-	<meta http-equiv="Expires" content="Mon, 20 Jul 2013 23:00:00 GMT" >
-	<!-- 下面的两个meta用来设置浏览器的不缓存 -->
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">
+```html
+<!-- 下面的两个meta用来设置浏览器的缓存，单位s -->
+<meta http-equiv="Cache-Control" content="max-age=7200" />
+<meta http-equiv="Expires" content="Mon, 20 Jul 2013 23:00:00 GMT" />
+<!-- 下面的两个meta用来设置浏览器的不缓存 -->
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
 ```
 
 - 实现一个[lazyMan](./assets/js/LazyMan.js),可以按照以下方式调用: + 题目考点： 1. 方法的链式调用 2. 类的使用和面向编程的思路 3. 设计模式的使用 4. 代码的解耦 5. 最少知识原则，即 迪米特原则 6. 代码的书写结构和命名
@@ -148,22 +144,22 @@ parseInt(3, 2) => NaN
   建议参考[网址](http://www.jianshu.com/p/f1b7cb456d37./scripts/LazyMan.js)
 
 ```js
-	LazyMan(“Hank”)输出:
-	// Hi! This is Hank!
-	LazyMan(“Hank”).sleep(10).eat(“dinner”)输出
-	// Hi! This is Hank!
-	//等待10秒..
-	// Wake up after 10
-	// Eat dinner~
-	LazyMan(“Hank”).eat(“dinner”).eat(“supper”)输出
-	// Hi This is Hank!
-	// Eat dinner~
-	// Eat supper~
-	LazyMan(“Hank”).sleepFirst(5).eat(“supper”)输出
-	//等待5秒
-	// Wake up after 5
-	// Hi This is Hank!
-	// Eat supper
+LazyMan(“Hank”)输出:
+// Hi! This is Hank!
+LazyMan(“Hank”).sleep(10).eat(“dinner”)输出
+// Hi! This is Hank!
+//等待10秒..
+// Wake up after 10
+// Eat dinner~
+LazyMan(“Hank”).eat(“dinner”).eat(“supper”)输出
+// Hi This is Hank!
+// Eat dinner~
+// Eat supper~
+LazyMan(“Hank”).sleepFirst(5).eat(“supper”)输出
+//等待5秒
+// Wake up after 5
+// Hi This is Hank!
+// Eat supper
 ```
 
 - [排序](./assets/js/Sort.js)
@@ -177,7 +173,7 @@ parseInt(3, 2) => NaN
 ```js
 function a() {
   var temp = 1
-  return function(x) {
+  return function (x) {
     console.log(x + temp++)
   }
 }
@@ -198,13 +194,13 @@ c2(3)
 - eval 在 eval 函数内执行的文本
   > 有且只能有 1 个 全局上下文, 并且可以被程序中其他的上下文访问到。你可以有很多个 函数上下文, 每个函数调用都创造一个新的上下文, 并创建出一个局部作用域，任何在作用域内部声明的东西都不能被当前函数作用域外部访问到
 
-* 调用栈 call stack
+调用栈 call stack
 
-  > 调用栈是解析器的一种机制，可以在脚本调用多个函数时，跟踪每个函数在完成执行时应该返回控制的点
+> 调用栈是解析器的一种机制，可以在脚本调用多个函数时，跟踪每个函数在完成执行时应该返回控制的点
 
-      	- 当函数调用的时候，解析器把该函数推到栈中
-      	- *当执行函数占用的空间比当前栈分配的空间还大的时候，报栈溢出错误
-      	- 执行完函数之后，在把该函数推出栈
+- 当函数调用的时候，解析器把该函数推到栈中
+- \*当执行函数占用的空间比当前栈分配的空间还大的时候，报栈溢出错误
+- 执行完函数之后，在把该函数推出栈
 
 ```js
 function greeting() {
