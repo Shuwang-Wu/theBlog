@@ -1,7 +1,7 @@
 <!--
  * @Author: shuwang_wu
  * @Date: 2021-09-27 16:47:27
- * @LastEditTime: 2021-09-29 20:24:22
+ * @LastEditTime: 2021-09-30 14:06:06
  * @LastEditors: shuwang_wu
  * @Description: 编写babel插件
  * @FilePath: \notes\notes\babel\create-babel-plugin.md
@@ -37,54 +37,6 @@ babel 中有很多概念，比如：插件(plugin)，预设(preset)和一些比�
 3. generate：修改过的 ast => 编译后的 code
 
 这三步分别对应 babel 的三个基本工具，第一步对应@babel/parser，第二步对应@babel/traverse，第三步对应@babel/generator。下面就来详述一下这三个过程。
-
-## babel 常见配置
-
-### webpack 配置
-
-```bush
-npm install --save-dev babel-loader @babel/core
-```
-
-```js
-{
-  module: {
-    rules: [
-      {
-        test: /\.m?js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env"]
-          }
-        }
-      }
-    ]
-  }
-}
-```
-
-### rollup 配置
-
-```bush
-npm install --save-dev @rollup/plugin-babel @babel/core
-```
-
-```js
-import babel from "@rollup/plugin-babel"
-
-const config = {
-  input: "src/index.js",
-  output: {
-    dir: "output",
-    format: "esm"
-  },
-  plugins: [babel({ babelHelpers: "bundled" })]
-}
-
-export default config
-```
 
 ## 工作详解
 
@@ -497,7 +449,7 @@ let bool = true
    })
    const visitor = {
      Identifier(path) {
-       console.log(path.node.name) // mirror,something,something
+       console.log(path.node.name)
      }
    }
    traverse(ast, visitor)
@@ -767,4 +719,163 @@ function mirror(something) {
     return "Nothing really."
   }
 }
+```
+
+## babel 常见配置
+
+### webpack 配置
+
+#### 测试案例
+
+```projectTree
+- babel-plugin
+  - lib // 输出目录
+  - node_modules
+  - src
+    - index.js // 插件代码
+    - test.js // 测试代码
+  - .babelrc // babel配置
+  - package.json
+  - webpack.config.js
+```
+
+```bush
+npm install --save-dev babel-loader @babel/core
+```
+
+#### 案例代码
+
+##### index.js
+
+```js
+const t = require("@babel/types")
+const myPlugin = function (babel) {
+  const { types, template } = babel
+  return {
+    visitor: {
+      Identifier(path) {
+        path.node.name = path.node.name.split("").reverse().join("") // 反转名称
+      },
+      VariableDeclaration(path, state) {
+        if (path.get("kind").node === "let") {
+          path.node.kind = "var"
+        }
+      },
+      FunctionDeclaration(path) {
+        // 在这里声明了一个模板，比用@babel/types去生成方便很多
+        const temp = template(`
+          if(something) {
+            NORMAL_RETURN
+          } else {
+            return 'nothing'
+          }
+        `)
+        const returnNode = path.node.body.body[0]
+        const tempAst = temp({
+          NORMAL_RETURN: returnNode
+        })
+        path.node.body.body[0] = tempAst
+      },
+      ReturnStatement(path) {
+        path.replaceWithMultiple([
+          t.expressionStatement(t.stringLiteral("Is this the real life?")),
+          t.expressionStatement(t.stringLiteral("Is this just fantasy?")),
+          t.expressionStatement(
+            t.stringLiteral("(Enjoy singing the rest of the song in your head)")
+          )
+        ])
+      }
+    }
+  }
+}
+module.exports = myPlugin
+```
+
+##### test.js
+
+```js
+let a = 1
+let b = 2
+let c = 3
+let needToReverse = "needToReverse"
+function needToReverse(something) {
+  return something
+}
+```
+
+##### .babelrc
+
+```js
+{
+  "plugins": [["./src/index.js"]]
+}
+```
+
+##### 命令行语句
+
+```bush
+rm -rf lib && babel src/test.js -d lib
+```
+
+##### output
+
+```js
+var a = 1
+var b = 2
+var c = 3
+var esreveRoTdeen = "needToReverse"
+function esreveRoTdeen(gnihtemos) {
+  if (gnihtemos) {
+    ;("Is this the real life?")
+    ;("Is this just fantasy?")
+    ;("(Enjoy singing the rest of the song in your head)")
+  } else {
+    ;("Is this the real life?")
+    ;("Is this just fantasy?")
+    ;("(Enjoy singing the rest of the song in your head)")
+  }
+}
+```
+
+##### webpack.config.js
+
+```js
+{
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"]
+            plugins: [["your babel plugin", {}]]
+          }
+        }
+      }
+    ]
+  }
+}
+```
+
+### rollup 配置
+
+```bush
+npm install --save-dev @rollup/plugin-babel @babel/core
+```
+
+```js
+import babel from "@rollup/plugin-babel"
+
+const config = {
+  input: "src/index.js",
+  output: {
+    dir: "output",
+    format: "esm"
+  },
+  plugins: [babel({ babelHelpers: "bundled" })]
+}
+
+export default config
 ```
