@@ -1,6 +1,6 @@
 # javascript 面试题收集
 
-### 介绍下 Set、Map、WeakSet 和 WeakMap 的区别？
+## 介绍下 Set、Map、WeakSet 和 WeakMap 的区别？
 
 
 - ["1", "2", "3"].map(parseInt)
@@ -219,3 +219,7 @@ function computeMaxCallStackSize(size) {
 [浏览器与 Node 的事件循环(Event Loop)有何区别?](./20190312.md)
 
 [debounce throttle](./assets/js/debounce-throttle.js)
+
+
+## vue router 钩子函数整理
+[详情](./20220307.md)

@@ -3,7 +3,7 @@
  * @Author: Shuwng_Wu
  * @Github: https://github.com/shaonianruntu
  * @Date: 2022-03-07 13:42:31
- * @LastEditTime: 2022-03-07 13:53:58
+ * @LastEditTime: 2022-03-07 16:48:17
 -->
 # 微信小程序
 
@@ -23,3 +23,8 @@
 4. 首屏渲染
 
 ### 运行时性能优化
+1. 合理使用setData
+2. 渲染性能优化
+3. 页面切换优化
+4. 资源加载优化
+5. 内存优化
