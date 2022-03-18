@@ -1,0 +1,45 @@
+<!--
+ * @Description: 
+ * @Author: Shuwng_Wu
+ * @Github: https://github.com/071108
+ * @Date: 2022-03-08 14:42:51
+ * @LastEditTime: 2022-03-08 14:48:48
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<h3>给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度</h3>
+	<script>
+		var lengthOfLongestSubstring = function (s) {
+			const win = new Map()
+			let left = 0, right = 0
+			let res = 0 // 记录结果
+			while (right < s.length) {
+				const c = s[right]
+				right++
+				// 进行窗口内数据的更新
+				win.set(c, (win.get(c) || 0) + 1)
+				// 当出现重复时，左侧窗口需要收缩
+				while (win.get(c) > 1) {
+					const d = s[left]
+					left++
+					// 进行窗口内数据的更新
+					win.set(d, win.get(d) - 1)
+				}
+				// 更新答案
+				res = Math.max(res, right - left)
+			}
+			return res
+		};
+	</script>
+</body>
+
+</html>

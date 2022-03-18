@@ -1,12 +1,3 @@
-<!--
- * @Description  : webpack 工作原理
- * @Author       : YH000052
- * @LastEditors  : Please set LastEditors
- * @Date         : 2020-07-10 09:41:49
- * @modifiedDate : 2021-04-12 15:06:41
- * @FilePath     : \notes\webpack\webpack-principle.md
--->
-
 # webpack 工作原理
 
 ## 工作原理概括

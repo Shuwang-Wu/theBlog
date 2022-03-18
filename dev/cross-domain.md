@@ -103,3 +103,58 @@ console.log(window.parant.user)
 ### 跨域资源共享（CORS）
 
 普通跨域请求：只服务端设置 Access-Control-Allow-Origin 即可，前端无须设置，若要带 cookie 请求：前后端都需要设置
+
+### nginx 代理
+
+#### nginx命令
+1. 打开nginx配置文件
+  ```bush
+  /usr/local/etc/nginx/nginx.conf
+  ```
+2. 重新加载配置|重启|停止|退出 nginx
+  ```bush
+  nginx -s reload|reopen|stop|quit
+  ```
+3. 打开nginx
+  ```bush
+  nginx
+  ```
+
+#### 配置nginx.conf文件
+```bush
+server {
+    # 配置服务地址
+    listen       9000;
+    server_name  localhost;
+    
+    # 访问根路径，返回前端静态资源页面
+    location / {
+        # 前端代码服务地址
+        proxy_pass http://localhost:8000/;  #前端项目开发模式下，node开启的服务器，根路径下可打开index.html
+    }
+    
+    # 最简单的API代理配置
+    # 约定：所有不是根路径下的资源，都是api接口地址。则可代理如下
+    location /* {
+        # API 服务地址
+        proxy_pass http://www.serverA.com;  #将真正的请求代理到API 服务地址,即真实的服务器地址，ajax的url为/user/1将会访问http://www.serverA.com/user/1
+    }
+    
+    # 需要更改rewrite 请求路径的配置
+    location /api/ {
+        rewrite ^/api/(.*)$ /$1 break;   #所有对后端的请求加一个api前缀方便区分，真正访问的时候移除这个前缀
+        # API Server
+        proxy_pass http://www.serverA.com;  #将真正的请求代理到serverA,即真实的服务器地址，ajax的url为/api/user/1的请求将会访问http://www.serverA.com/user/1
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   html;
+    }
+}
+```
+
+配置好nginx.config后，做以下操作:
+1. 启动nginx服务。终端执行：nginx
+2. 前端项目，index.html同级目录起服务，监听8000端口。自然你可以通过http://localhost:8000访问到页面。但是同时，由于访问nginx服务http://localhost:9000的地址，被代理到了http://localhost:8000地址。所以访问http://localhost:9000，也可以访问到此index.html页面。
+3. 项目中，所有接口地址为/或者为http:localhost:9000/的都会被代理到http://www.serverA.com/*去访问。从而实现本地开发环境下跨域请求线上http://www.serverA.com的接口。例如ajax的url是/api/user/1，经过代理后发起的请求url是http://www.serverA.com/api/user/1，达到目的，且没有跨域

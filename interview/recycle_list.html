@@ -1,0 +1,48 @@
+<!--
+ * @Description: 
+ * @Author: Shuwng_Wu
+ * @Github: https://github.com/071108
+ * @Date: 2022-03-08 17:27:32
+ * @LastEditTime: 2022-03-08 17:36:15
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>长列表优化</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .list-item {
+            height: 36px;
+            line-height: 36px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="list">
+        </div>
+    </div>
+
+    <script>
+        // var arr = []
+        var itemsStr = ''
+        for (let index = 0; index < 10000; index++) {
+            itemsStr += `<p class="list-item">${index}</p>`
+        }
+        document.getElementsByClassName('list')[0].innerHTML = itemsStr
+    </script>
+
+
+</body>
+
+</html>

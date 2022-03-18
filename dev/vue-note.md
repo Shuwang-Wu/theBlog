@@ -172,3 +172,243 @@ Vue.component('anchored-heading', {
 ```
 
 1. createElement 参数
+
+## vue指令详解
+
+### v-bind
+```js
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <title>Document</title>    
+</head>
+<body>
+    <div id="app"><a v-bind:href="href">链接</a></div>
+    <script>
+    Vue.config.productionTip=false;
+    Vue.config.devtools=false;
+    var app = new Vue({
+        el:'#app',
+        data:{href:"http://www.baidu.com"}
+    })
+    </script> 
+</body>
+</html>
+```
+
+以上面的例子为例,Vue内部将DOM解析成AST对象的时候会执行parse()函数，该函数解析到a节点时会执行到processElement()函数，该函数先将key、ref、插槽、class和style解析完后就会执行processAttrs()函数，如下:
+
+```js
+function processAttrs (el) {    //第9526行  对剩余的属性进行分析
+  var list = el.attrsList;
+  var i, l, name, rawName, value, modifiers, isProp; 
+  for (i = 0, l = list.length; i < l; i++) {              //遍历每个属性
+    name = rawName = list[i].name; 
+    value = list[i].value;
+    if (dirRE.test(name)) {                                //如果该属性以v-、@或:开头，表示这是Vue内部指令
+      // mark element as dynamic
+      el.hasBindings = true;
+      // modifiers 
+      modifiers = parseModifiers(name);                     //获取修饰符，比如:{native: true,prevent: true}
+      if (modifiers) {
+        name = name.replace(modifierRE, '');
+      }
+      if (bindRE.test(name)) { // v-bind                      //bindRD等于/^:|^v-bind:/ ，即该属性是v-bind指令时 例如:<a :href="url">你好</a>
+        name = name.replace(bindRE, '');                          //去掉指令特性，获取特性名，比如 href
+        value = parseFilters(value);                              //对一些表达式做解析，例如{a|func1|func2}
+        isProp = false;                                           //是否绑定到DOM对象上
+        if (modifiers) {
+          if (modifiers.prop) {                                   //如果有修饰符
+            isProp = true;
+            name = camelize(name);
+            if (name === 'innerHtml') { name = 'innerHTML'; }
+          }
+          if (modifiers.camel) {
+            name = camelize(name);
+          }
+          if (modifiers.sync) {
+            addHandler(
+              el,
+              ("update:" + (camelize(name))),
+              genAssignmentCode(value, "$event")
+            );
+          }
+        }
+        if (isProp || (
+          !el.component && platformMustUseProp(el.tag, el.attrsMap.type, name)    //如果isProp为true
+        )) {                                                                            //则调用addProp()
+          addProp(el, name, value);
+        } else {
+          addAttr(el, name, value);                                               //否则调用addAttr()
+        }
+      } else if (onRE.test(name)) { // v-on                     //onRE等于/^@|^v-on:/，即该属性是v-on指令时
+        name = name.replace(onRE, '');
+        addHandler(el, name, value, modifiers, false, warn$2);
+      } else { // normal directives                             //普通指令
+        name = name.replace(dirRE, '');
+        // parse arg
+        var argMatch = name.match(argRE);
+        var arg = argMatch && argMatch[1];
+        if (arg) {
+          name = name.slice(0, -(arg.length + 1));
+        }
+        addDirective(el, name, rawName, value, arg, modifiers);
+        if ("development" !== 'production' && name === 'model') {
+          checkForAliasModel(el, value);
+        }
+      }
+    } else {
+      /*略*/
+    }
+  }
+}
+```
+
+addAttr()函数用于在AST对象上新增一个attrs属性，如下:
+
+```js
+function addAttr (el, name, value) {    //第6550行 
+  (el.attrs || (el.attrs = [])).push({ name: name, value: value });     //将{name: name,value: value}保存到el.attrs里面
+  el.plain = false;                                                      //修正el.plain为false
+}
+```
+
+执行generate()函数获取data$2时会判断是否有attrs属性，如果有则将属性保存到attrs上，例子里的实例渲染后render函数等于:
+```js
+  if (el.attrs) { 　　　　//第10306行
+    data += "attrs:{" + (genProps(el.attrs)) + "},";
+  }
+```
+
+genProps用于拼凑对应的值，如下:
+```js
+function genProps (props) {     //第10537行 拼凑AST对象的属性或DOM属性用的
+  var res = '';   
+  for (var i = 0; i < props.length; i++) {    //遍历prps
+    var prop = props[i];                         //对应的值
+    /* istanbul ignore if */
+    {
+      res += "\"" + (prop.name) + "\":" + (transformSpecialNewlines(prop.value)) + ",";   //拼凑字符串
+    }
+  }
+  return res.slice(0, -1)
+}
+```
+
+例子执行到这里渲染的render函数等于:
+```js
+with(this) {
+    return _c('div', {
+        attrs: {
+            "id": "app"
+        }
+    },
+    [_c('a', {
+        attrs: {
+            "href": href
+        }
+    },
+    [_v("链接")])])
+}
+```
+
+这样当该函数执行的时候就会触发Vue实例的href属性，此时就会将渲染watcher作为href属性的订阅者了，当href修改时就会触发渲染watcher的重新渲染了。
+最后当a标签整个DOM元素生成之后会触发attrs模块的create事件去设置href特性，如下:
+```js
+function updateAttrs (oldVnode, vnode) {      //第6294行 更新attrs
+  var opts = vnode.componentOptions;                                      //获取vnode.componentOptions(组件才有)
+  if (isDef(opts) && opts.Ctor.options.inheritAttrs === false) {
+    return
+  }
+  if (isUndef(oldVnode.data.attrs) && isUndef(vnode.data.attrs)) {        //如果在oldVnode和vnode上都没有定义attrs属性
+    return                                                                     //则直接返回，不做处理
+  }
+  var key, cur, old;
+  var elm = vnode.elm;
+  var oldAttrs = oldVnode.data.attrs || {};
+  var attrs = vnode.data.attrs || {};                             //新VNode的attrs属性
+  // clone observed objects, as the user probably wants to mutate it
+  if (isDef(attrs.__ob__)) {
+    attrs = vnode.data.attrs = extend({}, attrs);
+  }
+
+  for (key in attrs) {                                            //遍历新VNode的每个attrs
+    cur = attrs[key];
+    old = oldAttrs[key];
+    if (old !== cur) {
+      setAttr(elm, key, cur);                                     //则调用setAttr设置属性
+    }
+  }
+  // #4391: in IE9, setting type can reset value for input[type=radio]
+  // #6666: IE/Edge forces progress value down to 1 before setting a max
+  /* istanbul ignore if */
+  if ((isIE || isEdge) && attrs.value !== oldAttrs.value) {       //IE9的特殊情况
+    setAttr(elm, 'value', attrs.value);
+  }
+  for (key in oldAttrs) {
+    if (isUndef(attrs[key])) {
+      if (isXlink(key)) {
+        elm.removeAttributeNS(xlinkNS, getXlinkProp(key));
+      } else if (!isEnumeratedAttr(key)) {
+        elm.removeAttribute(key);
+      }
+    }
+  }
+}
+
+function setAttr (el, key, value) {         //设置el元素的key属性为value
+  if (el.tagName.indexOf('-') > -1) {            //如果el的标签名里含有-
+    baseSetAttr(el, key, value); 
+  } else if (isBooleanAttr(key)) {                //如果key是布尔类型的变量(比如:disabled、selected)
+    // set attribute for blank value
+    // e.g. <option disabled>Select one</option>
+    if (isFalsyAttrValue(value)) {
+      el.removeAttribute(key);
+    } else {
+      // technically allowfullscreen is a boolean attribute for <iframe>,
+      // but Flash expects a value of "true" when used on <embed> tag
+      value = key === 'allowfullscreen' && el.tagName === 'EMBED'
+        ? 'true'
+        : key;
+      el.setAttribute(key, value);
+    }
+  } else if (isEnumeratedAttr(key)) {             //如果key是这三个之一:contenteditable,draggable,spellcheck
+    el.setAttribute(key, isFalsyAttrValue(value) || value === 'false' ? 'false' : 'true');
+  } else if (isXlink(key)) {
+    if (isFalsyAttrValue(value)) {
+      el.removeAttributeNS(xlinkNS, getXlinkProp(key));
+    } else {
+      el.setAttributeNS(xlinkNS, key, value);
+    }
+  } else {                                          //不满足上述的情况就直接调用baseSetAttr设置属性
+    baseSetAttr(el, key, value);
+  }
+}
+
+function baseSetAttr (el, key, value) {         //设置el的key属性为value
+  if (isFalsyAttrValue(value)) {                  //如果value是null或false
+    el.removeAttribute(key);                       //则删除属性
+  } else { 
+    // #7138: IE10 & 11 fires input event when setting placeholder on
+    // <textarea>... block the first input event and remove the blocker
+    // immediately.
+    /* istanbul ignore if */
+    if ( 
+      isIE && !isIE9 &&
+      el.tagName === 'TEXTAREA' &&
+      key === 'placeholder' && !el.__ieph
+    ) {                                         特殊情况 
+      var blocker = function (e) {
+        e.stopImmediatePropagation();
+        el.removeEventListener('input', blocker);
+      };
+      el.addEventListener('input', blocker);
+      // $flow-disable-line
+      el.__ieph = true; /* IE placeholder patched */
+    }
+    el.setAttribute(key, value);                    //直接调用原生DOMAPI setAttribute设置属性
+  }
+}
+```
