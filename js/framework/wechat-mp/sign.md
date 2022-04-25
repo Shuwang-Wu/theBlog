@@ -1,7 +1,7 @@
 <!--
  * @Author: Shuwang_wu
  * @Date: 2022-04-25 10:50:41
- * @LastEditTime: 2022-04-25 11:09:36
+ * @LastEditTime: 2022-04-25 13:20:23
  * @LastEditors: Shuwang_wu
  * @FilePath: \git\theBlog\js\framework\wechat-mp\sign.md
  * @Description: 微信小程序实现签名功能
@@ -59,7 +59,7 @@ Page({
     this.data.ctx.fillText(
       "请灰色区域内完成签名",
       this.data.width / 2,
-      this.data.height / 2
+      this.data.height / 2 - 10
     );
     this.data.ctx.draw(false);
   },
