@@ -1,0 +1,5 @@
+{
+  "bin": {
+    "tiny-cli": "./bin/tiny.js"
+  }
+}
