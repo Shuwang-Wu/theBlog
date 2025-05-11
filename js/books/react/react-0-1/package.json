@@ -40,13 +40,13 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "antd": "^4.6.1",
+    "antd": "^5.12.7",
     "babel-polyfill": "^6.26.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-redux": "^7.2.1",
-    "react-router-dom": "^5.2.0",
+    "react-redux": "^9.0.0",
+    "react-router-dom": "^6.4.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
   }
